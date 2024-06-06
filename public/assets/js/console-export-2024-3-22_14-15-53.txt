@@ -1,0 +1,58 @@
+GET
+http://127.0.0.1:8000/Question/assets/images/faces/face4.jpg
+[HTTP/1.1 404 Not Found 110ms]
+
+GET
+http://127.0.0.1:8000/Question/assets/images/faces/face2.jpg
+[HTTP/1.1 404 Not Found 206ms]
+
+GET
+http://127.0.0.1:8000/Question/assets/images/faces/face3.jpg
+[HTTP/1.1 404 Not Found 302ms]
+
+GET
+https://cdn.jsdelivr.net/npm/quill-formula-latex-module/dist/quill-formula-latex.js
+
+The resource from “https://cdn.jsdelivr.net/npm/quill-formula-latex-module/dist/quill-formula-latex.js” was blocked due to MIME type (“text/plain”) mismatch (X-Content-Type-Options: nosniff). create
+Loading failed for the <script> with source “https://cdn.jsdelivr.net/npm/quill-formula-latex-module/dist/quill-formula-latex.js”. create:19:103
+jQuery.Deferred exception: document.querySelector(...) is null @http://127.0.0.1:8000/assets/js/misc.js:114:16
+e@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:30038
+Deferred/then/l/</t<@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:30340
+setTimeout handler*Deferred/then/l/<@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:30549
+c@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:28327
+fireWith@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:29072
+fire@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:29108
+c@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:28327
+fireWith@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:29072
+ready@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:32045
+B@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:31824
+EventListener.handleEvent*@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:32193
+@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:220
+@http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2:225
+ undefined vendor.bundle.base.js:2:31593
+Uncaught TypeError: document.querySelector(...) is null
+    <anonymous> http://127.0.0.1:8000/assets/js/misc.js:114
+    e http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    t http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    setTimeout handler*Deferred/then/l/< http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    c http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    fireWith http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    fire http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    c http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    fireWith http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    ready http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    B http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    EventListener.handleEvent* http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    <anonymous> http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+    <anonymous> http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js:2
+misc.js:114:16
+Source map error: Error: request failed with status 404
+Resource URL: http://127.0.0.1:8000/assets/vendors/js/vendor.bundle.base.js
+Source Map URL: perfect-scrollbar.min.js.map
+[{"id":10,"subject_id":3,"name":"Bangla 1st","status":"A","create_by":"A","create_date":"A","update_by":"A","update_date":"A"}] create:429:19
+[{"id":2,"subject_id":5,"name":"English 1st","status":"A","create_by":"A","create_date":"A","update_by":"A","update_date":"A"},{"id":3,"subject_id":5,"name":"English 2st","status":"A","create_by":"A","create_date":"A","update_by":"A","update_date":"A"},{"id":29,"subject_id":5,"name":"English 3rd","status":"A","create_by":"A","create_date":"A","update_by":"A","update_date":"A"}] create:429:19
+[{"id":17,"subject_id":5,"paper_id":2,"name":"English 1st Chapter","status":"A","create_by":"A","create_date":"A","update_by":null,"update_date":null}] create:460:19
+Array(4) [ 0, 0, 1, 0 ]
+create:380:11
+Object { _token: "8u039iMBcWrIGORG1hiS6W9nJOM6oKu9xEjXOdGB", subject_id: "5", paper_id: "2", chapter_id: "17", question_name: "WWQQQQQQQQQQQQQQQQQQQQQQ", option: (4) […], ckOption: (4) […] }
+create:387:15
