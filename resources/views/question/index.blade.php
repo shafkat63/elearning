@@ -115,41 +115,49 @@
 
 var TableData;
 var url = "{{ route('/Question/list') }}";
-function ReloadDataTable() {
-  TableData.ajax.url(url +"?" + $("#fromData").serialize()).load();
-}
+
+
 function LoadDataTable() {
   TableData = $('#dataTableItem').DataTable({
-      processing: true,
-      serverSide: true,
-      responsive: true,
-      ajax: {
-          url: url +"?" + $("#fromData").serialize(),
-          type: 'POST',
-          complete: function () {
-            MathJax.typesetPromise().then(() => {
-                console.log('MathJax typesetting complete');
-            }).catch((err) => {
-                console.error('MathJax typesetting failed:', err);
-            });
+    processing: true,
+    serverSide: true,
+    responsive: true,
+    ajax: {
+      url: url + "?" + $("#fromData").serialize(),
+      type: 'POST',
+      complete: function () {
+        MathJax.typesetPromise().then(() => {
+          console.log('MathJax typesetting complete');
+        }).catch((err) => {
+          console.error('MathJax typesetting failed:', err);
+        });
+      }
+    },
+    columns: [
+      { data: 'subject_name' },
+      { data: 'paper_name' },
+      { data: 'chapter_name' },
+      { data: 'question_name' },
+      {
+        data: null,
+        orderable: false,
+        defaultContent: "NO Data",
+        render: function (data, type, row) {
+          return '<button type="button" onclick="showOptions(' + row.id + ')" class="btn btn-outline-success btn-sm"><i class="mdi mdi-animation"></i> Options</button> <button type="button" onclick="showData(' + row.id + ')" class="btn btn-outline-info btn-sm"><i class="mdi mdi-pencil"></i> Edit</button> <button type="button" onclick="deleteSingleData(' + row.id + ')" class="btn btn-outline-danger btn-sm"><i class="mdi mdi-delete"></i> Delete</button>';
         }
-      },
-      columns: [
-            { data: 'subject_name' },
-            { data: 'paper_name' },
-            { data: 'chapter_name' },
-            { data: 'question_name' },
-            {
-                data: null,
-                orderable: false,
-                defaultContent: "NO Data",
-                render: function (data, type, row) {
-                    return '<button type="button"  onclick="showOptions(' + row.id + ')" class="btn btn-outline-success btn-sm"><i class="mdi mdi-animation"></i> Options</button> <button type="button"  onclick="showData(' + row.id + ')" class="btn btn-outline-info btn-sm"><i class="mdi mdi-pencil"></i> Edit</button> <button type="button"  onclick="deleteSingleData(' + row.id + ')" class="btn btn-outline-danger btn-sm"><i class="mdi mdi-delete"></i> Delete</button>';
-                }
-            }
-        ],
+      }
+    ]
   });
 }
+
+function ReloadDataTable() {
+  TableData.ajax.url(url + "?" + $("#fromData").serialize()).load();
+}
+
+
+
+
+
 function ResetSearch() {
   $("#fromData").trigger("reset");
   ReloadDataTable();
@@ -160,6 +168,9 @@ $(document).ready(function () {
   $("#paper_id").on("change", function () { ReloadDataTable(); });
   $("#chapter_id").on("change", function () { ReloadDataTable(); });
 });
+
+
+
 function showData(ID){
   showSingleData("{{ url('Question') }}" , ID);
 }

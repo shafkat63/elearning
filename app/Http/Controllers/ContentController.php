@@ -112,6 +112,7 @@ class ContentController extends Controller
 
         $data = $query->paginate($request->length);
 
+
         return response()->json([
             'draw' => $request->draw,
             'recordsTotal' => $totalCount,

@@ -81,19 +81,49 @@
 <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 <script>
+// var TableData;
+// var url = "{{ route('/paper/list') }}";
 var TableData;
-var url = "{{ route('/paper/list') }}";
+var url = "{{ route('/paper/list') }}"; // Corrected route name
 
+
+// function ReloadDataTable() {
+//   TableData.ajax.url(url +"?" +$("#fromData").serialize()).load();
+// }
 function ReloadDataTable() {
-  TableData.ajax.url(url +"?" +$("#fromData").serialize()).load();
+  TableData.ajax.url(url + "?" + $("#fromData").serialize()).load();
 }
+// function LoadDataTable() {
+//   TableData = $('#dataTableItem').DataTable({
+//       processing: true,
+//       serverSide: true,
+//       responsive: true,
+//       ajax: {
+//           url: url +"?" +$("#fromData").serialize(),
+//           type: 'POST',
+//       },
+//       columns: [
+//             { data: 'subject_name' },
+//             { data: 'name' },
+//             {
+//                 data: null,
+//                 orderable: false,
+//                 defaultContent: "NO Data",
+//                 render: function (data, type, row) {
+//                     return '<button type="button"  onclick="showData(' + row.id + ')" class="btn btn-outline-info btn-sm"><i class="mdi mdi-pencil"></i> Edit</button> <button type="button"  onclick="deleteSingleData(' + row.id + ')" class="btn btn-outline-danger btn-sm"><i class="mdi mdi-delete"></i> Delete</button>';
+//                 }
+//             }
+//         ],
+//   });
+// }
+
 function LoadDataTable() {
   TableData = $('#dataTableItem').DataTable({
       processing: true,
       serverSide: true,
       responsive: true,
       ajax: {
-          url: url +"?" +$("#fromData").serialize(),
+          url: url + "?" + $("#fromData").serialize(),
           type: 'POST',
       },
       columns: [
@@ -110,13 +140,32 @@ function LoadDataTable() {
         ],
   });
 }
+
+
+// function ResetSearch() {
+//   $("#fromData").trigger("reset");
+//   ReloadDataTable();
+// }
+
 function ResetSearch() {
-  $("#fromData").trigger("reset");
+  $("#fromData")[0].reset(); // Corrected reset method
   ReloadDataTable();
 }
+
+
+// $(document).ready(function () {
+//   LoadDataTable();
+//   $("#subject_id").on("change", function () { ReloadDataTable(); });
+// });
+
+
 $(document).ready(function () {
   LoadDataTable();
-  $("#subject_id").on("change", function () { ReloadDataTable(); });
+
+  // Reload datatable when subject_id changes
+  $("#subject_id").on("change", function () {
+    ReloadDataTable();
+  });
 });
 function showData(ID){
   showSingleData("{{ url('Paper') }}" , ID);

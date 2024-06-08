@@ -177,42 +177,106 @@ class QuestionController extends Controller
         }
     }
 
-    public function getAllQuestion(Request $request){
+    // public function getAllQuestion(Request $request){
 
-        $query = DB::table('questions as Q')
-                ->select('Q.id', 'Q.question_name', 'Q.status', 'P.name as paper_name', 'S.name as subject_name', 'C.name as chapter_name')
-                ->join('Chapters as C', 'Q.chapter_id', '=', 'C.id')
-                ->join('papers as P', 'Q.paper_id', '=', 'P.id')
-                ->join('subjects as S', 'Q.subject_id', '=', 'S.id')
-                ->where('C.status', '=', 'A');
-        $totalCount = $query->count();
-        if(isset($request->search['value'])){
-            $query->where('Q.question_name', 'like', '%'.$request->search['value'].'%');
-        }
-        if(isset($request->subject_id)){
-            $query = $query->where('Q.subject_id', '=', $request->subject_id);
-        }
-        if(isset($request->paper_id)){
-            $query = $query->where('Q.paper_id', '=', $request->paper_id);
-        }
-        if(isset($request->chapter_id)){
-            $query = $query->where('Q.chapter_id', '=', $request->chapter_id);
-        }
-        $filteredCount = $query->count();
+    //     $query = DB::table('questions as Q')
+    //             ->select('Q.id', 'Q.question_name', 'Q.status', 'P.name as paper_name', 'S.name as subject_name', 'C.name as chapter_name')
+    //             ->join('Chapters as C', 'Q.chapter_id', '=', 'C.id')
+    //             ->join('papers as P', 'Q.paper_id', '=', 'P.id')
+    //             ->join('subjects as S', 'Q.subject_id', '=', 'S.id')
+    //             ->where('C.status', '=', 'A');
+    //     $totalCount = $query->count();
+    //     if(isset($request->search['value'])){
+    //         $query->where('Q.question_name', 'like', '%'.$request->search['value'].'%');
+    //     }
+    //     if(isset($request->subject_id)){
+    //         $query = $query->where('Q.subject_id', '=', $request->subject_id);
+    //     }
+    //     if(isset($request->paper_id)){
+    //         $query = $query->where('Q.paper_id', '=', $request->paper_id);
+    //     }
+    //     if(isset($request->chapter_id)){
+    //         $query = $query->where('Q.chapter_id', '=', $request->chapter_id);
+    //     }
+    //     $filteredCount = $query->count();
 
-        if($request->has('order')){
-            $query->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir']);
-        }
+    //     if($request->has('order')){
+    //         $query->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir']);
+    //     }
 
-        $data = $query->paginate($request->length);
+    //     $data = $query->paginate($request->length);
 
-        return response()->json([
-            'draw' => $request->draw,
-            'recordsTotal' => $totalCount,
-            'recordsFiltered' => $filteredCount,
-            'data' => $data->items(),
-        ]);
+    //     return response()->json([
+    //         'draw' => $request->draw,
+    //         'recordsTotal' => $totalCount,
+    //         'recordsFiltered' => $filteredCount,
+    //         'data' => $data->items(),
+    //     ]);
+    // }
+
+
+    public function getAllQuestion(Request $request)
+{
+    $query = DB::table('questions as Q')
+        ->select(
+            'Q.id', 
+            'Q.question_name', 
+            'Q.status', 
+            'P.name as paper_name', 
+            'S.name as subject_name', 
+            'C.name as chapter_name'
+        )
+        ->join('Chapters as C', 'Q.chapter_id', '=', 'C.id')
+        ->join('papers as P', 'Q.paper_id', '=', 'P.id')
+        ->join('subjects as S', 'Q.subject_id', '=', 'S.id')
+        ->where('C.status', '=', 'A');
+
+    // Total count before filtering
+    $totalCount = $query->count();
+
+    // Apply search filter if it exists
+    if ($searchValue = $request->input('search.value')) {
+        $query->where(function($subQuery) use ($searchValue) {
+            $subQuery->where('Q.question_name', 'like', '%' . $searchValue . '%')
+                     ->orWhere('P.name', 'like', '%' . $searchValue . '%')
+                     ->orWhere('S.name', 'like', '%' . $searchValue . '%')
+                     ->orWhere('C.name', 'like', '%' . $searchValue . '%');
+        });
     }
+
+    // Apply additional filters if they exist
+    if ($subjectId = $request->input('subject_id')) {
+        $query->where('Q.subject_id', '=', $subjectId);
+    }
+
+    if ($paperId = $request->input('paper_id')) {
+        $query->where('Q.paper_id', '=', $paperId);
+    }
+
+    if ($chapterId = $request->input('chapter_id')) {
+        $query->where('Q.chapter_id', '=', $chapterId);
+    }
+
+    // Total count after filtering
+    $filteredCount = $query->count();
+
+    // Apply ordering if it exists
+    if ($request->has('order')) {
+        $orderColumn = $request->input('columns')[$request->input('order.0.column')]['data'];
+        $orderDir = $request->input('order.0.dir');
+        $query->orderBy($orderColumn, $orderDir);
+    }
+
+    // Pagination
+    $data = $query->offset($request->start)->limit($request->length)->get();
+
+    return response()->json([
+        'draw' => intval($request->draw),
+        'recordsTotal' => $totalCount,
+        'recordsFiltered' => $filteredCount,
+        'data' => $data,
+    ]);
+}
 
     public function showOptions($QuestionID){
         $questionOptions = DB::Select("SELECT  Q.question_name,QO.options,QO.optionanser
