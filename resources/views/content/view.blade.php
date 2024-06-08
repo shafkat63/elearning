@@ -49,3 +49,6 @@
 
 </script>
 @endsection
+
+@section('script')
+<script src="{{ asset('assets/js/tex-mml-chtml.js') }}"></script> @endsection

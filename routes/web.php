@@ -46,11 +46,14 @@ Route::group(['middleware' => ['role:Student Free|Student Silver|Student Platinu
     Route::get('Learn', [App\Http\Controllers\student\StudentLearn::class, 'Learn']);
     Route::get('Exams', [App\Http\Controllers\student\StudentLearn::class, 'Exams']);
     Route::get('SubjectS/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'Subject']);
-    Route::get('PaperS/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'Paper']);
+ 
     Route::get('getPaper/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getPaperBySubject']);
+    Route::get('getPaperSL/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getPaperBySubjectSL']);
     Route::get('getChapterS/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getChapterByPaper']);
+    Route::get('getChapterSL/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getChapterByPaperSL']);
     Route::get('getQuestionS/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getQuestionByChapter']);
-
+    Route::get('getcontentSL', [App\Http\Controllers\student\StudentLearn::class, 'getContentSL']);
+    //SL = Studnet Learn
 });
 
 Route::group(['middleware' => ['role:Super Admin|Admin|Editor|Question Editor']], function () {

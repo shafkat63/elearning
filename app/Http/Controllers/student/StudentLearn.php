@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Content;
 use App\Models\Papers;
 use App\Models\QuestionConfig\Chapter;
 use App\Models\QuestionConfig\Question;
@@ -21,11 +22,8 @@ class StudentLearn extends Controller
     }
     public function Exams()
     {
-
         $subjects  = Subjects::get();
-
         $papers = Papers::get();
-
         return view('student.exam', ['subjects' => $subjects, "papers" => $papers]);
     }
 
@@ -34,11 +32,31 @@ class StudentLearn extends Controller
         $papers = Papers::where('subject_id', $id)->get();
         return json_encode($papers);
     }
+    public function getPaperBySubjectSL($id)
+    {
+        $papers = Papers::where('subject_id', $id)->get();
+
+        return view('student.paper', ['papers' => $papers]);
+    }
     public function getChapterByPaper($id)
     {
-
         $chapters = Chapter::where('paper_id', $id)->get();
         return json_encode($chapters);
+
+    }
+    public function getChapterByPaperSL($id)
+    {
+        $chapters = Chapter::where('paper_id', $id)->get();
+        return view("student.chapter", [
+            'chapters' => $chapters
+        ]);
+    }
+
+    public function getContentSL(){
+        $contents= Content::get();
+        // dd($content);
+        return view('student.content',['contents'=>$contents]);
+        // return json_encode($contents);
     }
     public function getQuestionByChapter($id)
     {

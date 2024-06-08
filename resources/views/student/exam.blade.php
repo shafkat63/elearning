@@ -7,6 +7,9 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border: 1px solid gray;
     }
+    .full-height {
+            height: 100vh; /* 100% of the viewport height */
+        }
 </style>
 <div class="main-panel">
     <div class="content-wrapper bg-secondary">

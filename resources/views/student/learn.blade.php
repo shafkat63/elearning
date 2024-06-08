@@ -7,9 +7,12 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border: 1px solid gray;
     }
+    .full-height {
+            height: 100vh; /* 100% of the viewport height */
+        }
 </style>
 <div class="main-panel">
-    <div class="content-wrapper bg-secondary">
+    <div class="content-wrapper full-height bg-secondary">
         <div class="row">
             <div class="col-12">
                 <!-- Main Panel -->
@@ -17,13 +20,13 @@
                     <div class="card-body">
                         <div class="row justify-content-center">
                             @foreach($subjects as $data)
-                            <form
-                                method="POST"
-                                action="{{ url('getPaper/' . $data->id) }}"
+                            <div
+                             
+                              
                                 class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4"
                                 id="paperForm"
                             >
-                                @csrf
+                             
                                 <div class="card border-0 rounded-3 shadow-sm">
                                     <div class="card-body">
                                         <div class="text-center mb-3">
@@ -39,17 +42,12 @@
                                             </h5>
                                         </div>
                                         <div class="text-center mt-3">
-                                            <button
-                                                type="button"
-                                                onclick="showModalPaper('{{$data->id}}')"
-                                                class="btn btn-dark btn-sm"
-                                            >
-                                                Enter
-                                            </button>
+                                    
+                                            <a href="{{ url('getPaperSL/'.$data->id) }}" class="btn btn-dark btn-sm"> Enter</a>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                             @endforeach
                         </div>
                     </div>
@@ -58,7 +56,7 @@
         </div>
     </div>
 
-    <div
+    <!-- <div
         class="modal fade bd-example-modal-lg"
         id="modal"
         tabindex="-1"
@@ -90,7 +88,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
  
@@ -102,7 +100,7 @@
 <!-- main-panel ends -->
 
 @endsection
- @section('script')
+ <!-- @section('script')
 <script>
     // function showModal(ID) {
     //     $("#modal").modal("show");
@@ -263,4 +261,4 @@
 
 
 </script>
-@endsection
+@endsection -->

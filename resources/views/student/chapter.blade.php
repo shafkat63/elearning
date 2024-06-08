@@ -11,7 +11,7 @@
             height: 100vh; /* 100% of the viewport height */
         }
 </style>
-<div class="main-panel ">
+<div class="main-panel">
     <div class="content-wrapper bg-secondary full-height">
         <div class="row">
             <div class="col-12">
@@ -19,7 +19,7 @@
                 <div class="card bg-secondary">
                     <div class="card-body">
                         <div class="row justify-content-center">
-                            @foreach($papers as $data)
+                            @foreach($chapters as $data)
                             <div
                                 class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4"
                                 id="paperForm"
@@ -39,8 +39,9 @@
                                             </h5>
                                         </div>
                                         <div class="text-center mt-3">
+                                           
                                             <a
-                                                href="{{ url('getChapterSL/'.$data->id) }}"
+                                                href="{{ url('getcontentSL') }}"
                                                 class="btn btn-dark btn-sm"
                                             >
                                                 Enter</a
