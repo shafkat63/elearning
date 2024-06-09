@@ -46,7 +46,7 @@
           <li class="nav-item"> <a class="nav-link" href="{{url('Subject')}}">Subject</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{url('Paper')}}">Paper</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{url('Chapter')}}">Chapter</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{url('Question')}}">Qurtions</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{url('Question')}}">Questions</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{url('Content')}}">Content</a></li>
         </ul>
       </div>

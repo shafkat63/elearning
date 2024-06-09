@@ -7,7 +7,12 @@
 @section('mainNav')
 @include('layout.nav')
 @endsection
+<style>
 
+  .bg-custom{
+      background-color: rgb(64, 199, 132);
+  }
+</style>
 @section('mainContent')
 <div class="content-wrapper">
   <div class="row">
@@ -41,7 +46,7 @@
             @endif
 
             <form action="#" id="fromData" style="display: none">@csrf
-              <blockquote class="blockquote blockquote-success">
+              <blockquote class="blockquote blockquote-success bg-custom">
               <div class="card-body">
                 <div class="form-group">
                   <div class="row">

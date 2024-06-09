@@ -3,7 +3,12 @@
 @section('mainNav')
 @include('layout.nav')
 @endsection
+<style>
 
+    .bg-custom{
+        background-color: rgb(64, 199, 132);
+    }
+</style>
 @section('mainContent')
 <div class="content-wrapper">
   <div class="row">
@@ -25,7 +30,7 @@
             </h4>
 
             <form action="#" id="fromData" style="display: none">@csrf
-                <div class="card-body ">
+                <div class="card-body bg-custom">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-2">

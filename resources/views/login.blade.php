@@ -35,7 +35,7 @@
                 </div>
               </div>
               <div class="mt-3 d-grid gap-2">
-                <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" id="myButton" type="button" onclick="checkLogin()">Sign sin</button>
+                <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" id="myButton" type="button" onclick="checkLogin()">Sign In</button>
               </div>
               <div class="text-center mt-4 font-weight-light"> Don't have an account? <a href="{{url('register')}}" class="text-primary">SIGN UP</a>
               </div>
