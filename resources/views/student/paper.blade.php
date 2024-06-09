@@ -8,12 +8,20 @@
         border: 1px solid gray;
     }
     .full-height {
-            height: 100vh; /* 100% of the viewport height */
-        }
+        height: 100vh; 
+        width: 100vw;/* 100% of the viewport height */
+    }
 </style>
-<div class="main-panel ">
-    <div class="content-wrapper bg-secondary full-height">
-        <div class="row">
+<div class="main-panel container ">
+    <div class="container-wrapper  bg-secondary full-height">
+        <div class="row ">
+            <div class="col-12">
+                <div class="pl-6">
+                    <h1>Papers</h1>
+                </div>
+               
+              </div>
+
             <div class="col-12">
                 <!-- Main Panel -->
                 <div class="card bg-secondary">

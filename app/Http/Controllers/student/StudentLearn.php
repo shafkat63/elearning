@@ -52,8 +52,8 @@ class StudentLearn extends Controller
         ]);
     }
 
-    public function getContentSL(){
-        $contents= Content::get();
+    public function getContentSL($id){
+        $contents= Content::where('chapter_id', $id)->get();
         // dd($content);
         return view('student.content',['contents'=>$contents]);
         // return json_encode($contents);

@@ -17,7 +17,7 @@
                       Chapter List Info
                     </div>
                     <div class="col-md-3">
-                      <a href="Javascript:$('#fromData').toggle()"  class="btn btn-gradient-info  btn-sm btn-icon-text">
+                      <a href="#" id="filterButton" class="btn btn-gradient-info  btn-sm btn-icon-text">
                         <i class="mdi mdi-filter btn-icon-prepend"></i>Advance Filter</a>
                       <a href="{{url('Chapter/create')}}" class="btn btn-gradient-success  btn-sm btn-icon-text">
                         <i class="mdi mdi-plus  btn-icon-prepend"></i>Add New</a>
@@ -93,19 +93,58 @@
 
 var TableData;
 var url = "{{ route('/chapter/list') }}";
-function ReloadDataTable() {
-  TableData.ajax.url(url +"?" +$("#fromData").serialize()).load();
-}
+
+// $(document).ready(function () {
+//   LoadDataTable();
+
+//   $('#filterButton').click(function(e) {
+//         e.preventDefault(); // Prevent the default behavior of the anchor element
+//         $('#fromData').toggle();
+//         ReloadDataTable();
+//     });
+
+
+//   $("#subject_id").on("change", function () { ReloadDataTable(); });
+//   $("#paper_id").on("change", function () { ReloadDataTable(); });
+// });
+
+
+$(document).ready(function () {
+    LoadDataTable();
+
+    // Toggle filter form and reload DataTable
+    $('#filterButton').click(function (e) {
+        e.preventDefault(); // Prevent default behavior
+        $('#fromData').toggle(); // Toggle filter form visibility
+    });
+
+    // Reload DataTable when filter form elements change
+    $("#subject_id, #paper_id").on("change", function () {
+        ReloadDataTable();
+    });
+});
+
+
+
+
+
 function LoadDataTable() {
-  TableData = $('#dataTableItem').DataTable({
-      processing: true,
-      serverSide: true,
-      responsive: true,
-      ajax: {
-          url: url +"?" +$("#fromData").serialize(),
-          type: 'POST',
-      },
-      columns: [
+    TableData = $('#dataTableItem').DataTable({
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        ajax: {
+            url: url,
+            type: 'POST',
+            data: function (d) {
+                return $.extend({}, d, {
+                    _token: '{{ csrf_token() }}',
+                    subject_id: $('#subject_id').val(),
+                    paper_id: $('#paper_id').val(),
+                });
+            }
+        },
+        columns: [
             { data: 'subject_name' },
             { data: 'paper_name' },
             { data: 'name' },
@@ -114,21 +153,31 @@ function LoadDataTable() {
                 orderable: false,
                 defaultContent: "NO Data",
                 render: function (data, type, row) {
-                    return '<button type="button"  onclick="showData(' + row.id + ')" class="btn btn-outline-info btn-sm"><i class="mdi mdi-pencil"></i> Edit</button> <button type="button"  onclick="deleteSingleData(' + row.id + ')" class="btn btn-outline-danger btn-sm"><i class="mdi mdi-delete"></i> Delete</button>';
+                    return '<button type="button" onclick="showData(' + row.id + ')" class="btn btn-outline-info btn-sm"><i class="mdi mdi-pencil"></i> Edit</button> <button type="button" onclick="deleteSingleData(' + row.id + ')" class="btn btn-outline-danger btn-sm"><i class="mdi mdi-delete"></i> Delete</button>';
                 }
             }
         ],
-  });
+    });
 }
+
+// function ReloadDataTable() {
+//   TableData.ajax.url(url +"?" +$("#fromData").serialize()).load();
+// }
+
+function ReloadDataTable() {
+    TableData.ajax.reload(null, false); // Reload DataTable without resetting pagination
+}
+
 function ResetSearch() {
-  $("#fromData").trigger("reset");
-  ReloadDataTable();
+    $("#fromData").trigger("reset");
+    ReloadDataTable();
 }
-$(document).ready(function () {
-  LoadDataTable();
-  $("#subject_id").on("change", function () { ReloadDataTable(); });
-  $("#paper_id").on("change", function () { ReloadDataTable(); });
-});
+
+// function ResetSearch() {
+//   $("#fromData").trigger("reset");
+//   ReloadDataTable();
+// }
+
 function showData(ID){
   showSingleData("{{ url('Chapter') }}" , ID);
 }

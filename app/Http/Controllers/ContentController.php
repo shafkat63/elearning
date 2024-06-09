@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Content;
+use App\Models\Subjects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -24,12 +25,15 @@ class ContentController extends Controller
 
 
     public function create(){
-        return view('content.create');
+
+        $subject = Subjects::all();
+        return view('content.create',['subject'=>$subject]);
     }
 
     public function edit($id){
+        $subject = Subjects::all();
         $content = Content::find($id);
-        return view('content.edit',['content'=>$content]);
+        return view('content.edit',['subject'=>$subject,'content'=>$content]);
     }
 
     public function view($id){
@@ -39,10 +43,17 @@ class ContentController extends Controller
 
     public function store(Request $request){
         $req = $request->all();
+      
         $rules = [
+            'subject_id' => 'required',
+            'paper_id' => 'required',
+            'chapter_id' => 'required',
             'content_details' => 'required',
         ];
         $customMessages = [
+            'subject_id.required' => 'Subject is required.',
+            'paper_id.required' => 'Paper is required.',
+            'chapter_id.integer' => 'Chapter is required.',
             'content_details.required' => 'Content Details is required.',
         ];
         $validator = Validator::make($req,$rules);
@@ -56,6 +67,9 @@ class ContentController extends Controller
 
         if($request->id==""){
             $content = new Content();
+            $content->subject_id =$request->subject_id;
+            $content->paper_id =$request->paper_id;
+            $content->chapter_id = $request->chapter_id;
             $content->content_name = $request->content_name;
             $content->content_details = $request->content_details;
             $content->save();
@@ -67,6 +81,9 @@ class ContentController extends Controller
             ]);
         }else{
             $content = Content::find($request->id);
+            $content->subject_id =$request->subject_id;
+            $content->paper_id =$request->paper_id;
+            $content->chapter_id = $request->chapter_id;
             $content->content_name = $request->content_name;
             $content->content_details = $request->content_details;
             $content->save();
@@ -110,14 +127,11 @@ class ContentController extends Controller
             $query->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir']);
         }
 
-        $data = $query->paginate($request->length);
-
-
         return response()->json([
             'draw' => $request->draw,
             'recordsTotal' => $totalCount,
             'recordsFiltered' => $filteredCount,
-            'data' => $data->items(),
+            'data' => $query->take($request->length)->skip($request->start)->get(),
         ]);
     }
 }

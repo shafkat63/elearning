@@ -116,36 +116,94 @@ class ChapterController extends Controller
         }
     }
 
-    public function getAllChapter(Request $request){
+    // public function getAllChapter(Request $request){
 
-        $query = DB::table('Chapters as C')
-                ->select('C.id', 'C.paper_id', 'C.name', 'C.status', 'P.name as paper_name', 'S.name as subject_name')
-                ->join('papers as P', 'C.paper_id', '=', 'P.id')
-                ->join('subjects as S', 'C.subject_id', '=', 'S.id')
-                ->where('C.status', '=', 'A');
-        $totalCount = $query->count();
-        if(isset($request->search['value'])){
-            $query->where('name', 'like', '%'.$request->search['value'].'%');
-        }
-        if(isset($request->paper_id)){
-            $query = $query->where('C.paper_id', '=', $request->paper_id);
-        }
-        if(isset($request->subject_id)){
-            $query = $query->where('C.subject_id', '=', $request->subject_id);
-        }
-        $filteredCount = $query->count();
+    //     $query = DB::table('Chapters as C')
+    //             ->select('C.id', 'C.paper_id', 'C.name', 'C.status', 'P.name as paper_name', 'S.name as subject_name')
+    //             ->join('papers as P', 'C.paper_id', '=', 'P.id')
+    //             ->join('subjects as S', 'C.subject_id', '=', 'S.id')
+    //             ->where('C.status', '=', 'A');
+    //     $totalCount = $query->count();
+    //     if(isset($request->search['value'])){
+    //         $query->where('name', 'like', '%'.$request->search['value'].'%');
+    //     }
+    //     if(isset($request->paper_id)){
+    //         $query = $query->where('C.paper_id', '=', $request->paper_id);
+    //     }
+    //     if(isset($request->subject_id)){
+    //         $query = $query->where('C.subject_id', '=', $request->subject_id);
+    //     }
+    //     $filteredCount = $query->count();
 
-        if($request->has('order')){
-            $query->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir']);
-        }
+    //     if($request->has('order')){
+    //         $query->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir']);
+    //     }
 
-        $data = $query->paginate($request->length);
+  
 
-        return response()->json([
-            'draw' => $request->draw,
-            'recordsTotal' => $totalCount,
-            'recordsFiltered' => $filteredCount,
-            'data' => $data->items(),
-        ]);
+    //     return response()->json([
+    //         'draw' => $request->draw,
+    //         'recordsTotal' => $totalCount,
+    //         'recordsFiltered' => $filteredCount,
+    //         'data' => $query ->take($request->length)->skip($request->start)->get(),
+           
+    //     ]);
+    // }
+
+    public function getAllChapter(Request $request)
+{
+    $query = DB::table('Chapters as C')
+        ->select('C.id', 'C.paper_id', 'C.name', 'C.status', 'P.name as paper_name', 'S.name as subject_name')
+        ->join('papers as P', 'C.paper_id', '=', 'P.id')
+        ->join('subjects as S', 'C.subject_id', '=', 'S.id')
+        ->where('C.status', '=', 'A');
+
+    // Get total count before filtering
+    $totalCount = $query->count();
+
+    // Apply search filter if provided
+    if (isset($request->search['value']) && !empty($request->search['value'])) {
+        $query->where(function ($q) use ($request) {
+            $q->where('C.name', 'like', '%' . $request->search['value'] . '%')
+                ->orWhere('P.name', 'like', '%' . $request->search['value'] . '%')
+                ->orWhere('S.name', 'like', '%' . $request->search['value'] . '%');
+        });
     }
+
+    // Apply paper_id filter if provided
+    if (isset($request->paper_id) && !empty($request->paper_id)) {
+        $query->where('C.paper_id', '=', $request->paper_id);
+    }
+
+    // Apply subject_id filter if provided
+    if (isset($request->subject_id) && !empty($request->subject_id)) {
+        $query->where('C.subject_id', '=', $request->subject_id);
+    }
+
+    // Get filtered count after applying filters
+    $filteredCount = $query->count();
+
+    // Apply ordering
+    if ($request->has('order')) {
+        $orderColumnIndex = $request->order[0]['column'];
+        $orderDir = $request->order[0]['dir'];
+        $orderColumn = $request->columns[$orderColumnIndex]['data'];
+        $query->orderBy($orderColumn, $orderDir);
+    }
+
+    // Apply pagination
+    $query->skip($request->input('start', 0))->take($request->input('length', 10));
+
+    // Fetch data
+    $data = $query->get();
+
+    // Return JSON response
+    return response()->json([
+        'draw' => $request->draw,
+        'recordsTotal' => $totalCount,
+        'recordsFiltered' => $filteredCount,
+        'data' => $data,
+    ]);
+}
+
 }

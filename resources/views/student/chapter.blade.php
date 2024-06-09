@@ -8,8 +8,8 @@
         border: 1px solid gray;
     }
     .full-height {
-            height: 100vh; /* 100% of the viewport height */
-        }
+        height: 100vh; /* 100% of the viewport height */
+    }
 </style>
 <div class="main-panel">
     <div class="content-wrapper bg-secondary full-height">
@@ -39,9 +39,8 @@
                                             </h5>
                                         </div>
                                         <div class="text-center mt-3">
-                                           
                                             <a
-                                                href="{{ url('getcontentSL') }}"
+                                                href="{{ url('getcontentSL/' . $data->id) }}"
                                                 class="btn btn-dark btn-sm"
                                             >
                                                 Enter</a

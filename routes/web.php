@@ -52,7 +52,7 @@ Route::group(['middleware' => ['role:Student Free|Student Silver|Student Platinu
     Route::get('getChapterS/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getChapterByPaper']);
     Route::get('getChapterSL/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getChapterByPaperSL']);
     Route::get('getQuestionS/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getQuestionByChapter']);
-    Route::get('getcontentSL', [App\Http\Controllers\student\StudentLearn::class, 'getContentSL']);
+    Route::get('getcontentSL/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getContentSL']);
     //SL = Studnet Learn
 });
 

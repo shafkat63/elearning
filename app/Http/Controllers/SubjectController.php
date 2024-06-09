@@ -110,13 +110,11 @@ class SubjectController extends Controller
             $query->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir']);
         }
 
-        $data = $query->paginate($request->length);
-
         return response()->json([
             'draw' => $request->draw,
             'recordsTotal' => $totalCount,
             'recordsFiltered' => $filteredCount,
-            'data' => $data->items(),
+            'data' => $query ->take($request->length)->skip($request->start)->get(),
         ]);
     }
 }
