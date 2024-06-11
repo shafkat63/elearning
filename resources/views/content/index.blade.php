@@ -34,11 +34,11 @@
             @endif
 
           <form action="#" id="fromData" style="display: none">@csrf</form>
-          <table  class="table datatable-responsive w-100" id="dataTableItem">
+          <table  class="table  table-responsive w-100" id="dataTableItem">
             <thead>
               <tr>
-                <th> Name </th>
-                <th> Action </th>
+                <th class="col-md-9"> Name </th>
+                <th class="col-md-3"> Action </th>
               </tr>
             </thead>
             <tbody>

@@ -8,12 +8,15 @@
         border: 1px solid gray;
     }
     .full-height {
-            height: 100vh; /* 100% of the viewport height */
-        }
+        height: 100%; /* 100% of the viewport height */
+    }
 </style>
 <div class="main-panel">
     <div class="content-wrapper full-height bg-secondary">
         <div class="row">
+            <div  class=" col-12 ">
+                <h1 class="d-flex justify-content-center p-2" >Subject</h1>
+            </div>
             <div class="col-12">
                 <!-- Main Panel -->
                 <div class="card bg-secondary">
@@ -21,12 +24,9 @@
                         <div class="row justify-content-center">
                             @foreach($subjects as $data)
                             <div
-                             
-                              
                                 class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4"
                                 id="paperForm"
                             >
-                             
                                 <div class="card border-0 rounded-3 shadow-sm">
                                     <div class="card-body">
                                         <div class="text-center mb-3">
@@ -42,8 +42,12 @@
                                             </h5>
                                         </div>
                                         <div class="text-center mt-3">
-                                    
-                                            <a href="{{ url('getPaperSL/'.$data->id) }}" class="btn btn-dark btn-sm"> Enter</a>
+                                            <a
+                                                href="{{ url('getPaperSL/'.$data->id) }}"
+                                                class="btn btn-dark btn-sm"
+                                            >
+                                                Enter</a
+                                            >
                                         </div>
                                     </div>
                                 </div>
@@ -56,42 +60,6 @@
         </div>
     </div>
 
-    <!-- <div
-        class="modal fade bd-example-modal-lg"
-        id="modal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="myLargeModalLabel"
-    >
-
-
-
-        <div class="modal-dialog modal-lg ">
-            <div class="modal-content content-wrapper">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="headerName">Papers</h5>
-                    <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                    >
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body container bg-secondary  mt-4">
-                    <div
-                        class="card-body justify-content-center bg-secondary row"
-                        id="paperDetails"
-                    ></div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-
- 
     <!-- content-wrapper ends -->
     <!-- partial:../../partials/_footer.html -->
 
@@ -100,7 +68,7 @@
 <!-- main-panel ends -->
 
 @endsection
- <!-- @section('script')
+<!-- @section('script')
 <script>
     // function showModal(ID) {
     //     $("#modal").modal("show");

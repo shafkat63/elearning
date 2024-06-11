@@ -81,7 +81,7 @@ class ChapterController extends Controller
                 'code' => '200',
                 'status' => 'Success',
                 'msg' => $request->name.' Added Successfully',
-                'routeUrl' => url('Chapter'),
+                'routeUrl' => url('Chapter\create'),
             ]);
         }else{
             $chapters = Chapter::find($request->id);

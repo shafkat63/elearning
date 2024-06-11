@@ -8,21 +8,17 @@
         border: 1px solid gray;
     }
     .full-height {
-        height: 100vh; 
-        width: 100vw;/* 100% of the viewport height */
+        height: 100%;
+        width: 100%; /* 100% of the viewport height */
     }
 </style>
-<div class="main-panel container ">
-    <div class="container-wrapper  bg-secondary full-height">
-        <div class="row ">
-            <div class="col-12">
-                <div class="pl-6">
-                    <h1>Papers</h1>
-                </div>
-               
-              </div>
-
-            <div class="col-12">
+<div class="main-panel">
+    <div class="container-wrapper bg-secondary full-height">
+        <div class="row">
+            <div  class=" col-12 ">
+                <h1 class="d-flex justify-content-center pt-3" >Paper</h1>
+            </div>
+            <div class="col-12 ">
                 <!-- Main Panel -->
                 <div class="card bg-secondary">
                     <div class="card-body">

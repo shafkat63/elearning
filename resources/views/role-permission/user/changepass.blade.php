@@ -43,17 +43,17 @@
                     </div>
                     <div class="form-group">
                       <label for="OldPassword">Old Password</label>
-                      <input id="OldPassword" class="form-control" name="OldPassword" type="text">
+                      <input id="OldPassword" class="form-control" name="OldPassword" type="password">
                       <label id="error-OldPassword" for="OldPassword" class="validation-invalid-label text-danger mt-1" ></label>
                     </div>
                     <div class="form-group">
                       <label for="NewPassword">New Password</label>
-                      <input id="NewPassword" class="form-control" name="NewPassword" type="text">
+                      <input id="NewPassword" class="form-control" name="NewPassword" type="password">
                       <label id="error-NewPassword" for="NewPassword" class="validation-invalid-label text-danger mt-1" ></label>
                     </div>
                     <div class="form-group">
                       <label for="ConfirmPassword">Confirm Password</label>
-                      <input id="ConfirmPassword" class="form-control" name="ConfirmPassword" type="text">
+                      <input id="ConfirmPassword" class="form-control" name="ConfirmPassword" type="password">
                       <label id="error-ConfirmPassword" for="ConfirmPassword" class="validation-invalid-label text-danger mt-1" ></label>
                     </div>
                     <div class="form-group">

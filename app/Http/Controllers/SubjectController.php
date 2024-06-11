@@ -60,7 +60,7 @@ class SubjectController extends Controller
                 'code' => '200',
                 'status' => 'Success',
                 'msg' => $request->name.' Added Successfully',
-                'routeUrl' => url('Subject'),
+                'routeUrl' => url('Subject\create'),
             ]);
         }else{
             $papers = Subjects::find($request->id);

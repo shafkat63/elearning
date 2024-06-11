@@ -64,13 +64,13 @@
             </blockquote>
               <hr />
           </form>
-            <table  class="table datatable-responsive w-100" id="dataTableItem">
+            <table  class="table datatable-responsive table-responsive table-hover w-100" id="dataTableItem">
               <thead>
               <tr>
-                <th> Subject Name </th>
-                <th> Paper Name </th>
-                <th> Name </th>
-                <th> Action </th>
+                <th class="col-md-2"> Subject Name </th>
+                <th class="col-md-2"> Paper Name </th>
+                <th class="col-md-5"> Name </th>
+                <th class="col-md-3"> Action </th>
               </tr>
             </thead>
             <tbody>

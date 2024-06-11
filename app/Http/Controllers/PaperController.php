@@ -74,7 +74,7 @@ class PaperController extends Controller
                 'code' => '200',
                 'status' => 'Success',
                 'msg' => $request->name . ' Added Successfully',
-                'routeUrl' => url('Paper'),
+                'routeUrl' => url('Paper/create'),
             ]);
         } else {
             $papers = Papers::find($request->id);

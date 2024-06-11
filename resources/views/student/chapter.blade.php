@@ -7,13 +7,14 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border: 1px solid gray;
     }
-    .full-height {
-        height: 100vh; /* 100% of the viewport height */
-    }
+
 </style>
 <div class="main-panel">
     <div class="content-wrapper bg-secondary full-height">
         <div class="row">
+            <div  class=" col-12 ">
+                <h1 class="d-flex justify-content-center pt-3" >Chapter</h1>
+            </div>
             <div class="col-12">
                 <!-- Main Panel -->
                 <div class="card bg-secondary">

@@ -177,8 +177,63 @@ class UserController extends Controller
         return view('role-permission.user.changepass');
     }
 
-    public function ChangePass(Request $request){
+    // public function ChangePass(Request $request){
 
+    //     $req = $request->all();
+    //     $rules = [
+    //         'email' => 'required',
+    //         'OldPassword' => 'required',
+    //         'NewPassword' => 'required',
+    //         'ConfirmPassword' => 'required|same:NewPassword',
+    //     ];
+
+    //     $customMessages = [
+    //         'email.required' => 'Email is required.',
+    //         'OldPassword.required' => 'Old Password is required.',
+    //         'NewPassword.required' => 'New Password is required.',
+    //         'ConfirmPassword.required' => 'Confirm Password is required.',
+    //         'ConfirmPassword.same' => 'The confirmation password must match the new password.',
+    //     ];
+
+    //     $validator = Validator::make($req,$rules);
+    //     $validator->setCustomMessages($customMessages);
+    //     if ($validator->fails()){
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'data' => $validator->errors(),
+    //         ]);
+    //     }
+
+    //     $hashedPassword = Auth::user()->password;
+    //     $userInputPassword = $request->OldPassword;
+
+    //     if (Hash::check($userInputPassword, $hashedPassword)) {
+       
+    //         $user = Auth::user();
+    //         dd($user);
+    //         $user->password = Hash::make($request->new_password);
+            
+    //         $user->save();
+    //         Auth::logout();
+    //         $request->session()->invalidate();
+    //         $request->session()->regenerateToken();
+    //         return response()->json([
+    //             'code' => '200',
+    //             'status'=> 'Success',
+    //             'msg' => 'Password changed successfully',
+    //             'routeUrl' => '/'
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'code' => '201',
+    //             'status'=> 'Failed',
+    //             'msg' => 'Password changed Failed',
+    //         ]);
+    //     }
+    // }
+
+    public function ChangePass(Request $request)
+    {
         $req = $request->all();
         $rules = [
             'email' => 'required',
@@ -186,7 +241,7 @@ class UserController extends Controller
             'NewPassword' => 'required',
             'ConfirmPassword' => 'required|same:NewPassword',
         ];
-
+    
         $customMessages = [
             'email.required' => 'Email is required.',
             'OldPassword.required' => 'Old Password is required.',
@@ -194,39 +249,40 @@ class UserController extends Controller
             'ConfirmPassword.required' => 'Confirm Password is required.',
             'ConfirmPassword.same' => 'The confirmation password must match the new password.',
         ];
-
-        $validator = Validator::make($req,$rules);
-        $validator->setCustomMessages($customMessages);
-        if ($validator->fails()){
+    
+        $validator = Validator::make($req, $rules, $customMessages);
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'data' => $validator->errors(),
             ]);
         }
+    
         $hashedPassword = Auth::user()->password;
         $userInputPassword = $request->OldPassword;
-
+    
         if (Hash::check($userInputPassword, $hashedPassword)) {
             $user = Auth::user();
-            $user->password = Hash::make($request->new_password);
+            $user->password = Hash::make($request->NewPassword);
             $user->save();
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             return response()->json([
                 'code' => '200',
-                'status'=> 'Success',
+                'status' => 'Success',
                 'msg' => 'Password changed successfully',
                 'routeUrl' => '/'
             ]);
         } else {
             return response()->json([
                 'code' => '201',
-                'status'=> 'Failed',
-                'msg' => 'Password changed Failed',
+                'status' => 'Failed',
+                'msg' => 'Password change failed',
             ]);
         }
     }
+    
 
     public function authenticate(Request $request){
         try {
