@@ -59,6 +59,7 @@ Route::group(['middleware' => ['role:Student Free|Student Silver|Student Platinu
 
 Route::get('answer', [App\Http\Controllers\AnswerController::class,'index']);
 Route::post('questionanswercheck', [App\Http\Controllers\AnswerController::class, 'store']);
+Route::get('submissionresponse', [App\Http\Controllers\AnswerController::class, 'handleFormSubmission']);
 
 
 Route::group(['middleware' => ['role:Super Admin|Admin|Editor|Question Editor']], function () {
@@ -103,6 +104,7 @@ Route::group(['middleware' => ['role:Super Admin|Admin|Editor|Question Editor']]
     Route::resource('User', App\Http\Controllers\UserController::class);
     Route::post('/Users/list', [App\Http\Controllers\UserController::class, 'getAllUser'])->name('/Users/list');
     Route::get('Userslist', [App\Http\Controllers\UserController::class, 'getAllUsers']);
+
 });
 
 

@@ -12,6 +12,13 @@ class AnswerController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     public function handleFormSubmission()
+     {
+         return view('student.form_submission_response');
+     }
+     
+
     public function index()
     {
         $answers = Answer::all();
@@ -39,7 +46,13 @@ class AnswerController extends Controller
         // Retrieve submitted answers
         $submittedAnswers = $request->all();
 
+        // $questionIds = array_keys($submittedAnswers["answers"]);
+        // dd($questionIds);
         $answeroptions = array_values($submittedAnswers["answers"]);
+        
+        // $questions = Question::whereIn('id', $questionIds)->get();
+
+        // Initialize an array to store results
 
 
 
@@ -79,12 +92,14 @@ class AnswerController extends Controller
                 'updated_at' => now(),
             ]);
         }
-        dd($results);
+       return redirect('submissionresponse');
       
 
         // Now $results array contains the correctness of each submitted answer
 
     }
+
+
 
 
     public function show(string $id)

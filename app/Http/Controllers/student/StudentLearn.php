@@ -15,6 +15,17 @@ use Illuminate\Support\Facades\DB;
 
 class StudentLearn extends Controller
 {
+
+    public function handleFormSubmission(Request $request)
+    {
+        // Process the form data...
+        $submittedData = $request->all(); // Assuming all form data is captured
+    
+        // Pass the data to the view
+        return view('form_submission_response', compact('submittedData'));
+    }
+    
+
     public function Learn()
     {
         $subject  = Subjects::get();
