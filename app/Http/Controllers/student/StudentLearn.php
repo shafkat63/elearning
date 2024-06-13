@@ -134,4 +134,8 @@ class StudentLearn extends Controller
 
         return view('student.subjects', ['papers' => $papers, 'chapter' => $chapter, 'questions' => $questions]);
     }
+
+    public function questionAnswerCheck(Request $request){
+
+    }
 }

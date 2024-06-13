@@ -56,6 +56,11 @@ Route::group(['middleware' => ['role:Student Free|Student Silver|Student Platinu
     //SL = Studnet Learn
 });
 
+
+Route::get('answer', [App\Http\Controllers\AnswerController::class,'index']);
+Route::post('questionanswercheck', [App\Http\Controllers\AnswerController::class, 'store']);
+
+
 Route::group(['middleware' => ['role:Super Admin|Admin|Editor|Question Editor']], function () {
 
     Route::get('/Dashboard', function () {

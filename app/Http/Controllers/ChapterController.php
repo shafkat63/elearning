@@ -116,39 +116,6 @@ class ChapterController extends Controller
         }
     }
 
-    // public function getAllChapter(Request $request){
-
-    //     $query = DB::table('Chapters as C')
-    //             ->select('C.id', 'C.paper_id', 'C.name', 'C.status', 'P.name as paper_name', 'S.name as subject_name')
-    //             ->join('papers as P', 'C.paper_id', '=', 'P.id')
-    //             ->join('subjects as S', 'C.subject_id', '=', 'S.id')
-    //             ->where('C.status', '=', 'A');
-    //     $totalCount = $query->count();
-    //     if(isset($request->search['value'])){
-    //         $query->where('name', 'like', '%'.$request->search['value'].'%');
-    //     }
-    //     if(isset($request->paper_id)){
-    //         $query = $query->where('C.paper_id', '=', $request->paper_id);
-    //     }
-    //     if(isset($request->subject_id)){
-    //         $query = $query->where('C.subject_id', '=', $request->subject_id);
-    //     }
-    //     $filteredCount = $query->count();
-
-    //     if($request->has('order')){
-    //         $query->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir']);
-    //     }
-
-  
-
-    //     return response()->json([
-    //         'draw' => $request->draw,
-    //         'recordsTotal' => $totalCount,
-    //         'recordsFiltered' => $filteredCount,
-    //         'data' => $query ->take($request->length)->skip($request->start)->get(),
-           
-    //     ]);
-    // }
 
     public function getAllChapter(Request $request)
 {
