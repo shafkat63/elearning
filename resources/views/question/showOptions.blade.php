@@ -10,11 +10,11 @@
 @endsection
 
 @section('mainContent')
-<div class="content-wrapper">
-  <div class="row">
+<div class="content-wrapper m-0 p-0 pt-2 p-lg-3">
+  <div class="row m-0 m-md-0 m-lg-1">
     <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
-        <div class="card-body">
+        <div class="card-body p-2 p-sm-2 p-md-2 p-lg-4">
             <h4 class="card-title">
                 <div class="row">
                     <div class="col-md-10">
@@ -27,13 +27,13 @@
                 </div>
             </h4> 
 
-            <div class="card-body">
+            <div class="card-body table-responsive">
               <h4 class="card-title">{{$questionOptions[0]->question_name}}</h4>
               </p>
               @foreach ($questionOptions as $item)
               
               <div class="row">
-                <div class=" d-flex align-items-center justify-content-center">
+                <div class=" d-flex align-items-center justify-content-start">
 
                     <input type="radio" class="col-md-1 form-check-input" style="margin: 0 10px 0 25px" {{$item->optionanser == 1 ? 'checked' : ''}} disabled>
                     <blockquote class="col-md-11 blockquote 
