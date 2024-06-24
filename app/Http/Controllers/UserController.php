@@ -15,32 +15,36 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function __construct(){
-        $this->middleware('permission:user-delete',['only'=>['destroy']]);
-        $this->middleware('permission:user-update',['only'=>['edit']]);
-        $this->middleware('permission:user-create',['only'=>['create']]);
-        $this->middleware('permission:user-view',['only'=>['index']]);
-
+    public function __construct()
+    {
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:user-update', ['only' => ['edit']]);
+        $this->middleware('permission:user-create', ['only' => ['create']]);
+        $this->middleware('permission:user-view', ['only' => ['index']]);
     }
-    public function index(){
+    public function index()
+    {
         $permission = Permission::get();
-        return view('role-permission.user.index',['permission'=>$permission]);
+        return view('role-permission.user.index', ['permission' => $permission]);
     }
 
-    public function create(){
-        $roles= Role::pluck('name','name')->all();
-        return view('role-permission.user.create',['roles'=>$roles]);
+    public function create()
+    {
+        $roles = Role::pluck('name', 'name')->all();
+        return view('role-permission.user.create', ['roles' => $roles]);
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $user = User::find($id);
-        $roles= Role::pluck('name','name')->all();
-        $userRoles = $user->roles->pluck('name','name')->all();
+        $roles = Role::pluck('name', 'name')->all();
+        $userRoles = $user->roles->pluck('name', 'name')->all();
         //return (['user'=>$user,'roles'=>$roles,'userRoles'=>$userRoles]);
-        return view('role-permission.user.edit',['user'=>$user,'roles'=>$roles,'userRoles'=>$userRoles]);
+        return view('role-permission.user.edit', ['user' => $user, 'roles' => $roles, 'userRoles' => $userRoles]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $req = $request->all();
         $rules = [
             'name' => 'required',
@@ -57,15 +61,15 @@ class UserController extends Controller
             'roles.required' => 'Roles is required.',
         ];
 
-        $validator = Validator::make($req,$rules);
+        $validator = Validator::make($req, $rules);
         $validator->setCustomMessages($customMessages);
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'data' => $validator->errors(),
             ]);
         }
-        if($request->id==""){
+        if ($request->id == "") {
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
@@ -76,10 +80,10 @@ class UserController extends Controller
             return response()->json([
                 'code' => '200',
                 'status' => 'Success',
-                'msg' => $request->name.' Added Successfully',
+                'msg' => $request->name . ' Added Successfully',
                 'routeUrl' => url('User'),
             ]);
-        }else{
+        } else {
             $user = User::find($request->id);
             $user->name = $request->name;
             $user->email = $request->email;
@@ -91,13 +95,14 @@ class UserController extends Controller
             return response()->json([
                 'code' => '200',
                 'status' => 'Success',
-                'msg' => $request->name.' Update Successfully',
+                'msg' => $request->name . ' Update Successfully',
                 'routeUrl' => url('User'),
             ]);
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         try {
             $permission = User::find($id);
             $permission->delete();
@@ -113,18 +118,19 @@ class UserController extends Controller
         }
     }
 
-    public function getAllUsers(){
-         $query =  DB::table('users as p')
-        ->select('p.id', 'p.name', 'p.email', 'p.phone')
-        ->get();
+    public function getAllUsers()
+    {
+        $query =  DB::table('users as p')
+            ->select('p.id', 'p.name', 'p.email', 'p.phone')
+            ->get();
         return User::with('roles')->get();
 
         $user =  User::get();
         return $roles = $user->getRoleNames();
-
     }
 
-    public function getAllUser(Request $request){
+    public function getAllUser(Request $request)
+    {
         $query = User::with('roles')->select('id', 'name', 'email', 'phone');
         $totalCount = $query->count();
 
@@ -142,17 +148,21 @@ class UserController extends Controller
             $query->orderBy($orderColumnName, $orderDirection);
         }
 
-        $data = $query->paginate($request->input('length'));
+        // Apply pagination
+        $query->skip($request->input('start', 0))
+            ->take($request->input('length', 10));
 
+        // Fetch data
+        $data = $query->get();
         $formattedData = [];
         foreach ($data as $user) {
             $roles = $user->roles->pluck('name')->implode(', ');
 
             $formattedRoles = '<ul>';
-                foreach ($user->roles as $role) {
-                    $formattedRoles .= '<li class="badge badge-outline-success badge-pill">' . $role->name . '</li>';
-                }
-                $formattedRoles .= '</ul>';
+            foreach ($user->roles as $role) {
+                $formattedRoles .= '<li class="badge badge-outline-success badge-pill">' . $role->name . '</li>';
+            }
+            $formattedRoles .= '</ul>';
             $formattedData[] = [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -169,11 +179,13 @@ class UserController extends Controller
         ]);
     }
 
-    public function showProfile(){
+    public function showProfile()
+    {
         return view('role-permission.user.profile');
     }
 
-    public function showChangePass(){
+    public function showChangePass()
+    {
         return view('role-permission.user.changepass');
     }
 
@@ -208,11 +220,11 @@ class UserController extends Controller
     //     $userInputPassword = $request->OldPassword;
 
     //     if (Hash::check($userInputPassword, $hashedPassword)) {
-       
+
     //         $user = Auth::user();
     //         dd($user);
     //         $user->password = Hash::make($request->new_password);
-            
+
     //         $user->save();
     //         Auth::logout();
     //         $request->session()->invalidate();
@@ -241,7 +253,7 @@ class UserController extends Controller
             'NewPassword' => 'required',
             'ConfirmPassword' => 'required|same:NewPassword',
         ];
-    
+
         $customMessages = [
             'email.required' => 'Email is required.',
             'OldPassword.required' => 'Old Password is required.',
@@ -249,7 +261,7 @@ class UserController extends Controller
             'ConfirmPassword.required' => 'Confirm Password is required.',
             'ConfirmPassword.same' => 'The confirmation password must match the new password.',
         ];
-    
+
         $validator = Validator::make($req, $rules, $customMessages);
         if ($validator->fails()) {
             return response()->json([
@@ -257,10 +269,10 @@ class UserController extends Controller
                 'data' => $validator->errors(),
             ]);
         }
-    
+
         $hashedPassword = Auth::user()->password;
         $userInputPassword = $request->OldPassword;
-    
+
         if (Hash::check($userInputPassword, $hashedPassword)) {
             $user = Auth::user();
             $user->password = Hash::make($request->NewPassword);
@@ -282,9 +294,10 @@ class UserController extends Controller
             ]);
         }
     }
-    
 
-    public function authenticate(Request $request){
+
+    public function authenticate(Request $request)
+    {
         try {
 
             $credentials = $request->only('email', 'password');
@@ -305,12 +318,11 @@ class UserController extends Controller
                         'route' => 'Dashboard',
                     ));
                 }
-            }else {
+            } else {
                 return json_encode(array(
                     "statusCode" => 201
                 ));
             }
-
         } catch (\Exception $e) {
             DB::rollBack();
             return json_encode(array(
@@ -320,7 +332,8 @@ class UserController extends Controller
         }
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         Auth::logout();
 
         $request->session()->invalidate();

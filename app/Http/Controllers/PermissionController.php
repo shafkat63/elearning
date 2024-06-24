@@ -106,14 +106,16 @@ class PermissionController extends Controller
         if ($request->has('order')) {
             $query->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir']);
         }
+        $query->skip($request->input('start', 0))
+        ->take($request->input('length', 10));
 
-        $data = $query->paginate($request->length);
+        $data = $query->get();
 
         return response()->json([
             'draw' => $request->draw,
             'recordsTotal' => $totalCount,
             'recordsFiltered' => $filteredCount,
-            'data' => $data->items(),
+            'data' => $data,
         ]);
     }
 
