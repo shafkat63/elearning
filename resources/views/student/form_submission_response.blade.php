@@ -6,6 +6,7 @@
 
 @section('content')
     <!-- partial -->
+   
 <div class="main-panel">
     <div class="content-wrapper container-fluid">
         <div class="col-md-12">

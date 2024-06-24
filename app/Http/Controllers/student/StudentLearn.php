@@ -20,11 +20,11 @@ class StudentLearn extends Controller
     {
         // Process the form data...
         $submittedData = $request->all(); // Assuming all form data is captured
-    
+
         // Pass the data to the view
         return view('form_submission_response', compact('submittedData'));
     }
-    
+
 
     public function Learn()
     {
@@ -43,32 +43,82 @@ class StudentLearn extends Controller
         $papers = Papers::where('subject_id', $id)->get();
         return json_encode($papers);
     }
-    public function getPaperBySubjectSL($id)
+    public function getPaperBySubjectSL($name)
     {
+        $subject = Subjects::where('name', $name)->first();
+        if ($subject) {
+            $id = $subject->id;
+        } else {
+            $id = 0;
+        }
         $papers = Papers::where('subject_id', $id)->get();
 
-        return view('student.paper', ['papers' => $papers]);
+        return view('student.paper', ['papers' => $papers, 'name' => $name]);
     }
     public function getChapterByPaper($id)
     {
         $chapters = Chapter::where('paper_id', $id)->get();
         return json_encode($chapters);
-
     }
-    public function getChapterByPaperSL($id)
+    // public function getChapterByPaperSL($id)
+    // {
+    //     $chapters = Chapter::where('paper_id', $id)->get();
+    //     return view("student.chapter", [
+    //         'chapters' => $chapters
+    //     ]);
+    // }
+
+    public function getChapterByPaperSL($name)
     {
+
+
+
+        $paper = Papers::where('name', $name)->first();
+        if ($paper) {
+            $id = $paper->id;
+        } else {
+            $id = 0;
+        }
+        $subject = Subjects::where('id', $paper->subject_id)->first();
+        $subjectName = $subject->name;
         $chapters = Chapter::where('paper_id', $id)->get();
         return view("student.chapter", [
-            'chapters' => $chapters
+            'chapters' => $chapters,
+            'name' => $name,
+            'subjectName' => $subjectName,
         ]);
     }
 
-    public function getContentSL($id){
-        $contents= Content::where('chapter_id', $id)->get();
+
+
+    public function getContentSL($name)
+    {
+
+        $chapter = Chapter::where('name', $name)->first();
+        $paper = Papers::where('id', $chapter->paper_id)->first();
+        $subjectName = Subjects::where('id', $paper->subject_id)->select('name')->first()->name;
+
+        $paperName = $paper->name;
+        if ($chapter) {
+            $id = $chapter->id;
+        } else {
+            $id = 0;
+        }
+
+        $contents = Content::where('chapter_id', $id)->get();
         // dd($content);
-        return view('student.content',['contents'=>$contents]);
+        return view('student.content', ['contents' => $contents, 'name' => $name, 'paperName' => $paperName, 'subjectName' => $subjectName]);
         // return json_encode($contents);
     }
+
+
+    // public function getContentSL($id)
+    // {
+    //     $contents = Content::where('chapter_id', $id)->get();
+    //     // dd($content);
+    //     return view('student.content', ['contents' => $contents]);
+    //     // return json_encode($contents);
+    // }
     public function getQuestionByChapter($id)
     {
         $questions = Question::where('chapter_id', $id)->limit(10)->get();
@@ -146,7 +196,7 @@ class StudentLearn extends Controller
         return view('student.subjects', ['papers' => $papers, 'chapter' => $chapter, 'questions' => $questions]);
     }
 
-    public function questionAnswerCheck(Request $request){
-
+    public function questionAnswerCheck(Request $request)
+    {
     }
 }

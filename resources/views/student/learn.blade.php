@@ -10,16 +10,23 @@
     .full-height {
         height: 100%; /* 100% of the viewport height */
     }
+    .test {
+        margin-left: 2rem;
+    }
+    .bg-slate{
+        background-color: rgb(241 245 249);
+
+    }
 </style>
 <div class="main-panel">
-    <div class="content-wrapper full-height bg-secondary">
+    <div class="content-wrapper full-height bg-white">
         <div class="row">
-            <div  class=" col-12 ">
-                <h1 class="d-flex justify-content-center p-2" >Subject</h1>
+            <div class="col-12">
+                <h3 class="d-flex test p-2">Select Subject</h3>
             </div>
             <div class="col-12">
                 <!-- Main Panel -->
-                <div class="card bg-secondary">
+                <div class="card bg-white">
                     <div class="card-body">
                         <div class="row justify-content-center">
                             @foreach($subjects as $data)
@@ -27,7 +34,7 @@
                                 class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4"
                                 id="paperForm"
                             >
-                                <div class="card border-0 rounded-3 shadow-sm">
+                                <div class="card border-0 bg-slate rounded-3 shadow-sm">
                                     <div class="card-body">
                                         <div class="text-center mb-3">
                                             <i
@@ -43,7 +50,7 @@
                                         </div>
                                         <div class="text-center mt-3">
                                             <a
-                                                href="{{ url('getPaperSL/'.$data->id) }}"
+                                                href="{{ url('getPaperSL/'.$data->name) }}"
                                                 class="btn btn-dark btn-sm"
                                             >
                                                 Enter</a

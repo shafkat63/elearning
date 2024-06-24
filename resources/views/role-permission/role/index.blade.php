@@ -33,8 +33,8 @@
             </div>
             @endif
             
-          
-          <table class="table table-bordered">
+          <div class="table-responsive text-nowrap">
+          <table class="table">
             <thead>
               <tr>
                 <th> # </th>
@@ -57,6 +57,7 @@
               
             </tbody>
           </table>
+        </div>
         </div>
       </div>
     </div>

@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </h4>
-
+                    <div class="table-responsive text-nowrap">
                     <form action="#" id="fromData" style="display: none">
                         @csrf
                         <div class="card-body bg-custom">
@@ -101,10 +101,10 @@
                         <hr />
                     </form>
                     <table
-                        class="table datatable-responsive table-responsive w-100"
+                        class="table "
                         id="dataTableItem"
                     >
-                        <thead>
+                        <thead class="table-light">
                             <tr>
                                 <th class="col-md-4">Subject Name</th>
                                 <th class="col-md-5">Paper Name</th>
@@ -113,6 +113,7 @@
                         </thead>
                         <tbody></tbody>
                     </table>
+                </div>
                 </div>
             </div>
         </div>

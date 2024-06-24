@@ -23,7 +23,6 @@
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
         <span class="menu-title">User Config</span>
-        <i class="menu-arrow"></i>
         <i class="mdi mdi-account-key menu-icon"></i>
       </a>
       <div class="collapse" id="ui-basic">
@@ -38,7 +37,6 @@
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#questions" aria-expanded="false" aria-controls="questions">
         <span class="menu-title">Question Setup</span>
-        <i class="menu-arrow"></i>
         <i class="mdi mdi-settings menu-icon"></i>
       </a>
       <div class="collapse" id="questions">

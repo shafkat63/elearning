@@ -21,6 +21,7 @@
                 </div>
             </div>
           </h4>
+          <div class="table-responsive ">
           <form class="cmxform" id="dataFrom" method="#" action="#">
             @csrf
             <fieldset>
@@ -30,6 +31,7 @@
 
             </fieldset>
           </form>
+        </div>
         </div>
       </div>
     </div>

@@ -32,10 +32,10 @@
               </div>
             </div>
             @endif
-
+            <div class="table-responsive text-nowrap">
           <form action="#" id="fromData" style="display: none">@csrf</form>
-          <table  class="table  table-responsive w-100" id="dataTableItem">
-            <thead>
+          <table  class="table" id="dataTableItem">
+            <thead class="table-light">
               <tr>
                 <th class="col-md-9"> Name </th>
                 <th class="col-md-3"> Action </th>
@@ -44,6 +44,7 @@
             <tbody>
             </tbody>
           </table>
+        </div>
         </div>
       </div>
     </div>

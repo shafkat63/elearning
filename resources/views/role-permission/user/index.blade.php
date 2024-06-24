@@ -21,10 +21,12 @@
                     </div>
                 </div>
             </h4>
+<div class="table-responsive text-nowrap">
+
 
           <form action="#" id="fromData" style="display: none">@csrf</form>
-          <table  class="table datatable-responsive w-100" id="dataTableItem">
-            <thead>
+          <table  class="table" id="dataTableItem">
+            <thead class="table-light">
               <tr>
                 <th>Name</th>
                 <th> Email </th>
@@ -33,11 +35,10 @@
                 <th> Action </th>
               </tr>
             </thead>
-            <tbody>
-
 
             </tbody>
           </table>
+        </div>
         </div>
       </div>
     </div>

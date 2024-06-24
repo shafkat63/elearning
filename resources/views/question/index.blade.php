@@ -66,6 +66,8 @@
                         </div>
                     </div>
                     @endif
+                    <div class="table-responsive text-nowrap">
+
 
                     <form action="#" id="fromData" style="display: none">
                         @csrf
@@ -163,10 +165,10 @@
                         <hr />
                     </form>
                     <table
-                        class="table-responsive table-hover"
+                    class="table"
                         id="dataTableItem"
                     >
-                        <thead>
+                        <thead class="table-light">
                             <tr class="custom-truncate">
                                 <th class="col-md-1">Subject</th>
                                 <th class="col-md-2">Paper</th>
@@ -177,6 +179,7 @@
                         </thead>
                         <tbody></tbody>
                     </table>
+                </div>
                 </div>
             </div>
         </div>

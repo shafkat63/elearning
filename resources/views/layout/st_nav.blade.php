@@ -1,3 +1,9 @@
+<style>
+      .text-slate{
+      color: rgb(226, 232, 240);
+      
+    }
+</style>
 <div class="horizontal-menu">
     <nav class="navbar top-navbar col-lg-12 col-12 p-0">
         <div class="container">
@@ -61,7 +67,7 @@
                                 <span class="availability-status online"></span>
                             </div>
                             <div class="nav-profile-text">
-                                <p class="text-light">David Greymaax</p>
+                                <p class="text-slate">SRL</p>
                             </div>
                         </a>
                         <div
@@ -212,8 +218,7 @@
                     <a href="{{ url('Exams') }}" class="nav-link">
                         <i class="mdi mdi-clipboard-text menu-icon"></i>
                         <span class="menu-title">Exams</span>
-                        <i class="menu-arrow"></i
-                    ></a>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('Learn') }}" class="nav-link">

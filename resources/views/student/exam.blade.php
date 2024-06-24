@@ -10,13 +10,17 @@
     .full-height {
             height: 100vh; /* 100% of the viewport height */
         }
+        .bg-slate{
+        background-color: rgb(241 245 249);
+
+    }
 </style>
 <div class="main-panel">
-    <div class="content-wrapper bg-secondary">
+    <div class="content-wrapper bg-white">
         <div class="row">
             <div class="col-12">
                 <!-- Main Panel -->
-                <div class="card bg-secondary">
+                <div class="card bg-white">
                     <div class="card-body">
                         <div class="row justify-content-center">
                             @foreach($subjects as $data)
@@ -28,7 +32,7 @@
                             >
                                 @csrf
                                 <div class="card border-0 rounded-3 shadow-sm">
-                                    <div class="card-body">
+                                    <div class="card-body bg-slate">
                                         <div class="text-center mb-3">
                                             <i
                                                 class="mdi mdi-book-open-page-variant text-danger icon-md"
@@ -83,9 +87,9 @@
                     </button>
                 </div>
 
-                <div class="modal-body container bg-secondary mt-4">
+                <div class="modal-body container bg-white mt-4">
                     <div
-                        class="card-body justify-content-center bg-secondary row"
+                        class="card-body justify-content-center bg-white row"
                         id="paperDetails"
                     ></div>
                 </div>
@@ -143,7 +147,7 @@
                                     <div
                                         class="card border-0 rounded-3 mx-2 mb-3 d-flex justify-content-between  "
                                     >
-                                        <div class="card-body">
+                                        <div class="card-body bg-slate">
                                             <div class="text-center mb-3">
                                                 <i
                                                     class="mdi mdi-book-open-page-variant text-danger icon-md"
@@ -205,7 +209,7 @@
                                     <div
                                         class="card border-0 rounded-3 mx-2 mb-3 d-flex justify-content-between "
                                     >
-                                        <div class="card-body">
+                                        <div class="card-body bg-slate">
                                             <div class="text-center mb-3">
                                                 <i
                                                     class="mdi mdi-book-open-page-variant text-danger icon-md"

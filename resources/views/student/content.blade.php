@@ -4,16 +4,20 @@
 
 <div class="content-wrapper">
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">   </h4>
-          <div class="col-md-1">
-            <a href="{{ url('/Learn') }}" class="btn btn-gradient-success btn-sm btn-icon-text mb-3">
-                <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Back
-            </a>
-        </div>
-          <div class="row">
+          <h4 class="card-title"> {{ $name}}  </h4>
+          <div class="d-flex justify-content-end" >
+            <a href="{{ url('Learn') }}" class="link text-info p-2 text-decoration-none rounded">Subject ➡️ </a>
+            <a href="{{ url('getPaperSL/' . $subjectName) }}" class="link text-info p-2 text-decoration-none rounded">{{ $subjectName }}</a>
+       
+            <a href="{{ url('/getChapterSL/'. $paperName) }}" class="link text-info p-2 text-decoration-none rounded">
+              ➡️   </i> {{ $name}} 
+          </a>   </div>
+
+          <div class="row table-responsive">
+         
             @foreach($contents as $content)
             <div class="card"> 
 
@@ -25,26 +29,17 @@
             <form class="cmxform" id="dataFrom" method="#" action="#">
                 @csrf
                 <fieldset>
-                  <div class="card-body" id="contaent-details">
+                  <div class="card-body table-responsive" id="contaent-details">
                     {!! $content->content_details !!}
                   </div>
     
                 </fieldset>
               </form>
             @endforeach
+          
 
         </div>
         
-      
-          <form class="cmxform" id="dataFrom" method="#" action="#">
-            @csrf
-            <fieldset>
-              <div class="card-body" id="contaent-details">
-              
-              </div>
-
-            </fieldset>
-          </form>
         </div>
       </div>
     </div>
