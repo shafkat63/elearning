@@ -5,15 +5,15 @@
 @endsection
 
 @section('mainContent')
-<div class="content-wrapper">
+<div class="content-wrapper m-0 p-0 pt-2 p-lg-3">
 
-  <div class="row">
+  <div class="row m-0 m-md-0 m-lg-1">
     <div class="col-lg-12">
       <div class="card">
-        <div class="card-body">
+        <div class="card-body p-2 p-sm-2 p-md-2 p-lg-4">
           <h4 class="card-title">
             <div class="row">
-                <div class="col-md-11">
+                <div class="col-md-11 mb-2">
                   Edit Content
                 </div>
                 <div class="col-md-1">
