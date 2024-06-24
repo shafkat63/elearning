@@ -156,7 +156,8 @@
             </li>
             <li class="nav-item nav-settings d-none d-lg-block">
               <a class="nav-link" href="#">
-                <i class="mdi mdi-format-line-spacing"></i>
+                <i class="mdi mdi-format-align-top" title="Top"></i>
+                
               </a>
             </li>
           </ul>
