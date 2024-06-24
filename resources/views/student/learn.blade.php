@@ -1,6 +1,11 @@
-@extends('layout.stu_public') @section('content')
+@extends('layout.stu_public')
+
+@section('content')
+
 <!-- partial:partials/_horizontal-navbar.html -->
-@section('nav') @include('layout.st_nav') @endsection
+@section('nav') 
+    @include('layout.st_nav') 
+@endsection
 <!-- partial -->
 <style>
     .card-shadow {
@@ -8,53 +13,43 @@
         border: 1px solid gray;
     }
     .full-height {
-        height: 100%; /* 100% of the viewport height */
+        height: 100%;
+        width: 100%; /* 100% of the viewport height */
     }
     .test {
         margin-left: 2rem;
     }
     .bg-slate{
-        background-color: rgb(241 245 249);
-
+        background-color: rgb(241, 245, 249);
+    }
+    .content-wrapper {
+        padding-top: 60px; /* Adjust this value based on your navbar height */
     }
 </style>
-<div class="main-panel">
-    <div class="content-wrapper full-height bg-white">
-        <div class="row">
-            <div class="col-12">
-                <h3 class="d-flex test p-2">Select Subject</h3>
+<div class="main-panel m-1 p-1 mt-5  mt-lg-1">
+    <div class="content-wrapper bg-white m-1 p-1">
+        <div class="row m-3 p-1">
+            <div class="col-12 mt-1 mt-md-5 mt-lg-1">
+                <h3 class="col-12 m-1 p-1 pb-3 mt-1 mt-md-5 mt-lg-1 ">Select Subject</h3>
             </div>
-            <div class="col-12">
+            
+            <div class="col-12 m-1 p-1">
                 <!-- Main Panel -->
-                <div class="card bg-white">
-                    <div class="card-body">
-                        <div class="row justify-content-center">
+                <div class="card bg-white m-0 p-0">
+                    <div class="card-body m-0 p-0">
+                        <div class="row justify-content-center m-0 p-0">
                             @foreach($subjects as $data)
-                            <div
-                                class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4"
-                                id="paperForm"
-                            >
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
                                 <div class="card border-0 bg-slate rounded-3 shadow-sm">
                                     <div class="card-body">
                                         <div class="text-center mb-3">
-                                            <i
-                                                class="mdi mdi-book-open-page-variant text-danger icon-md"
-                                            ></i>
+                                            <i class="mdi mdi-book-open-page-variant text-danger icon-md"></i>
                                         </div>
                                         <div class="text-center">
-                                            <h5
-                                                class="font-weight-bold text-dark"
-                                            >
-                                                {{$data->name}}
-                                            </h5>
+                                            <h5 class="font-weight-bold text-dark">{{$data->name}}</h5>
                                         </div>
                                         <div class="text-center mt-3">
-                                            <a
-                                                href="{{ url('getPaperSL/'.$data->name) }}"
-                                                class="btn btn-dark btn-sm"
-                                            >
-                                                Enter</a
-                                            >
+                                            <a href="{{ url('getPaperSL/'.$data->name) }}" class="btn btn-dark btn-sm">Enter</a>
                                         </div>
                                     </div>
                                 </div>
@@ -63,177 +58,12 @@
                         </div>
                     </div>
                 </div>
+                <!-- End Main Panel -->
             </div>
         </div>
     </div>
-
     <!-- content-wrapper ends -->
-    <!-- partial:../../partials/_footer.html -->
-
-    <!-- partial -->
 </div>
 <!-- main-panel ends -->
 
 @endsection
-<!-- @section('script')
-<script>
-    // function showModal(ID) {
-    //     $("#modal").modal("show");
-    //     var subID = ID;
-    //     console.log(subID);
-    //     $("#SubjectID").val(subID);
-    // }
-    function getData() {
-        $("#modal").modal("hide");
-        $("#modal2").modal("hide");
-    }
-
-    function showModalPaper(subjectId) {
-        $("#paperDetails").empty();
-        $("#headerName").text("Paper");
-        
-        $.ajax({
-            url: "/getPaper/" + subjectId,
-            method: "GET",
-            success: function (response) {
-                console.log(typeof response);
-                response = JSON.parse(response);
-
-                // Populate the modal with the response data
-                if (response.length > 0) {
-                    $("#paperDetails").empty();
-                    response.forEach(function (paper) {
-                        console.log(paper);
-                        $("#paperDetails").append(
-                            `
-                           
-                            <form
-                                    method="POST"
-                                    action="getChapterS/${paper.id}"
-                                  class="col-md-4 "
-                                    id="paperForm"
-                                >
-                                    @csrf
-                                    <div
-                                        class="card border-0 rounded-3 mx-2 mb-3 d-flex justify-content-between  "
-                                    >
-                                        <div class="card-body">
-                                            <div class="text-center mb-3">
-                                                <i
-                                                    class="mdi mdi-book-open-page-variant text-danger icon-md"
-                                                ></i>
-                                            </div>
-                                            <div class="text-center">
-                                                <h5 class="font-weight-bold text-dark" id="paperName">
-                                                    ${paper.name}
-                                                </h5>
-                                            </div>
-                                            <div class="text-center mt-3">
-                                               
-                                                <button
-                                                type="button"
-                                                onclick="showModalChapter(${paper.id})"
-                                                class="btn btn-dark btn-sm"
-                                            >
-                                                Enter
-                                            </button>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
- `
-                        );
-                    });
-                } else {
-                    $("#paperDetails").append(
-                        '<div class="col-12">No papers found for this subject.</div>'
-                    );
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error:", error);
-            },
-        });
-        $("#modal").modal("show");
-    }
-
-
-
-
-
-
-
-
-
-
-    function showModalChapter(PaperId) {
-        $("#paperDetails").empty();
-        $("#headerName").text("Chapter");
-        $.ajax({
-            url: "/getChapterS/" + PaperId,
-            method: "GET",
-            success: function (response) {
-                console.log(typeof response);
-                response = JSON.parse(response);
-                console.log("Paper ID: "+ response);
-                // Populate the modal with the response data
-                if (response.length > 0) {
-                 
-                    response.forEach(function (chapter) {
-                        console.log(chapter);
-                        $("#paperDetails").append(
-                            `<div
-                            class="col-md-4 " >
-                                    
-                                    <div
-                                        class="card border-0 rounded-3 mx-2 mb-3 d-flex justify-content-between "
-                                    >
-                                        <div class="card-body">
-                                            <div class="text-center mb-3">
-                                                <i
-                                                    class="mdi mdi-book-open-page-variant text-danger icon-md"
-                                                ></i>
-                                            </div>
-                                            <div class="text-center">
-                                                <h5 class="font-weight-bold text-dark" id="paperName">
-                                                    ${chapter.name}
-                                                </h5>
-                                            </div>
-                                            <div class="text-center mt-3">
-                                                <a
-                                                    href="getQuestionS/${chapter.id}"
-                                                    class="btn btn-dark btn-sm text-white"
-                                                >
-                                                   Enter
-                                                </a>
-                                               
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`
-                        );
-                    });
-                } else {
-                    $("#paperDetails").append(
-                        '<div class="col-12">No Chapter found for this Paper.</div>'
-                    );
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error:", error);
-            },
-        });
-        $("#modal").modal("show");
-    }
-
-
-
-
-
-
-
-
-</script>
-@endsection -->

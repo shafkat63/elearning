@@ -6,14 +6,14 @@
     }
 </style>
 @section('mainContent')
-<div class="content-wrapper">
-    <div class="row">
+<div class="content-wrapper m-0 p-0 pt-2 p-lg-3">
+    <div class="row m-0 m-md-0 m-lg-1">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body p-2 p-sm-2 p-md-2 p-lg-4">
                     <h4 class="card-title">
                         <div class="row">
-                            <div class="col-md-9">Paper List Info</div>
+                            <div class="col-md-9 pb-1">Paper List Info</div>
                             <div class="col-md-3">
                                 <a
                                     href="#"

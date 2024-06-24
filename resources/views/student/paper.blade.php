@@ -7,10 +7,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border: 1px solid gray;
     }
-    .full-height {
-        height: 100%;
-        width: 100%; /* 100% of the viewport height */
-    }
+
 
     .bg-slate{
         background-color: rgb(241 245 249);
@@ -18,11 +15,11 @@
     }
  
 </style>
-<div class="main-panel">
+<div class="main-panel m-1 p-1 mt-5 mt-md-3 mt-lg-1">
     <div class="container-wrapper bg-white full-height">
         <div class="row">
-            <div class="col-12">
-                <h3 class="d-flex  pt-3" style="margin-left: 2em;">
+            <div class="col-12 pt-1 pt-md-5 pt-lg-1">
+                <h3 class=" mt-5 mt-md-5 mt-lg-1" style="margin-left: 2em;">
                  Select   {{ $name}} Paper
                 </h3>
                 <a href="\Learn" class="link text-info p-2 text-decoration-none  rounded " style=" margin-left: 4em;">Subject ➡️ </a>{{ $name}} Paper

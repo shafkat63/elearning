@@ -12,7 +12,7 @@
 
     }
 </style>
-<div class="main-panel">
+<div class="main-panel mt-5 mt-md-3 mt-lg-1">
     <div class="content-wrapper bg-white full-height">
         <div class="row">
             <div class="col-12" style="margin-left: 2em;">
@@ -26,17 +26,17 @@
                 </div>
 
             </div>
-            <div class="col-12">
+            <div class="col-12 m-1 p-1">
                 <!-- Main Panel -->
-                <div class="card bg-white">
-                    <div class="card-body">
-                        <div class="row justify-content-center">
+                <div class="card bg-white m-0 p-0">
+                    <div class="card-body m-1 p-1">
+                        <div class="row justify-content-center m-1 p-1">
                             @foreach($chapters as $data)
                             <div
-                                class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4"
+                                class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4 m-1 p-1"
                                 id="paperForm"
                             >
-                                <div class="card border-0 rounded-3 shadow-sm">
+                                <div class="card border-0 rounded-3 shadow-sm ">
                                     <div class="card-body bg-slate">
                                         <div class="text-center mb-3">
                                             <i
