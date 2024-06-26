@@ -119,7 +119,7 @@ class ChapterController extends Controller
 
     public function getAllChapter(Request $request)
 {
-    $query = DB::table('Chapters as C')
+    $query = DB::table('chapters as C')
         ->select('C.id', 'C.paper_id', 'C.name', 'C.status', 'P.name as paper_name', 'S.name as subject_name')
         ->join('papers as P', 'C.paper_id', '=', 'P.id')
         ->join('subjects as S', 'C.subject_id', '=', 'S.id')

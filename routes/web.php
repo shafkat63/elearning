@@ -15,6 +15,9 @@ use function PHPUnit\Framework\returnSelf;
 |
 */
 
+Route::get('/upload', [App\Http\Controllers\FileUploadController::class, 'index'])->name('upload.index');;
+
+Route::post('/upload', [App\Http\Controllers\FileUploadController::class, 'store'])->name('upload.store');
 
 
 Route::get('/', function () {

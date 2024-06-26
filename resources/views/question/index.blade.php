@@ -2,26 +2,7 @@
 
 <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
 @endsection @section('mainNav') @include('layout.nav') @endsection
-<!-- <style>
-    .bg-custom {
-        background-color: rgb(64, 199, 132);
-    }
 
-    .table th,
-    .table td {
-        vertical-align: middle;
-        font-size: 0.875rem;
-        line-height: 1;
-        padding: 0.9375rem;
-        overflow-wrap: break-word; /* Added to prevent overflow */
-    }
-
-    .truncate-text {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-</style> -->
 @section('mainContent')
 <div class="content-wrapper  m-0 p-0 pt-2 p-lg-3">
     <div class="row m-0 m-md-0 m-lg-1">

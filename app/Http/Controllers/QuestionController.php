@@ -177,43 +177,6 @@ class QuestionController extends Controller
         }
     }
 
-    // public function getAllQuestion(Request $request){
-
-    //     $query = DB::table('questions as Q')
-    //             ->select('Q.id', 'Q.question_name', 'Q.status', 'P.name as paper_name', 'S.name as subject_name', 'C.name as chapter_name')
-    //             ->join('Chapters as C', 'Q.chapter_id', '=', 'C.id')
-    //             ->join('papers as P', 'Q.paper_id', '=', 'P.id')
-    //             ->join('subjects as S', 'Q.subject_id', '=', 'S.id')
-    //             ->where('C.status', '=', 'A');
-    //     $totalCount = $query->count();
-    //     if(isset($request->search['value'])){
-    //         $query->where('Q.question_name', 'like', '%'.$request->search['value'].'%');
-    //     }
-    //     if(isset($request->subject_id)){
-    //         $query = $query->where('Q.subject_id', '=', $request->subject_id);
-    //     }
-    //     if(isset($request->paper_id)){
-    //         $query = $query->where('Q.paper_id', '=', $request->paper_id);
-    //     }
-    //     if(isset($request->chapter_id)){
-    //         $query = $query->where('Q.chapter_id', '=', $request->chapter_id);
-    //     }
-    //     $filteredCount = $query->count();
-
-    //     if($request->has('order')){
-    //         $query->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir']);
-    //     }
-
-    //     $data = $query->paginate($request->length);
-
-    //     return response()->json([
-    //         'draw' => $request->draw,
-    //         'recordsTotal' => $totalCount,
-    //         'recordsFiltered' => $filteredCount,
-    //         'data' => $data->items(),
-    //     ]);
-    // }
-
 
     public function getAllQuestion(Request $request)
 {
