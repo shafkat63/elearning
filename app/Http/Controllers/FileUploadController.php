@@ -72,7 +72,7 @@ class FileUploadController extends Controller
     {
 
         $request->validate([
-            'file' => 'required|mimes:jpeg,png,mp3,mp4,mov,avi|max:2048',
+            'file' => 'required|mimes:jpeg,png,mp3,mp4,mov,avi|max:5120',
         ]);
 
 
@@ -102,10 +102,12 @@ class FileUploadController extends Controller
         return view('fileUpload.show', ['file' => $file]);
     }
 
-    // public function edit(File $file)
-    // {
-    //     return view('files.edit', ['file'=>$file] );
-    // }
+    public function edit($id)
+    {
+        $file = File::find($id);
+        // return $id;
+        return view('fileUpload.edit', ['file'=>$file] );
+    }
 
     // public function update(Request $request, File $file)
     // {

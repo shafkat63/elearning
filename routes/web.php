@@ -31,6 +31,8 @@ Route::get('/Files/show', [App\Http\Controllers\FileUploadController::class, 'sh
 
 Route::delete('/Files/{file}', [App\Http\Controllers\FileUploadController::class, 'destroy'])->name('Files.destroy');
 Route::post('/Files/file', [App\Http\Controllers\FileUploadController::class, 'getAllFiles'])->name('Files.file');
+Route::get('/Files/{id}/edit', [App\Http\Controllers\FileUploadController::class, 'edit'])->name('Files.edit');
+Route::patch('/Files/{id}', [App\Http\Controllers\FileUploadController::class, 'update'])->name('Files.update');
 
 
 

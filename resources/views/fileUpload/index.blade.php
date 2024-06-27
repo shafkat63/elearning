@@ -1,23 +1,20 @@
-@extends('layout.app') @section('title', 'Paper Info') @section('mainNav')
-@include('layout.nav') @endsection
+@extends('layout.app')
+@section('title', 'Paper Info')
+@section('mainNav')
+@include('layout.nav')
+@endsection
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-
-
-</style>
 @section('mainContent')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body p-2 p-sm-2 p-md-2 p-lg-4">
-                    <h4 class="card-title">
-                        Files
-                    </h4>
+                    <h4 class="card-title">Files</h4>
                     @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        {{ $message }}
-                    </div>
+                    <div class="alert alert-success">{{ $message }}</div>
                     @endif
 
                     <a href="{{ route('Files.create') }}" class="btn btn-gradient-success btn-sm btn-icon-text mb-3">
@@ -37,17 +34,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($files as $file)
-                                <tr id="fileRow_{{ $file->id }}">
-                                    <td>{{ $file->id }}</td>
-                                    <td>{{ $file->name }}</td>
-                                    <td>{{ $file->filetype }}</td>
-                                    <td><a href="{{ $file->url }}" target="_blank">{{ $file->url }}</a></td>
-                                    <td>
-                                        <button class="btn btn-outline-danger delete-btn" data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">Delete</button>
-                                    </td>
-                                </tr>
-                                @endforeach
+                                <!-- DataTable will populate the tbody -->
                             </tbody>
                         </table>
                     </div>
@@ -63,57 +50,59 @@
 <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-     var TableData;
     var url = "{{ route('Files.file') }}";
 
     $(document).ready(function () {
         var fileTable = $('#fileTable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: url,
-            type: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: url,
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
             },
-        },
-        columns: [
-            { data: 'id', name: 'id' },
-            { data: 'name', name: 'name' },
-            { data: 'filetype', name: 'filetype' }, 
-            { data: 'url', name: 'url',
-                render: function (data, type, row) {
-                    return '<a href="' + data + '" target="_blank">' + data + '</a>';
-                }
-            },
-            {
-                data: 'url',
-                name: 'url',
-                render: function (data, type, row) {
-                    var previewHtml = '';
-                    if (row.filetype === 'Image') {
-                        previewHtml = '<img src="' + data + '" alt="' + row.name + '" style="max-width: 100px; max-height: 100px; object-fit: cover;">';
-                    } else if (row.filetype === 'Audio') {
-                        previewHtml = '<audio controls><source src="' + data + '" type="audio/mp3"></audio>';
-                    } else if (row.filetype === 'Video') {
-                        previewHtml = '<video width="320" height="240" controls><source src="' + data + '" type="video/mp4"></video>';
-                    } else {
-                        previewHtml = '<a href="' + data + '" target="_blank">Preview</a>'; // Default preview link
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                { data: 'filetype', name: 'filetype' }, 
+                { data: 'url', name: 'url',
+                    render: function (data, type, row) {
+                        return '<a href="' + data + '" target="_blank">' + data + '</a>';
                     }
-                    return previewHtml;
+                },
+                {
+                    data: 'url',
+                    name: 'url',
+                    render: function (data, type, row) {
+                        var previewHtml = '';
+                        if (row.filetype === 'Image') {
+                            previewHtml = '<img src="' + data + '" alt="' + row.name + '" style="max-width: 100px; max-height: 100px; object-fit: cover;">';
+                        } else if (row.filetype === 'Audio') {
+                            previewHtml = '<audio controls><source src="' + data + '" type="audio/mp3"></audio>';
+                        } else if (row.filetype === 'Video') {
+                            previewHtml = '<video width="320" height="240" controls><source src="' + data + '" type="video/mp4"></video>';
+                        } else {
+                            previewHtml = '<a href="' + data + '" target="_blank">Preview</a>';
+                        }
+                        return previewHtml;
+                    }
+                },
+                {
+                    data: null,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return `
+                            <a href="/Files/${row.id}/edit" class="btn btn-outline-primary btn-sm edit-btn" data-file-id="${row.id}">Edit</a>
+                            <button class="btn btn-outline-danger btn-sm delete-btn" data-file-id="${row.id}" data-file-name="${row.name}">Delete</button>
+                        `;
+                    }
                 }
-            },
-            {
-                data: null,
-                orderable: false,
-                render: function (data, type, row) {
-                    return '<button class="btn btn-outline-danger delete-btn" data-file-id="' + row.id + '" data-file-name="' + row.name + '">Delete</button>';
-                }
-            }
-        ]
-    });
+            ]
+        });
 
         $('#fileTable').on('click', '.delete-btn', function () {
             var fileId = $(this).data('file-id');
@@ -122,24 +111,33 @@
         });
 
         function confirmDelete(fileId, fileName) {
-            if (confirm('Are you sure you want to delete "' + fileName + '"?')) {
-                $.ajax({
-                    url: '/Files/' + fileId,
-                    type: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        console.log(response);
-                        fileTable.ajax.reload(); // Reload the DataTable
-                        alert('File deleted successfully.');
-                    },
-                    error: function (xhr) {
-                        console.log(xhr.responseText);
-                        alert('Error deleting file.');
-                    }
-                });
-            }
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `Do you want to delete "${fileName}"?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Files/' + fileId,
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (response) {
+                            console.log(response);
+                            fileTable.ajax.reload(); // Reload the DataTable
+                            Swal.fire('Deleted!', 'File has been deleted.', 'success');
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                            Swal.fire('Error!', 'Failed to delete file.', 'error');
+                        }
+                    });
+                }
+            });
         }
     });
 </script>
