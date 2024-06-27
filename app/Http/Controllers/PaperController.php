@@ -111,53 +111,52 @@ class PaperController extends Controller
     }
 
     public function getAllPaper(Request $request)
-{
-    $query = DB::table('papers')
-        ->select('papers.id', 'papers.name', 'subjects.name as subject_name')
-        ->join('subjects', 'papers.subject_id', '=', 'subjects.id');
+    {
+        $query = DB::table('papers')
+            ->select('papers.id', 'papers.name', 'subjects.name as subject_name')
+            ->join('subjects', 'papers.subject_id', '=', 'subjects.id');
 
-    // Apply subject_id filter if provided
-    if ($request->has('subject_id') && !empty($request->subject_id)) {
-        $query->where('papers.subject_id', $request->subject_id);
+        // Apply subject_id filter if provided
+        if ($request->has('subject_id') && !empty($request->subject_id)) {
+            $query->where('papers.subject_id', $request->subject_id);
+        }
+
+        // Get total count before filtering
+        $totalCount = $query->count();
+
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search['value'])) {
+            $searchValue = $request->search['value'];
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('papers.name', 'like', '%' . $searchValue . '%')
+                    ->orWhere('subjects.name', 'like', '%' . $searchValue . '%');
+            });
+        }
+
+        // Get filtered count after applying filters
+        $filteredCount = $query->count();
+
+        // Apply ordering
+        if ($request->has('order')) {
+            $orderColumnIndex = $request->order[0]['column'];
+            $orderDir = $request->order[0]['dir'];
+            $orderColumn = $request->columns[$orderColumnIndex]['data'];
+            $query->orderBy($orderColumn, $orderDir);
+        }
+
+        // Apply pagination
+        $query->skip($request->input('start', 0))
+            ->take($request->input('length', 10));
+
+        // Fetch data
+        $data = $query->get();
+
+        // Return JSON response
+        return response()->json([
+            'draw' => $request->draw,
+            'recordsTotal' => $totalCount,
+            'recordsFiltered' => $filteredCount,
+            'data' => $data,
+        ]);
     }
-
-    // Get total count before filtering
-    $totalCount = $query->count();
-
-    // Apply search filter if provided
-    if ($request->has('search') && !empty($request->search['value'])) {
-        $searchValue = $request->search['value'];
-        $query->where(function($q) use ($searchValue) {
-            $q->where('papers.name', 'like', '%' . $searchValue . '%')
-                ->orWhere('subjects.name', 'like', '%' . $searchValue . '%');
-        });
-    }
-
-    // Get filtered count after applying filters
-    $filteredCount = $query->count();
-
-    // Apply ordering
-    if ($request->has('order')) {
-        $orderColumnIndex = $request->order[0]['column'];
-        $orderDir = $request->order[0]['dir'];
-        $orderColumn = $request->columns[$orderColumnIndex]['data'];
-        $query->orderBy($orderColumn, $orderDir);
-    }
-
-    // Apply pagination
-    $query->skip($request->input('start', 0))
-          ->take($request->input('length', 10));
-
-    // Fetch data
-    $data = $query->get();
-
-    // Return JSON response
-    return response()->json([
-        'draw' => $request->draw,
-        'recordsTotal' => $totalCount,
-        'recordsFiltered' => $filteredCount,
-        'data' => $data,
-    ]);
-}
-
 }

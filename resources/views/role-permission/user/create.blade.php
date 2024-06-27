@@ -41,6 +41,23 @@
                 <label id="error-phone" for="phone" class="validation-invalid-label text-danger mt-1" ></label>
               </div>
               <div class="form-group">
+                <label for="userType">User Type</label>
+                <div class="input-group">
+                  <div class="input-group-prepend bg-transparent">
+                    <span class="input-group-text bg-transparent border-right-0">
+                      <i class="mdi mdi-account-multiple text-primary"></i>
+                    </span>
+                  </div>
+                  <select name="userType" class="form-control form-control-sm border-left-0" id="userType">
+                    <option value="" selected >Select Type</option>
+                    <option value="basic">Basic</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                  </select>
+                </div>
+                <label id="error-userType" for="userType" class="validation-invalid-label text-danger mt-1"></label>
+              </div>
+              <div class="form-group">
                 <label for="password">Password</label>
                 <input id="password" class="form-control" name="password" type="text">
                 <label id="error-password" for="password" class="validation-invalid-label text-danger mt-1" ></label>

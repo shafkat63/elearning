@@ -20,10 +20,15 @@
 </style>
 <div class="container">
     <div class="table-responsive form-container">
+        @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            {{ $message }}
+        </div>
+        @endif
         <h2 class="form-heading">Upload Files</h2>
         <form
             class="cmxform w-80"
-            action="{{ route('upload.store') }}"
+            action="{{ route('Files.store') }}"
             method="POST"
             enctype="multipart/form-data"
         >

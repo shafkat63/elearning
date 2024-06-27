@@ -15,12 +15,32 @@ use function PHPUnit\Framework\returnSelf;
 |
 */
 
-Route::get('/upload', [App\Http\Controllers\FileUploadController::class, 'index'])->name('upload.index');;
+// //For storage linking on cpanel
+// Route::get('/linkstorage', function () {
+//     $targetFolder = base_path().'/storage/app/public';
+//     $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage';
+//     symlink($targetFolder, $linkFolder);
+//  });
 
-Route::post('/upload', [App\Http\Controllers\FileUploadController::class, 'store'])->name('upload.store');
+
+Route::get('/Files', [App\Http\Controllers\FileUploadController::class, 'index'])->name('Files.index');
+
+Route::get('/Files/create', [App\Http\Controllers\FileUploadController::class, 'create'])->name('Files.create');
+Route::post('/Files', [App\Http\Controllers\FileUploadController::class, 'store'])->name('Files.store');
+Route::get('/Files/show', [App\Http\Controllers\FileUploadController::class, 'show'])->name('Files.show');
+
+Route::delete('/Files/{file}', [App\Http\Controllers\FileUploadController::class, 'destroy'])->name('Files.destroy');
+Route::post('/Files/file', [App\Http\Controllers\FileUploadController::class, 'getAllFiles'])->name('Files.file');
+
 
 
 Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/testing',function(){
+    return view('welcome');
+});
+Route::get('/testing2',function(){
     return view('welcome');
 });
 

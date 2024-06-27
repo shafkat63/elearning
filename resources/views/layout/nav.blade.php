@@ -46,6 +46,7 @@
           <li class="nav-item"> <a class="nav-link" href="{{url('Chapter')}}">Chapter</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{url('Question')}}">Questions</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{url('Content')}}">Content</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{url('Files')}}">Files</a></li>
         </ul>
       </div>
     </li>

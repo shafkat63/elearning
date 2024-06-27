@@ -52,6 +52,7 @@ class UserController extends Controller
             'phone' => 'required',
             'password' => 'required',
             'roles' => 'required',
+            'userType' => 'required',
         ];
         $customMessages = [
             'name.required' => 'Name is required.',
@@ -59,6 +60,7 @@ class UserController extends Controller
             'phone.required' => 'Phone is required.',
             'password.required' => 'Password is required.',
             'roles.required' => 'Roles is required.',
+            'userType.required' => 'userType is required.',
         ];
 
         $validator = Validator::make($req, $rules);
@@ -74,6 +76,7 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone = $request->phone;
+            $user->usertype = $request->userType;
             $user->password = Hash::make($request->password);
             $user->save();
             $user->syncRoles($request->roles);

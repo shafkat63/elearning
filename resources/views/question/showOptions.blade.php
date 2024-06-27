@@ -3,7 +3,6 @@
 @section('style')
 
 
-<script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
 @endsection
 @section('mainNav')
 @include('layout.nav')
