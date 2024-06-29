@@ -109,44 +109,48 @@ class FileUploadController extends Controller
         return view('fileUpload.edit', ['file'=>$file] );
     }
 
-    // public function update(Request $request, File $file)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'type' => 'required|string|in:Image,Audio,Video',
-    //         'file' => 'nullable|mimes:jpeg,png,mp3,mp4,mov,avi|max:2048',
-    //     ]);
 
-    //     $fileName = $request['name'] . '.' . $request->file->getClientOriginalExtension();
-    //     $fileSeletor = $request['type'];
 
-    //     if ($request->hasFile('file')) {
-    //         // Delete the old file
-    //         Storage::disk('public')->delete(str_replace('/storage/', '', $file->url));
 
-    //         if ($fileSeletor == 'Image') {
-    //             $filePath = $request->file->storeAs('image', $fileName, 'public');
-    //         } elseif ($fileSeletor == 'Audio') {
-    //             $filePath = $request->file->storeAs('audio', $fileName, 'public');
-    //         } else {
-    //             $filePath = $request->file->storeAs('video', $fileName, 'public');
-    //         }
+    public function update(Request $request, $id)
+{
+    $file = File::findOrFail($id);
 
-    //         $file->update([
-    //             'name' => $request['name'],
-    //             'filetype' => $request['type'],
-    //             'url' => '/storage/' . $filePath,
-    //         ]);
-    //     } else {
-    //         $file->update([
-    //             'name' => $request['name'],
-    //             'filetype' => $request['type'],
-    //         ]);
-    //     }
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'filetype' => 'required|string|in:Image,Audio,Video',
+        'file' => 'nullable|max:5120', // Remove the 'mimes' rule
+    ]);
 
-    //     return redirect()->route('files.index')
-    //         ->with('success', 'File updated successfully.');
-    // }
+    $file->name = $request['name'];
+    $file->filetype = $request['filetype'];
+
+    if ($request->hasFile('file')) {
+        $fileName = $request['name'] . '.' . $request->file->getClientOriginalExtension();
+        $fileSeletor = $request['filetype'];
+
+        if ($fileSeletor == 'Image') {
+            $filePath = $request->file->storeAs('image', $fileName, 'public');
+        } elseif ($fileSeletor == 'Audio') {
+            $filePath = $request->file->storeAs('audio', $fileName, 'public');
+        } else {
+            $filePath = $request->file->storeAs('video', $fileName, 'public');
+        }
+
+        // Delete the old file
+        if (file_exists(public_path($file->url))) {
+            unlink(public_path($file->url));
+        }
+
+        $file->url = '/storage/' . $filePath;
+    }
+
+    $file->save();
+
+    return back()->with('success', 'File updated successfully.');
+}
+
+
 
     // public function destroy(File $file)
     // {
