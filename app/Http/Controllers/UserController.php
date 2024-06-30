@@ -43,16 +43,81 @@ class UserController extends Controller
         return view('role-permission.user.edit', ['user' => $user, 'roles' => $roles, 'userRoles' => $userRoles]);
     }
 
+    // public function store(Request $request)
+    // {
+    //     $req = $request->all();
+    //     $rules = [
+    //         'name' => 'required',
+    //         'email' => 'required',
+    //         'phone' => 'required',
+    //         'password' => 'required',
+    //         'roles' => 'required',
+    //         'userType' => 'required',
+    //     ];
+    //     $customMessages = [
+    //         'name.required' => 'Name is required.',
+    //         'email.required' => 'Email is required.',
+    //         'phone.required' => 'Phone is required.',
+    //         'password.required' => 'Password is required.',
+    //         'roles.required' => 'Roles is required.',
+    //         'userType.required' => 'userType is required.',
+    //     ];
+
+    //     $validator = Validator::make($req, $rules);
+    //     $validator->setCustomMessages($customMessages);
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'data' => $validator->errors(),
+    //         ]);
+    //     }
+    //     if ($request->id == "") {
+    //         $user = new User();
+    //         $user->name = $request->name;
+    //         $user->email = $request->email;
+    //         $user->phone = $request->phone;
+    //         $user->usertype = $request->userType;
+    //         $user->avater = $request->avater;
+    //         $user->password = Hash::make($request->password);
+    //         $user->save();
+    //         $user->syncRoles($request->roles);
+    //         return response()->json([
+    //             'code' => '200',
+    //             'status' => 'Success',
+    //             'msg' => $request->name . ' Added Successfully',
+    //             'routeUrl' => url('User'),
+    //         ]);
+    //     } else {
+    //         $user = User::find($request->id);
+    //         $user->name = $request->name;
+    //         $user->email = $request->email;
+    //         $user->phone = $request->phone;
+    //         $user->password = Hash::make($request->password);
+    //         $user->save();
+    //         $user->syncRoles($request->roles);
+
+    //         return response()->json([
+    //             'code' => '200',
+    //             'status' => 'Success',
+    //             'msg' => $request->name . ' Update Successfully',
+    //             'routeUrl' => url('User'),
+    //         ]);
+    //     }
+    // }
+
+
     public function store(Request $request)
     {
         $req = $request->all();
+
         $rules = [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'phone' => 'required',
             'password' => 'required',
             'roles' => 'required',
             'userType' => 'required',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Add validation rules for the avatar
         ];
         $customMessages = [
             'name.required' => 'Name is required.',
@@ -60,7 +125,10 @@ class UserController extends Controller
             'phone.required' => 'Phone is required.',
             'password.required' => 'Password is required.',
             'roles.required' => 'Roles is required.',
-            'userType.required' => 'userType is required.',
+            'userType.required' => 'UserType is required.',
+            'avatar.image' => 'The file must be an image.',
+            'avatar.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif, svg.',
+            'avatar.max' => 'The image may not be greater than 2048 kilobytes.',
         ];
 
         $validator = Validator::make($req, $rules);
@@ -71,38 +139,44 @@ class UserController extends Controller
                 'data' => $validator->errors(),
             ]);
         }
+
         if ($request->id == "") {
+
             $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->phone = $request->phone;
-            $user->usertype = $request->userType;
-            $user->password = Hash::make($request->password);
-            $user->save();
-            $user->syncRoles($request->roles);
-            return response()->json([
-                'code' => '200',
-                'status' => 'Success',
-                'msg' => $request->name . ' Added Successfully',
-                'routeUrl' => url('User'),
-            ]);
         } else {
             $user = User::find($request->id);
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->phone = $request->phone;
-            $user->password = Hash::make($request->password);
-            $user->save();
-            $user->syncRoles($request->roles);
-
-            return response()->json([
-                'code' => '200',
-                'status' => 'Success',
-                'msg' => $request->name . ' Update Successfully',
-                'routeUrl' => url('User'),
-            ]);
+            if (!$user) {
+                return response()->json([
+                    'status' => 'error',
+                    'data' => 'User not found.',
+                ]);
+            }
         }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->usertype = $request->userType;
+        $user->password = Hash::make($request->password);
+
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('userPicture', 'public');
+            $user->avatar = $avatarPath;
+        }
+
+        $user->save();
+        $user->syncRoles($request->roles);
+
+        $message = $request->id == "" ? $request->name . ' Added Successfully' : $request->name . ' Updated Successfully';
+
+        return response()->json([
+            'code' => '200',
+            'status' => 'Success',
+            'msg' => $message,
+            'routeUrl' => url('User'),
+        ]);
     }
+
 
     public function destroy($id)
     {

@@ -13,8 +13,7 @@ class FileUploadController extends Controller
     public function index()
     {
         $files = File::all();
-        // return view('upload');
-        // return $files;
+
         return view('fileUpload.index', ['files' => $files]);
     }
     public function getAllFiles(Request $request)
@@ -70,14 +69,10 @@ class FileUploadController extends Controller
 
     public function store(Request $request)
     {
-
         $request->validate([
             'file' => 'required|mimes:jpeg,png,mp3,mp4,mov,avi|max:5120',
         ]);
-
-
-        // $fileType = $request->file->getClientOriginalExtension();
-
+        // $fileType = $requesst->file->getClientOriginalExtension();
         $fileName = $request['name'] . '.' . $request->file->getClientOriginalExtension();
         $fileSeletor = $request['type'];
         if ($fileSeletor == 'Image') {
@@ -87,7 +82,6 @@ class FileUploadController extends Controller
         } else {
             $filePath = $request->file->storeAs('video', $fileName, 'public');
         }
-
         $file = new File();
         $file->name = $request['name'];
         $file->filetype =  $request['type'];
@@ -151,17 +145,6 @@ class FileUploadController extends Controller
     }
 
 
-
-    // public function destroy(File $file)
-    // {
-    //     // Delete the file from storage
-    //     Storage::disk('public')->delete(str_replace('/storage/', '', $file->url));
-
-    //     $file->delete();
-
-    //     return redirect()->route('Files.index')
-    //         ->with('success', 'File deleted successfully.');
-    // }
     public function destroy($id)
     {
         $file = File::findOrFail($id);
