@@ -2,12 +2,13 @@
 <!-- partial:partials/_horizontal-navbar.html -->
 @section('nav') @include('layout.st_nav') @endsection
 <!-- partial -->
-<style></style>
-<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> -->
 
 <div class="main-panel">
     <form action="/questionanswercheck" method="post">
         @csrf
+        <input type="hidden" name="subject_id" value="{{$subject_id}}"/>
+        <input type="hidden" name="paper_id" value="{{$paper_id}}"/>
+        <input type="hidden" name="chapter_id" value="{{$chapter_id}}"/>
         <div class="card">
             <div class="card-body">
                 @php $i = 1; @endphp @if ($errors->has('answers'))
@@ -56,9 +57,7 @@
         </div>
     </form>
 
-    <!-- content-wrapper ends -->
-    <!-- partial:../../partials/_footer.html -->
-    <!-- partial -->
+
 </div>
 @endsection @section('script')
 <script src="/assets/js/tex-mml-chtml.js"></script>

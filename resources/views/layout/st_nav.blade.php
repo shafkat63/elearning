@@ -1,7 +1,6 @@
 <style>
-      .text-slate{
-      color: rgb(226, 232, 240);
-      
+    .text-slate {
+        color: rgb(226, 232, 240);
     }
 </style>
 <div class="horizontal-menu">
@@ -57,17 +56,16 @@
                         >
                             <div class="nav-profile-img">
                                 <img
-                                    src="{{
-                                        asset(
-                                            'assets/student/Purple%20Admin_files/face1.jpg'
-                                        )
-                                    }}"
-                                    alt="image"
+                                    src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('assets/images/faces/face12.jpg') }}"
+                                    alt="profile"
                                 />
+
                                 <span class="availability-status online"></span>
                             </div>
                             <div class="nav-profile-text">
-                                <p class="text-slate">SRL</p>
+                                <p class="text-slate">
+                                    {{auth()->user()->name}}
+                                </p>
                             </div>
                         </a>
                         <div
@@ -75,7 +73,7 @@
                             aria-labelledby="profileDropdown"
                         >
                             <a class="dropdown-item" href="#">
-                                <i class="mdi mdi-cached me-2 text-success"></i>
+                                <i class="mdi mdi-cached text-success"></i>
                                 Activity Log
                             </a>
                             <div class="dropdown-divider"></div>
@@ -202,7 +200,7 @@
     <nav class="bottom-navbar">
         <div class="container">
             <ul class="nav page-navigation">
-                <li class="nav-item active">
+                <li class="nav-item ">
                     <a class="nav-link" href="{{ url('Home') }}">
                         <i class="mdi mdi-compass-outline menu-icon"></i>
                         <span class="menu-title">Profile</span>

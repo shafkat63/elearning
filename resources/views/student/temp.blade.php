@@ -76,6 +76,23 @@
         </div>
     </div>
 </div>
+
+
+<div id="resultSection" class="mt-4" style="display: none;">
+    <h5>Correct and Incorrect Answers</h5>
+    <ul>
+        @foreach($results1 as $result)
+            <li class="">
+                {{ $result['question_id'] }} - {{ $result['answer_id'] }} - 
+                <span class="{{ $result['status'] == 'correct' ? 'text-success' : 'text-danger' }}">
+                    {{ $result['status'] }}
+                </span>
+            </li>
+        @endforeach
+    </ul>
+
+    
+</div>
 <!-- content-wrapper ends -->
 <!-- partial:../../partials/_footer.html -->
 

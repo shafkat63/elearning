@@ -64,13 +64,21 @@
                   <span id="error-password" class="validation-invalid-label text-danger mt-1"></span>
                 </div>
                 <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend bg-transparent">
+                      <span class="input-group-text bg-transparent border-right-0">
+                        <i class="mdi mdi-account-multiple text-primary"></i>
+                      </span>
+                    </div>
+
                   <label for="roles">Roles</label>
-                  <select class="form-control form-control-sm" name="roles[]" id="roles" multiple>
+                  <select class="form-control form-control-sm border-left-0" name="roles[]" id="roles" multiple>
                     @foreach ($roles as $role)
                       <option value="{{ $role }}">{{ $role }}</option>
                     @endforeach
                   </select>
                   <span id="error-roles" class="validation-invalid-label text-danger mt-1"></span>
+                </div>
                 </div>
                 <div class="form-group">
                   <label for="avatar" class="form-label">Avatar:

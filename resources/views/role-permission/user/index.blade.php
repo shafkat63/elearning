@@ -17,17 +17,18 @@
                     </div>
                     <div class="col-md-2">
                       <a href="{{url('User/create')}}" class="btn btn-gradient-success  btn-sm btn-icon-text">
-                        <i class="mdi mdi-plus  btn-icon-prepend"></i>Add New</a>
+                        <i class="mdi mdi-plus  btn-icon-prepend"></i>Add New <i class="mdi mdi-face-profile"></i></a>
                     </div>
                 </div>
             </h4>
-<div class="table-responsive text-nowrap">
+          <div class="table-responsive text-nowrap">
 
 
           <form action="#" id="fromData" style="display: none">@csrf</form>
           <table  class="table" id="dataTableItem">
             <thead class="table-light">
               <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th> Email </th>
                 <th> Phone </th>
@@ -67,6 +68,7 @@ function LoadDataTable() {
           type: 'POST',
       },
       columns: [
+        { data: 'id' },
           { data: 'name' },
           { data: 'email' },
           { data: 'phone' },

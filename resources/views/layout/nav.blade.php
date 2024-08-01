@@ -3,8 +3,7 @@
     <li class="nav-item nav-profile">
       <a href="#" class="nav-link">
         <div class="nav-profile-image">
-          <img src="/assets/images/faces/face12.jpg" alt="profile">
-          <span class="login-status online"></span>
+          <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('assets/images/faces/face12.jpg') }}" alt="profile">
         </div>
         <div class="nav-profile-text d-flex flex-column">
           <span class="font-weight-bold mb-2">{{ auth()->user()->name }}</span>
@@ -50,5 +49,19 @@
         </ul>
       </div>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#questions" aria-expanded="false" aria-controls="questions">
+        <span class="menu-title">Course Setup</span>
+        <i class="mdi mdi-settings menu-icon"></i>
+      </a>
+      <div class="collapse" id="questions">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{{url('Course')}}">Courses</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{url('CourseType')}}">Course Type</a></li>
+          
+        </ul>
+      </div>
+    </li>
+
   </ul>
 </nav>

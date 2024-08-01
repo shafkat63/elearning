@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Answer;
+use App\Models\Papers;
+use App\Models\Subjects;
+use App\Models\ExamMaster;
+use Illuminate\Http\Request;
+
+use App\Models\QuestionConfig\Chapter;
 use App\Models\QuestionConfig\Question;
 use App\Models\QuestionConfig\QuestionOption;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AnswerController extends Controller
 {
@@ -15,6 +22,7 @@ class AnswerController extends Controller
 
     public function handleFormSubmission()
     {
+
         return view('student.form_submission_response');
     }
 
@@ -39,104 +47,108 @@ class AnswerController extends Controller
 
     public function store(Request $request)
     {
+        $examMaster = ExamMaster::create([
+            'student_id' => auth()->id(),
+            'subject_id' => $request->subject_id,
+            'paper_id' => $request->paper_id,
+            'chapter_id' => $request->chapter_id,
+            'status' => 'A',
+            'create_by' => auth()->id(),
+            'create_date' => now(),
+        ]);
+        $exam_id = $examMaster->id;
 
-        // Retrieve all options
         $options = QuestionOption::all();
-
-        // Retrieve submitted answers
+        $questions = Question::all();
         $submittedAnswers = $request->all();
-        //    if (!isset($submittedAnswers['answers']) || empty($submittedAnswers['answers'])) {
-        //         return redirect()->back()->withInput()->withErrors(['answers' => 'Please select answers for all questions.']);
-        //     }
+
         $answeroptions = array_values($submittedAnswers["answers"]);
-dd( $answeroptions);
-        // Loop through each question
+        $results1 = [];
+
         foreach ($answeroptions as $answeroption) {
-
-
             $questionOptions = $options->where('id', $answeroption);
-
-            // $questionId = $options->where('id', $answeroption)->pluck('questions_id')->first();
             $questionId = $options->where('id', $answeroption)->pluck('questions_id')->first();
+            // $questions = $options->where('id', $answeroption)->pluck();
             $questionOptions = $options->where('questions_id', $questionId);
-            // dd($questionOptions);
             $correctOption = $questionOptions->where('optionanser', 1)->pluck('id')->first();
-            // dd($correctOption);
-
             if (isset($answeroption) && $correctOption && $answeroption == $correctOption) {
-                // If the submitted answer is correct
                 $results[$answeroption] = 1;
                 $isCorrect = 1;
             } else {
-                // If the submitted answer is incorrect or not provided
                 $results[$answeroption] = 0;
                 $isCorrect = 0;
             }
-            // dd($isCorrect);
 
             $results[$answeroption] = $isCorrect ? 'correct' : 'incorrect';
 
-            Answer::create([
+            $results1[] = [
                 'student_id' => auth()->id(), // Assuming you have a logged-in student
                 'status' => $isCorrect ? 'correct' : 'incorrect',
+                'exam_id' => $exam_id,
                 'question_id' => $questionId,
                 'answer_id' => $answeroption,
                 'solution_id' => $correctOption,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]);
+            ];
         }
-        return redirect('submissionresponse');
+        foreach ($results1 as $result) {
+            Answer::create($result);
+        }
 
 
-        // Now $results array contains the correctness of each submitted answer
+        $questionTotal = Answer::where('exam_id', $exam_id)->count();
+        $questionCorrect = Answer::where('exam_id', $exam_id)->where('status', 'correct')->count();
+        $questionWrong = $questionTotal - $questionCorrect;
+        $studentId = auth()->id();
+        // $examData = ExamMaster::where('id', $exam_id)->get();
+        $examData = ExamMaster::find($exam_id);
 
+        if ($examData) {
+            // Retrieve the subject name using the subject_id from examData
+            $subjectName = Subjects::find($examData->subject_id)->value('name');
+            $PaperName = Papers::find($examData->paper_id)->value('name');
+            $chapterName = Chapter::find($examData->chapter_id)->value('name');
+        } else {
+            return "Exam not found";
+        }
+        $studentName = User::where('id', $studentId)->pluck('name')->first();
+        $questions = Question::where('id', $questionId)->get();
+        $questionanswers = QuestionOption::where('questions_id', $questionId)->get();
+        // dd($questions);
+        foreach ($questions as $question) {
+            $questionanswersoption = QuestionOption::where('status', 'A')
+                ->where('questions_id', $question->id)
+                ->get();
+            $questionanswers = $questionanswers->concat($questionanswersoption);
+        }
+       $UserInfo =DB::select("SELECT exm.id, exm.student_id, exm.subject_id, exm.paper_id, exm.chapter_id,
+            ans.status,ans.answer_id,ans.answer_id,ans.solution_id,
+            qus.question_name,qus.id qus_id
+            FROM exam_master exm,answers ans,questions qus
+            WHERE exm.id = ans.exam_id
+            AND ans.question_id = qus.id 
+            AND exm.id = '96';");
+       
+
+        // dd($results1);
+        return view(
+            'student.form_submission_response',
+            [
+                'examData' => $examData,
+                'questionTotal' => $questionTotal,
+                'questionCorrect' => $questionCorrect,
+                'questionWrong' => $questionWrong,
+                'subjectName' =>  $subjectName,
+                'PaperName' =>  $PaperName,
+                'chapterName' =>  $chapterName,
+                'studentName' =>  $studentName,
+                'exam_id' =>  $exam_id,
+                // 'results1' =>  $results1,
+            ]
+        );
     }
 
-    // public function store(Request $request)
-    // {
-    //     // Validate the form inputs to ensure all required fields are present
-    //     // $request->validate([
-    //     //     'answers.*' => 'required',
-    //     // ]);
-
-    //     // Retrieve all options
-    //     $options = QuestionOption::all();
-
-    //     $submittedAnswers = $request->all();
-
-    //     $answerOptions = array_values($submittedAnswers["answers"]);
-
-    //     // Initialize an array to store results
-    //     $results = [];
-
-
-    //     foreach ($answerOptions as $answerOption) {
-
-    //         $questionId = $options->where('id', $answerOption)->pluck('questions_id')->first();
-
-    //         $questionOptions = $options->where('questions_id', $questionId);
-
-    //         $correctOption = $questionOptions->where('optionanswer', 1)->pluck('id')->first();
-
-    //         $isCorrect = ($correctOption && $answerOption == $correctOption) ? 1 : 0;
-
-    //         $results[$answerOption] = $isCorrect ? 'correct' : 'incorrect';
-
-    //         Answer::create([
-    //             'student_id' => auth()->id(), 
-    //             'status' => $isCorrect ? 'correct' : 'incorrect',
-    //             'question_id' => $questionId,
-    //             'answer_id' => $answerOption,
-    //             'solution_id' => $correctOption,
-    //             'created_at' => now(),
-    //             'updated_at' => now(),
-    //         ]);
-    //     }
-
-    //     // Redirect to the submission response page after processing
-    //     return redirect('submissionresponse');
-    // }
 
 
 
@@ -145,9 +157,7 @@ dd( $answeroptions);
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         //

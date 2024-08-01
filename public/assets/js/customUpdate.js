@@ -3,7 +3,7 @@ function SaveData(reqURL, reqData) {
     varUrl = reqURL;
     varData = reqData;
     $.ajax({
-        type: "POST",
+        type: "PATCH",
         url: varUrl,
         data: varData,
         success: function (response) {

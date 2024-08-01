@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Subjects;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class SubjectController extends Controller
 {
@@ -53,8 +55,8 @@ class SubjectController extends Controller
             $papers = new Subjects();
             $papers->name = $request->name;
             $papers->status = 'A';
-            $papers->create_by = 'A';
-            $papers->create_date ='A';
+            $papers->create_by = Auth::user()->id;
+            $papers->create_date =Carbon::now();
             $papers->save();
             return response()->json([
                 'code' => '200',
@@ -66,8 +68,8 @@ class SubjectController extends Controller
             $papers = Subjects::find($request->id);
             $papers->name = $request->name;
             $papers->status = 'A';
-            $papers->update_by = 'A';
-            $papers->update_date ='A';
+            $papers->update_by = Auth::user()->id;
+            $papers->update_date =Carbon::now();
             $papers->save();
             return response()->json([
                 'code' => '200',

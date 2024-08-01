@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExamMasterController;
 use Illuminate\Support\Facades\Route;
 
 use function PHPUnit\Framework\returnSelf;
@@ -33,16 +34,12 @@ Route::delete('/Files/{file}', [App\Http\Controllers\FileUploadController::class
 Route::post('/Files/file', [App\Http\Controllers\FileUploadController::class, 'getAllFiles'])->name('Files.file');
 Route::get('/Files/{id}/edit', [App\Http\Controllers\FileUploadController::class, 'edit'])->name('Files.edit');
 Route::patch('/Files/{id}', [App\Http\Controllers\FileUploadController::class, 'update'])->name('Files.update');
+// Route::get('/Course', [App\Http\Controllers\FileUploadController::class, 'courses'])->name('Courses.index');
+// Route::get('/Course', [App\Http\Controllers\CourseController::class, 'courses'])->name('Courses.index');
 
 
 
 Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/testing',function(){
-    return view('welcome');
-});
-Route::get('/testing2',function(){
     return view('welcome');
 });
 
@@ -71,7 +68,7 @@ Route::group(['middleware' => ['role:Student Free|Student Silver|Student Platinu
     Route::get('Learn', [App\Http\Controllers\student\StudentLearn::class, 'Learn']);
     Route::get('Exams', [App\Http\Controllers\student\StudentLearn::class, 'Exams']);
     Route::get('SubjectS/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'Subject']);
- 
+
     Route::get('getPaper/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getPaperBySubject']);
     Route::get('getPaperSL/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getPaperBySubjectSL']);
     Route::get('getChapterS/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getChapterByPaper']);
@@ -82,9 +79,10 @@ Route::group(['middleware' => ['role:Student Free|Student Silver|Student Platinu
 });
 
 
-Route::get('answer', [App\Http\Controllers\AnswerController::class,'index']);
+Route::get('answer', [App\Http\Controllers\AnswerController::class, 'index']);
 Route::post('questionanswercheck', [App\Http\Controllers\AnswerController::class, 'store']);
-Route::get('submissionresponse', [App\Http\Controllers\AnswerController::class, 'handleFormSubmission']);
+Route::get('submissionresponse\{id}', [App\Http\Controllers\AnswerController::class, 'handleFormSubmission']);
+Route::get('showResult/{id}', [App\Http\Controllers\ExamMasterController::class, 'showResult']);
 
 
 Route::group(['middleware' => ['role:Super Admin|Admin|Editor|Question Editor']], function () {
@@ -129,6 +127,20 @@ Route::group(['middleware' => ['role:Super Admin|Admin|Editor|Question Editor']]
     Route::resource('User', App\Http\Controllers\UserController::class);
     Route::post('/Users/list', [App\Http\Controllers\UserController::class, 'getAllUser'])->name('/Users/list');
     Route::get('Userslist', [App\Http\Controllers\UserController::class, 'getAllUsers']);
+
+    Route::resource('exams', ExamMasterController::class);
+
+    Route::resource('Course', App\Http\Controllers\CourseController::class);
+    // Route::get('Course/{id}/edit', [App\Http\Controllers\CourseController::class, 'edit'])->name('course.edit');
+    //Route::put('Course/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('course.update');
+    Route::delete('Course/{id}', [App\Http\Controllers\CourseController::class, 'destroy'])->name('course.destroy');
+    Route::get('/Course', [App\Http\Controllers\CourseController::class, 'courses'])->name('course.index');
+    Route::post('/course/list', [App\Http\Controllers\CourseController::class, 'getAllCourses'])->name('course.list');
+
+    Route::resource('CourseType', App\Http\Controllers\CourseTypeController::class);
+    Route::post('getCourseType',[ App\Http\Controllers\CourseTypeController::class,'getAllCourseType'])->name('courseType.list');
+
+
 
 });
 

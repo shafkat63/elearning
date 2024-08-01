@@ -52,5 +52,8 @@
 <script>
 $("#btnSubmit").on("click", function () { SaveData("{{url('Subject')}}", $("#dataFrom").serialize()); });
 
+
+
+
 </script>
 @endsection

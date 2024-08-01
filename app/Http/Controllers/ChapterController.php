@@ -7,6 +7,8 @@ use App\Models\Subjects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\QuestionConfig\Chapter;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ChapterController extends Controller
@@ -73,8 +75,8 @@ class ChapterController extends Controller
             $chapters->subject_id = $request->subject_id;
             $chapters->paper_id = $request->paper_id;
             $chapters->status = 'A';
-            $chapters->create_by = 'A';
-            $chapters->create_date ='A';
+            $chapters->create_by = Auth::user()->id;
+            $chapters->create_date =Carbon::now();
             $chapters->save();
 
             return response()->json([
@@ -89,8 +91,8 @@ class ChapterController extends Controller
             $chapters->subject_id = $request->subject_id;
             $chapters->paper_id = $request->paper_id;
             $chapters->status = 'A';
-            $chapters->update_by = 'A';
-            $chapters->update_date ='A';
+            $chapters->update_by = Auth::user()->id;
+            $chapters->update_date =Carbon::now();
             $chapters->save();
             return response()->json([
                 'code' => '200',

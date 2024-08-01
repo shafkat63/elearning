@@ -13,50 +13,54 @@ use App\Models\QuestionConfig\QuestionOption;
 class QuestionController extends Controller
 {
 
-    public function __construct(){
-        $this->middleware('permission:question-delete',['only'=>['destroy']]);
-        $this->middleware('permission:question-update',['only'=>['edit']]);
-        $this->middleware('permission:question-create',['only'=>['create']]);
-        $this->middleware('permission:question-view',['only'=>['index']]);
-
+    public function __construct()
+    {
+        $this->middleware('permission:question-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:question-update', ['only' => ['edit']]);
+        $this->middleware('permission:question-create', ['only' => ['create']]);
+        $this->middleware('permission:question-view', ['only' => ['index']]);
     }
-    public function index(){
+    public function index()
+    {
         $subject = Subjects::all();
         $query = DB::table('questions as Q')
-                ->select('Q.id', 'Q.question_name', 'Q.status', 'P.name as paper_name', 'S.name as subject_name', 'C.name as chapter_name')
-                ->join('Chapters as C', 'Q.chapter_id', '=', 'C.id')
-                ->join('papers as P', 'C.paper_id', '=', 'P.id')
-                ->join('subjects as S', 'C.subject_id', '=', 'S.id')
-                ->where('C.status', '=', 'A')
-                ->get();
-        return view('question.index',['subject'=>$subject,'query'=>$query]);
+            ->select('Q.id', 'Q.question_name', 'Q.status', 'P.name as paper_name', 'S.name as subject_name', 'C.name as chapter_name')
+            ->join('Chapters as C', 'Q.chapter_id', '=', 'C.id')
+            ->join('papers as P', 'C.paper_id', '=', 'P.id')
+            ->join('subjects as S', 'C.subject_id', '=', 'S.id')
+            ->where('C.status', '=', 'A')
+            ->get();
+        return view('question.index', ['subject' => $subject, 'query' => $query]);
     }
 
-    public function create(){
+    public function create()
+    {
         $subject = Subjects::all();
-        return view('question.create',['subject'=>$subject]);
+        return view('question.create', ['subject' => $subject]);
     }
 
-    public function getChapterList(){
+    public function getChapterList()
+    {
         $paper_id = request()->input('paper_id');
         $chapter = DB::table('chapters')
-                        ->where('paper_id', '=', $paper_id)
-                        ->get();
+            ->where('paper_id', '=', $paper_id)
+            ->get();
         return json_encode($chapter);
-
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $subject = Subjects::all();
         $question = Question::find($id);
         $questionOption = DB::select("SELECT oo.id,questions.id questions_id,questions.question_name,oo.options,oo.optionanser
         FROM question_option oo
         LEFT JOIN questions ON oo.questions_id = questions.id
         WHERE questions.id=$id;");
-        return view('question.edit',['subject'=>$subject,'question'=>$question,'questionOption'=>$questionOption]);
+        return view('question.edit', ['subject' => $subject, 'question' => $question, 'questionOption' => $questionOption]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $req = $request->all();
         $rules = [
             'subject_id' => 'required',
@@ -75,16 +79,16 @@ class QuestionController extends Controller
             'option.required' => 'Option is required.',
             'option.*.required' => 'All options are required.',
         ];
-        $validator = Validator::make($req,$rules);
+        $validator = Validator::make($req, $rules);
         $validator->setCustomMessages($customMessages);
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'data' => $validator->errors(),
             ]);
         }
 
-        if($request->id==""){
+        if ($request->id == "") {
             $question = new Question();
             $question->subject_id = $request->subject_id;
             $question->paper_id = $request->paper_id;
@@ -92,10 +96,10 @@ class QuestionController extends Controller
             $question->question_name = $request->question_name;
             $question->status = 'A';
             $question->create_by = 'A';
-            $question->create_date =now();
+            $question->create_date = now();
             $question->save();
             $insertedId = $question->id;
-            if(isset($request->option) && !is_null($request->option)) {
+            if (isset($request->option) && !is_null($request->option)) {
                 foreach ($request->option as $key => $value) {
                     $questionoption = new QuestionOption();
                     $questionoption->questions_id = $insertedId;
@@ -104,7 +108,7 @@ class QuestionController extends Controller
                     $questionoption->optionanser = $ckOptionValue;
                     $questionoption->status = 'A';
                     $questionoption->create_by = 'A';
-                    $questionoption->create_date =now();
+                    $questionoption->create_date = now();
                     $questionoption->save();
                 }
             }
@@ -114,7 +118,7 @@ class QuestionController extends Controller
                 'msg' => 'Question Added Successfully',
                 'routeUrl' => url('Question/create'),
             ]);
-        }else{
+        } else {
             $question = Question::find($request->id);
             $question->subject_id = $request->subject_id;
             $question->paper_id = $request->paper_id;
@@ -122,9 +126,9 @@ class QuestionController extends Controller
             $question->question_name = $request->question_name;
             $question->status = 'A';
             $question->update_by = 'A';
-            $question->update_date =now();
+            $question->update_date = now();
             $question->save();
-            if(isset($request->option) && !is_null($request->option)) {
+            if (isset($request->option) && !is_null($request->option)) {
                 foreach ($request->option as $key => $value) {
                     $questionoption = QuestionOption::find($request->optionID[$key]);
                     $questionoption->questions_id = $request->id;
@@ -133,7 +137,7 @@ class QuestionController extends Controller
                     $questionoption->optionanser = $ckOptionValue;
                     $questionoption->status = 'A';
                     $questionoption->update_by = 'A';
-                    $questionoption->update_date =now();
+                    $questionoption->update_date = now();
                     $questionoption->save();
                 }
             }
@@ -146,10 +150,11 @@ class QuestionController extends Controller
         }
     }
 
-    public function update(Request $request,$id){
+    public function update(Request $request, $id)
+    {
         $request->validate([
-            'chapter_id' => ['required','string'],
-            'question_name' => ['required','string']
+            'chapter_id' => ['required', 'string'],
+            'question_name' => ['required', 'string']
         ]);
 
         //return $request;
@@ -157,10 +162,11 @@ class QuestionController extends Controller
         $question->chapter_id = $request->chapter_id;
         $question->question_name = $request->question_name;
         $question->save();
-        return redirect('Question')->with('status','Question Update Successfully');
+        return redirect('Question')->with('status', 'Question Update Successfully');
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         try {
             $question = Question::find($id);
             $question->delete();
@@ -179,81 +185,81 @@ class QuestionController extends Controller
 
 
     public function getAllQuestion(Request $request)
-{
-    $query = DB::table('questions as Q')
-        ->select(
-            'Q.id', 
-            'Q.question_name', 
-            'Q.status', 
-            'P.name as paper_name', 
-            'S.name as subject_name', 
-            'C.name as chapter_name'
-        )
-        ->join('Chapters as C', 'Q.chapter_id', '=', 'C.id')
-        ->join('papers as P', 'Q.paper_id', '=', 'P.id')
-        ->join('subjects as S', 'Q.subject_id', '=', 'S.id')
-        ->where('C.status', '=', 'A');
+    {
+        $query = DB::table('questions as Q')
+            ->select(
+                'Q.id',
+                'Q.question_name',
+                'Q.status',
+                'P.name as paper_name',
+                'S.name as subject_name',
+                'C.name as chapter_name'
+            )
+            ->join('Chapters as C', 'Q.chapter_id', '=', 'C.id')
+            ->join('papers as P', 'Q.paper_id', '=', 'P.id')
+            ->join('subjects as S', 'Q.subject_id', '=', 'S.id')
+            ->where('C.status', '=', 'A');
 
-    // Total count before filtering
-    $totalCount = $query->count();
+        // Total count before filtering
+        $totalCount = $query->count();
 
-    // Apply search filter if it exists
-    if ($searchValue = $request->input('search.value')) {
-        $query->where(function($subQuery) use ($searchValue) {
-            $subQuery->where('Q.question_name', 'like', '%' . $searchValue . '%')
-                     ->orWhere('P.name', 'like', '%' . $searchValue . '%')
-                     ->orWhere('S.name', 'like', '%' . $searchValue . '%')
-                     ->orWhere('C.name', 'like', '%' . $searchValue . '%');
-        });
+        // Apply search filter if it exists
+        if ($searchValue = $request->input('search.value')) {
+            $query->where(function ($subQuery) use ($searchValue) {
+                $subQuery->where('Q.question_name', 'like', '%' . $searchValue . '%')
+                    ->orWhere('P.name', 'like', '%' . $searchValue . '%')
+                    ->orWhere('S.name', 'like', '%' . $searchValue . '%')
+                    ->orWhere('C.name', 'like', '%' . $searchValue . '%');
+            });
+        }
+
+        // Apply additional filters if they exist
+        if ($subjectId = $request->input('subject_id')) {
+            $query->where('Q.subject_id', '=', $subjectId);
+        }
+
+        if ($paperId = $request->input('paper_id')) {
+            $query->where('Q.paper_id', '=', $paperId);
+        }
+
+        if ($chapterId = $request->input('chapter_id')) {
+            $query->where('Q.chapter_id', '=', $chapterId);
+        }
+
+        // Total count after filtering
+        $filteredCount = $query->count();
+
+        // Apply ordering if it exists
+        if ($request->has('order')) {
+            $orderColumn = $request->input('columns')[$request->input('order.0.column')]['data'];
+            $orderDir = $request->input('order.0.dir');
+            $query->orderBy($orderColumn, $orderDir);
+        }
+
+        // Pagination
+        $data = $query->offset($request->start)->limit($request->length)->get();
+
+        return response()->json([
+            'draw' => intval($request->draw),
+            'recordsTotal' => $totalCount,
+            'recordsFiltered' => $filteredCount,
+            'data' => $data,
+        ]);
     }
 
-    // Apply additional filters if they exist
-    if ($subjectId = $request->input('subject_id')) {
-        $query->where('Q.subject_id', '=', $subjectId);
-    }
-
-    if ($paperId = $request->input('paper_id')) {
-        $query->where('Q.paper_id', '=', $paperId);
-    }
-
-    if ($chapterId = $request->input('chapter_id')) {
-        $query->where('Q.chapter_id', '=', $chapterId);
-    }
-
-    // Total count after filtering
-    $filteredCount = $query->count();
-
-    // Apply ordering if it exists
-    if ($request->has('order')) {
-        $orderColumn = $request->input('columns')[$request->input('order.0.column')]['data'];
-        $orderDir = $request->input('order.0.dir');
-        $query->orderBy($orderColumn, $orderDir);
-    }
-
-    // Pagination
-    $data = $query->offset($request->start)->limit($request->length)->get();
-
-    return response()->json([
-        'draw' => intval($request->draw),
-        'recordsTotal' => $totalCount,
-        'recordsFiltered' => $filteredCount,
-        'data' => $data,
-    ]);
-}
-
-    public function showOptions($QuestionID){
+    public function showOptions($QuestionID)
+    {
         $questionOptions = DB::Select("SELECT  Q.question_name,QO.options,QO.optionanser
         FROM questions as Q
         LEFT JOIN question_option as QO ON Q.id =QO.questions_id
         WHERE Q.id = $QuestionID;");
-        return view('question.showOptions',['questionOptions'=>$questionOptions]);
-
+        return view('question.showOptions', ['questionOptions' => $questionOptions]);
     }
-    public function showOptionss($QuestionID){
+    public function showOptionss($QuestionID)
+    {
         return $questionOptions = DB::Select("SELECT  Q.question_name,QO.options,QO.optionanser
         FROM questions as Q
         LEFT JOIN question_option as QO ON Q.id =QO.questions_id
         WHERE Q.id = $QuestionID;");
-
     }
 }

@@ -43,68 +43,6 @@ class UserController extends Controller
         return view('role-permission.user.edit', ['user' => $user, 'roles' => $roles, 'userRoles' => $userRoles]);
     }
 
-    // public function store(Request $request)
-    // {
-    //     $req = $request->all();
-    //     $rules = [
-    //         'name' => 'required',
-    //         'email' => 'required',
-    //         'phone' => 'required',
-    //         'password' => 'required',
-    //         'roles' => 'required',
-    //         'userType' => 'required',
-    //     ];
-    //     $customMessages = [
-    //         'name.required' => 'Name is required.',
-    //         'email.required' => 'Email is required.',
-    //         'phone.required' => 'Phone is required.',
-    //         'password.required' => 'Password is required.',
-    //         'roles.required' => 'Roles is required.',
-    //         'userType.required' => 'userType is required.',
-    //     ];
-
-    //     $validator = Validator::make($req, $rules);
-    //     $validator->setCustomMessages($customMessages);
-    //     if ($validator->fails()) {
-    //         return response()->json([
-    //             'status' => 'error',
-    //             'data' => $validator->errors(),
-    //         ]);
-    //     }
-    //     if ($request->id == "") {
-    //         $user = new User();
-    //         $user->name = $request->name;
-    //         $user->email = $request->email;
-    //         $user->phone = $request->phone;
-    //         $user->usertype = $request->userType;
-    //         $user->avater = $request->avater;
-    //         $user->password = Hash::make($request->password);
-    //         $user->save();
-    //         $user->syncRoles($request->roles);
-    //         return response()->json([
-    //             'code' => '200',
-    //             'status' => 'Success',
-    //             'msg' => $request->name . ' Added Successfully',
-    //             'routeUrl' => url('User'),
-    //         ]);
-    //     } else {
-    //         $user = User::find($request->id);
-    //         $user->name = $request->name;
-    //         $user->email = $request->email;
-    //         $user->phone = $request->phone;
-    //         $user->password = Hash::make($request->password);
-    //         $user->save();
-    //         $user->syncRoles($request->roles);
-
-    //         return response()->json([
-    //             'code' => '200',
-    //             'status' => 'Success',
-    //             'msg' => $request->name . ' Update Successfully',
-    //             'routeUrl' => url('User'),
-    //         ]);
-    //     }
-    // }
-
 
     public function store(Request $request)
     {

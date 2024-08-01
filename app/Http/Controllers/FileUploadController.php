@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
@@ -53,7 +54,7 @@ class FileUploadController extends Controller
             return response()->json([
                 'draw' => $request->draw,
                 'recordsTotal' => $totalCount,
-                'recordsFiltered' => $totalCount, // Since we are not applying specific filters, filtered count is the same as total count
+                'recordsFiltered' => $totalCount,
                 'data' => $data,
             ]);
         }
@@ -154,16 +155,17 @@ class FileUploadController extends Controller
         $filePath = public_path($file->url);
         Storage::disk('public')->delete(str_replace('/storage/', '', $file->url));
 
-        // if (file_exists($filePath)) {
-        //     unlink($filePath); // Delete the file
-        // }
-
-        // Delete record from database
         $file->delete();
 
         // Return response if needed (not required for this Ajax example)
         return response()->json(['success' => 'File deleted successfully.']);
         //  return redirect()->route('Files.index')
         // ->with('success', 'File deleted successfully.');
+    }
+
+    public function courses(){
+        $courses = Course::all();
+
+        return view('student.course', ['courses' => $courses]);
     }
 }

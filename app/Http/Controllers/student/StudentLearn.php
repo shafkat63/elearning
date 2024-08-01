@@ -114,18 +114,47 @@ class StudentLearn extends Controller
 
     public function getQuestionByChapter($id)
     {
+        // Get the first question for the given chapter
+        $questions1 = Question::where('chapter_id', $id)->limit(1)->get();
+        
+        // Check if any questions were found
+        if ($questions1->isEmpty()) {
+            return view('student.question', [
+                'subject_id' => null,
+                'paper_id' => null,
+                'chapter_id' => $id,
+                'questions' => collect(),
+                'questionanswers' => collect()
+            ]);
+        }
+    
+        // Extract the subject_id and paper_id from the first question
+        $subject_id = $questions1[0]->subject_id;
+        $paper_id = $questions1[0]->paper_id;
+        $chapter_id =  $questions1[0]->chapter_id;
+    
+        // Get up to 10 questions for the given chapter
         $questions = Question::where('chapter_id', $id)->limit(10)->get();
         $questionanswers = collect();
-
+    
+        // Fetch the options for each question
         foreach ($questions as $question) {
             $questionanswersoption = QuestionOption::where('status', 'A')
                 ->where('questions_id', $question->id)
                 ->get();
             $questionanswers = $questionanswers->concat($questionanswersoption);
         }
-
-        return view('student.question', ['questions' => $questions, 'questionanswers' =>  $questionanswers]);
+        // dd(  $questionanswers);
+    
+        return view('student.question', [
+            'subject_id' => $subject_id,
+            'paper_id' => $paper_id,
+            'chapter_id' => $chapter_id,
+            'questions' => $questions,
+            'questionanswers' => $questionanswers
+        ]);
     }
+    
 
     public function Paper($id)
     {

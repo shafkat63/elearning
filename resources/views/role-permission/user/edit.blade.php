@@ -15,9 +15,9 @@
                     <div class="col-md-10">
                         Add User
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                     <a href="{{url('User')}}" class="btn btn-gradient-success btn-md btn-icon-text">
-                        <i class="mdi mdi-reload btn-icon-prepend"></i> Back </a>
+                      <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Back </a>
                     </div>
                 </div>
             </h4>
@@ -42,8 +42,26 @@
                 <label id="error-phone" for="phone" class="validation-invalid-label text-danger mt-1" ></label>
               </div>
               <div class="form-group">
+                <label for="userType">User Type</label>
+                <div class="input-group">
+                  <div class="input-group-prepend bg-transparent">
+                    <span class="input-group-text bg-transparent border-right-0">
+                      <i class="mdi mdi-account-multiple text-primary"></i>
+                    </span>
+                  </div>
+                  <select name="userType" class="form-control form-control-sm border-left-0" id="userType">
+                    <option value="" {{ $user->userType == '' ? 'selected' : '' }}>Select Type</option>
+                    <option value="basic" {{ $user->userType == 'basic' ? 'selected' : '' }}>Basic</option>
+                    <option value="intermediate" {{ $user->userType == 'intermediate' ? 'selected' : '' }}>Intermediate</option>
+                    <option value="advanced" {{ $user->userType == 'advanced' ? 'selected' : '' }}>Advanced</option>
+                  </select>
+                </div>
+                <span id="error-userType" class="validation-invalid-label text-danger mt-1"></span>
+              </div>
+              
+              <div class="form-group">
                 <label for="password">Password</label>
-                <input id="password" class="form-control" name="password" type="text">
+                <input id="password" class="form-control" name="password" type="password">
                 <label id="error-password" for="password" class="validation-invalid-label text-danger mt-1" ></label>
               </div>
               <div class="form-group">
