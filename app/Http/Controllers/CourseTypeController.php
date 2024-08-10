@@ -21,7 +21,7 @@ class CourseTypeController extends Controller
     public function getAllCourseType(Request $request)
     {
         $query = DB::table('course_type')
-            ->select('id', 'name', 'status');
+            ->select('id', 'name', 'status', 'thumbnail');
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search['value'])) {
             $searchValue = $request->search['value'];
@@ -63,32 +63,75 @@ class CourseTypeController extends Controller
         return view('CourseType.create');
     }
 
+    // public function store(Request $request)
+    // {
+
+    //     $req = $request->all();
+    //     $rules = [
+    //         'name' => 'required',
+    //         'status' => 'required',
+    //     ];
+    //     $customMessages = [
+    //         'name.required' => 'Subject Name is required.',
+    //         'status.required' => 'status is required.',
+    //     ];
+    //     $validator = Validator::make($req, $rules);
+    //     $validator->setCustomMessages($customMessages);
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'data' => $validator->errors(),
+    //         ]);
+    //     }
+    //     $courseType = new CourseType();
+    //     $courseType->name = $request->name;
+    //     $courseType->thumbnail = 'thumbnail';
+    //     $courseType->status = 'A';
+    //     $courseType->create_by = Auth::user()->id;
+    //     $courseType->create_date = Carbon::now();
+    //     $courseType->save();
+    //     return response()->json([
+    //         'code' => '200',
+    //         'status' => 'Success',
+    //         'msg' => $request->name . ' Added Successfully',
+    //         'routeUrl' => url('CourseType'),
+    //     ]);
+    // }
+
     public function store(Request $request)
     {
-
         $req = $request->all();
+
         $rules = [
-            'name' => 'required',
+            'name' => 'required|unique:course_type,name',
             'status' => 'required',
         ];
+
         $customMessages = [
-            'name.required' => 'Subject Name is required.',
-            'status.required' => 'status is required.',
+            'name.required' => ' Name is required.',
+            'name.unique' => 'This name is already taken.',
+            'status.required' => 'Status is required.',
         ];
+
         $validator = Validator::make($req, $rules);
         $validator->setCustomMessages($customMessages);
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'data' => $validator->errors(),
             ]);
         }
+
         $courseType = new CourseType();
         $courseType->name = $request->name;
+        $courseType->thumbnail = 'thumbnail';
         $courseType->status = 'A';
         $courseType->create_by = Auth::user()->id;
         $courseType->create_date = Carbon::now();
         $courseType->save();
+
+        // Return a success response
         return response()->json([
             'code' => '200',
             'status' => 'Success',
@@ -96,7 +139,6 @@ class CourseTypeController extends Controller
             'routeUrl' => url('CourseType'),
         ]);
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -109,6 +151,7 @@ class CourseTypeController extends Controller
 
         $course = CourseType::findOrFail($id);
         $course->name = $validatedData['name'];
+        $course->thumbnail = 'thumbnail';
         $course->status = $validatedData['status'];
         $course->update_by = Auth::user()->id;
         $course->update_date = Carbon::now();
@@ -134,12 +177,12 @@ class CourseTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-   
+
     public function edit($id)
     {
         $courseType = CourseType::findOrFail($id);
-       
-        return view('courseType.edit', ['courseType'=>$courseType]);
+
+        return view('courseType.edit', ['courseType' => $courseType]);
     }
 
 

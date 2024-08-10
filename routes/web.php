@@ -34,8 +34,13 @@ Route::delete('/Files/{file}', [App\Http\Controllers\FileUploadController::class
 Route::post('/Files/file', [App\Http\Controllers\FileUploadController::class, 'getAllFiles'])->name('Files.file');
 Route::get('/Files/{id}/edit', [App\Http\Controllers\FileUploadController::class, 'edit'])->name('Files.edit');
 Route::patch('/Files/{id}', [App\Http\Controllers\FileUploadController::class, 'update'])->name('Files.update');
-// Route::get('/Course', [App\Http\Controllers\FileUploadController::class, 'courses'])->name('Courses.index');
-// Route::get('/Course', [App\Http\Controllers\CourseController::class, 'courses'])->name('Courses.index');
+
+
+Route::resource('/CoursesS', App\Http\Controllers\student\StudentCourseController::class);
+Route::get('/CoursesS', [App\Http\Controllers\student\StudentCourseController::class,'courses']);
+Route::get('/getCoursesS/{name}', [App\Http\Controllers\student\StudentCourseController::class,'getCourses']);
+
+
 
 
 
@@ -75,7 +80,6 @@ Route::group(['middleware' => ['role:Student Free|Student Silver|Student Platinu
     Route::get('getChapterSL/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getChapterByPaperSL']);
     Route::get('getQuestionS/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getQuestionByChapter']);
     Route::get('getcontentSL/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getContentSL']);
-    //SL = Studnet Learn
 });
 
 

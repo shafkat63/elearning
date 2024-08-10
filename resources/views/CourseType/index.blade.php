@@ -71,6 +71,7 @@
                                 <tr>
                                     <th class="col-md-1">ID</th>
                                     <th class="col-md-3">Name</th>
+                                    <th class="col-md-3">Thumbnail</th>
                                     <th class="col-md-3">Status</th>
                               
                                 </tr>
@@ -142,6 +143,7 @@
                 columns: [
                     { data: "id" },
                     { data: "name" },
+                    { data: "thumbnail" },
                     { data: "status" },
                   
                     {

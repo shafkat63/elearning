@@ -13,6 +13,7 @@ class CourseType extends Model
     protected $table = 'course_type';
     protected $fillable = [
         'name',
+        'thumbnail',
         'status',
         'create_by',
         'create_date',
