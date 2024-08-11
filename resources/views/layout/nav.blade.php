@@ -50,14 +50,14 @@
       </div>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="collapse" href="#questions" aria-expanded="false" aria-controls="questions">
+      <a class="nav-link" data-bs-toggle="collapse" href="#courses" aria-expanded="false" aria-controls="questions">
         <span class="menu-title">Course Setup</span>
         <i class="mdi mdi-settings menu-icon"></i>
       </a>
-      <div class="collapse" id="questions">
+      <div class="collapse" id="courses">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="{{url('Course')}}">Courses</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{url('CourseType')}}">Course Type</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{url('Course')}}">Courses</a></li>
           
         </ul>
       </div>

@@ -37,8 +37,9 @@ Route::patch('/Files/{id}', [App\Http\Controllers\FileUploadController::class, '
 
 
 Route::resource('/CoursesS', App\Http\Controllers\student\StudentCourseController::class);
-Route::get('/CoursesS', [App\Http\Controllers\student\StudentCourseController::class,'courses']);
 Route::get('/getCoursesS/{name}', [App\Http\Controllers\student\StudentCourseController::class,'getCourses']);
+Route::get('/getCoursesTypeS', [App\Http\Controllers\student\StudentCourseController::class,'courseType'])->name('getCoursesTypeS');
+Route::get('/getCoursesByCourseType/{name}', [App\Http\Controllers\student\StudentCourseController::class,'getCoursesByCourseType']);
 
 
 

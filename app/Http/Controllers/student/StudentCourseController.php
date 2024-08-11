@@ -15,12 +15,29 @@ class StudentCourseController extends Controller
         return view('student.course');
     }
 
-    public function courses()
-    {
-        $courses = Course::all();
 
-        return view('student.course', ['courses' => $courses]);
+    public function courseType(){
+
+        $courseTypes= CourseType::all();
+        return view('student.courseType',['courseTypes'=>$courseTypes]);
     }
+
+
+    public function getCoursesByCourseType($name){
+        $courseType= CourseType::where('name',$name)->pluck('id')->first();
+        $courses = Course::where('course_type',$courseType)->get();
+        return view('student.course', ['courses' => $courses]);
+
+
+    }
+
+
+    // public function courses()
+    // {
+    //     $courses = Course::all();
+
+    //     return view('student.course', ['courses' => $courses]);
+    // }
 
     public function getCourses($name)
     {

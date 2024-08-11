@@ -148,8 +148,31 @@
                     { data: "id" },
                     { data: "name" },
                     { data: "course_type"},
-                    { data: "content"  },
-                    { data: "description" },
+                    {
+                        data: "content",
+                        render: function (data, type, row) {
+                            if (type === 'display' && data) {
+                                const words = data.split(' ');
+                                if (words.length > 10) {
+                                    return words.slice(0, 10).join(' ') + '...';
+                                }
+                                return data;
+                            }
+                            return data;
+                        }
+                    },
+                    { data: "description",
+                     render: function (data, type, row) {
+                        if (type === 'display' && data) {
+                            const words = data.split(' ');
+                            if (words.length > 10) {
+                                return words.slice(0, 10).join(' ') + '...';
+                            }
+                            return data;
+                        }
+                        return data;
+                    }
+                },
                     {
                         data: null,
                         orderable: false,

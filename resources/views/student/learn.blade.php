@@ -40,7 +40,9 @@
                         <div class="row justify-content-center m-0 p-0">
                             @foreach($subjects as $data)
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
-                                <div class="card border-0 bg-slate rounded-3 shadow-sm">
+                                <a href="{{ url('getPaperSL/'.$data->name) }}" class="card border-0 bg-slate rounded-3 shadow-sm"
+                                     style="text-decoration: none;"
+                                    >
                                     <div class="card-body">
                                         <div class="text-center mb-3">
                                             <i class="mdi mdi-book-open-page-variant text-danger icon-md"></i>
@@ -49,10 +51,10 @@
                                             <h5 class="font-weight-bold text-dark">{{$data->name}}</h5>
                                         </div>
                                         <div class="text-center mt-3">
-                                            <a href="{{ url('getPaperSL/'.$data->name) }}" class="btn btn-dark btn-sm">Enter</a>
+                                           
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                             @endforeach
                         </div>

@@ -219,7 +219,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('CoursesS') }}" class="nav-link">
+                    <a href="{{ url('getCoursesTypeS') }}" class="nav-link">
                         <i class="mdi mdi-clipboard-text menu-icon"></i>
                         <span class="menu-title">Course</span>
                     </a>
