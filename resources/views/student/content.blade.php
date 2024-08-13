@@ -1,28 +1,34 @@
 @extends('layout.stu_public')
 
 @section('content')
+
 @section('nav')
 @include('layout.st_nav')
 @endsection
 
+@push('styles')
 <style>
   .custom {
     width: 90%;
-    /* Default width for larger screens */
     margin: 0 auto;
-    /* You can adjust other styles as needed */
   }
 
-  /* Adjust width for mobile screens */
+  /* Adjust width for tablets */
+  @media (max-width: 992px) {
+    .custom {
+      width: 95%;
+    }
+  }
+
+  /* Adjust width for mobile phones */
   @media (max-width: 768px) {
     .custom {
       width: 100%;
-      /* Full width on mobile */
       padding: 0 15px;
-      /* Optional: Add padding to the sides */
     }
   }
 </style>
+@endpush
 
 <div class="content-wrapper">
   <div class="container">
@@ -32,10 +38,8 @@
           <h4 class="card-title">{{ $name }}</h4>
           <div class="d-flex justify-content-end">
             <a href="{{ url('Learn') }}" class="link text-info p-2 text-decoration-none rounded">Subject ➡️</a>
-            <a href="{{ url('getPaperSL/' . $subjectName) }}" class="link text-info p-2 text-decoration-none rounded">{{
-              $subjectName }}</a>
-            <a href="{{ url('/getChapterSL/'. $paperName) }}" class="link text-info p-2 text-decoration-none rounded">➡️
-              {{ $name }}</a>
+            <a href="{{ url('getPaperSL/' . $subjectName) }}" class="link text-info p-2 text-decoration-none rounded">{{ $subjectName }}</a>
+            <a href="{{ url('/getChapterSL/'. $paperName) }}" class="link text-info p-2 text-decoration-none rounded">➡️ {{ $name }}</a>
           </div>
 
           <div class="table-responsive m-0 p-0 custom">

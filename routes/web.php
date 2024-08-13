@@ -17,6 +17,8 @@ use function PHPUnit\Framework\returnSelf;
 */
 
 // //For storage linking on cpanel
+
+//Do not delete this 
 // Route::get('/linkstorage', function () {
 //     $targetFolder = base_path().'/storage/app/public';
 //     $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage';
@@ -42,11 +44,20 @@ Route::get('/getCoursesTypeS', [App\Http\Controllers\student\StudentCourseContro
 Route::get('/getCoursesByCourseType/{name}', [App\Http\Controllers\student\StudentCourseController::class,'getCoursesByCourseType']);
 
 
+Route::get('changePasswordSt', [App\Http\Controllers\student\StudentController::class, 'showChangePass'])->name('ChangePasswordST');
+Route::post('/reChangePasswordSt', [App\Http\Controllers\student\StudentController::class, 'ChangePass'])->name('reChangePasswordST');
+Route::get('editProfileSt/{id}/edit', [App\Http\Controllers\student\StudentController::class, 'edit'])->name('editProfileST');
+// Route::post('/updateProfileSt', [App\Http\Controllers\student\StudentController::class, 'update'])->name('updateProfileST ');
+Route::post('updateProfileSt', [App\Http\Controllers\student\StudentController::class, 'update'])->name('updateProfileSt');
 
 
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/sslget',function(){
+    return view('SSL.paymentSuccess');
 });
 
 Route::get('/login', function () {

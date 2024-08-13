@@ -74,6 +74,7 @@
                                     <th class="col-md-1">ID</th>
                                     <th class="col-md-3">Name</th>
                                     <th class="col-md-3">Course Type</th>
+                                    <th class="col-md-3">Thumbnail</th>
                                     <th class="col-md-3">Content</th>
                                     <th class="col-md-3">Description</th>
 
@@ -148,6 +149,20 @@
                     { data: "id" },
                     { data: "name" },
                     { data: "course_type"},
+                    { data: "thumbnail",
+                    name: "thumbnail",
+                    render: function (data, type, row) {
+                        return (
+                            '<a href="' +
+                            data +
+                            '" target="_blank">' +
+                            data +
+                            "</a>"
+                        );
+                    },
+                    },
+
+                    
                     {
                         data: "content",
                         render: function (data, type, row) {

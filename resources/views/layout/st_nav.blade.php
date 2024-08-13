@@ -58,6 +58,8 @@
                                 <img
                                     src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('assets/images/faces/face12.jpg') }}"
                                     alt="profile"
+                                    class=" img-fluid rounded-circle"
+                                    style="object-fit: cover;"
                                 />
 
                                 <span class="availability-status online"></span>
@@ -72,11 +74,16 @@
                             class="dropdown-menu navbar-dropdown"
                             aria-labelledby="profileDropdown"
                         >
-                            <a class="dropdown-item" href="#">
-                                <i class="mdi mdi-cached text-success"></i>
-                                Activity Log
-                            </a>
+                            
                             <div class="dropdown-divider"></div>
+                            <a
+                                class="dropdown-item"
+                                href="{{ route('ChangePasswordST') }}"
+                              
+                            >
+                                <i class="  mdi mdi-textbox-password me-2 text-primary"></i>
+                                Change Password
+                            </a>
                             <a
                                 class="dropdown-item"
                                 href="{{ route('logout') }}"

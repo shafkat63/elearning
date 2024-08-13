@@ -1,75 +1,106 @@
-@extends('layout.stu_public') @section('content')
+@extends('layout.stu_public')
 
+@section('content')
+    @section('nav') 
+        @include('layout.st_nav') 
+    @endsection
 
-<!-- partial:partials/_horizontal-navbar.html -->
-@section('nav') @include('layout.st_nav') @endsection
-
-<style>
-    .card-shadow {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border: 1px solid gray;
+    <style>
+        /* Modern card shadow */
+        .card-shadow {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border: none;
+        }
+        .card-fixed-height {
+        height: 2in; /* Total height of the card */
     }
-    .full-height {
+
+        .bg-slate {
+            background-color: rgb(241, 245, 249);
+        }
+
+        .banner-container {
+        height: 1.5in; /* Height for the image */
+        overflow: hidden; /* Ensure the image doesn't overflow */
+    }
+
+        .banner-img {
+        width: 100%;
         height: 100%;
-        width: 100%; /* 100% of the viewport height */
+        object-fit: cover; /* Ensure the image covers the container without distortion */
     }
-    .test {
-        margin-left: 2rem;
-    }
-    .bg-slate{
-        background-color: rgb(241, 245, 249);
-    }
-    .content-wrapper {
-        padding-top: 60px; /* Adjust this value based on your navbar height */
-    }
-</style>
 
+        .flex-grow-1 {
+            flex-grow: 1;
+        }
+        .text-container {
+        height: 0.5in; /* Height for the text */
+    }
 
+        h3 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            color: #333;
+        }
 
-<div class="main-panel m-1 p-1 mt-5  mt-lg-1">
-    <div class="content-wrapper bg-white m-1 p-1">
-        <div class="row m-3 p-1">
-            <div class="col-12 mt-1 mt-md-5 mt-lg-1">
-                <h3 class="col-12 m-1 p-1 pb-3 mt-1 mt-md-5 mt-lg-1 ">Select Course</h3>
-            </div>
-            
-            <div class="col-12 m-1 p-1">
-                <!-- Main Panel -->
-                <div class="card bg-white m-0 p-0">
-                    <div class="card-body m-0 p-0">
-                        <div class="row justify-content-center m-0 p-0">
-                           {{-- //foreach --}}
-                           @foreach ($courses as $course)
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
-                                <a href="{{url ('getCoursesS/'.$course->name) }}" class="card border-0 bg-slate rounded-3 shadow-sm" 
-                                            style="text-decoration: none;">
-                                    <div class="card-body">
-                                        <div class="text-center mb-3">
+        .main-panel {
+            padding: 1rem;
+        }
+
+        .card-body h5 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.2s ease;
+        }
+
+        @media (max-width: 768px) {
+            .main-panel, .content-wrapper {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+
+    <div class="main-panel mt-5 mt-lg-1">
+        <div class="content-wrapper bg-white">
+            <div class="row justify-content-center">
+                <div class="col-12 mt-1">
+                    <h3 class="text-center mb-3">Select Course</h3>
+                </div>
+
+                <div class="row justify-content-center">
+                    @foreach ($courses as $course)
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <a href="{{ url('getCoursesS/' . $course->name) }}" 
+                            class="card border-0 rounded-3 shadow-sm text-decoration-none card-fixed-height bg-slate card-shadow">
+                            <div class="card-body p-0 d-flex flex-column">
+                                <div class="banner-container">
+                                    @if($course->thumbnail)
+                                        <img src="{{ asset('storage/' . $course->thumbnail) }}" 
+                                            alt="{{ $course->name }}" class="banner-img" loading='lazy'>
+                                    @else
+                                        <div class="text-center d-flex justify-content-center align-items-center h-100">
                                             <i class="mdi mdi-book-open-page-variant text-danger icon-md"></i>
                                         </div>
-                                        <div class="text-center">
-                                            <h5 class="font-weight-bold text-dark">{{$course->name}}</h5>
-                                        </div>
-                                        <div class="text-center mt-3">
-                                        {{-- <a href="{{url ('getCoursesS/'.$course->name) }}" class="btn btn-dark btn-sm">Enter</a> --}}
-
-                                        </div>
-                                    </div>
-                                </a>
+                                    @endif
+                                </div>
+                                <div class="p-2 text-center flex-grow-1 d-flex flex-column justify-content-center text-container">
+                                    <h5>{{ $course->name }}</h5>
+                                </div>
                             </div>
-                           {{-- //endforeach --}}
-                           @endforeach
-                        </div>
+                        </a>
                     </div>
+                    
+                    @endforeach
                 </div>
-                <!-- End Main Panel -->
             </div>
         </div>
     </div>
-    <!-- content-wrapper ends -->
-</div>
+@endsection
 
-
-@endsection @section('script')
-
+@section('script')
 @endsection

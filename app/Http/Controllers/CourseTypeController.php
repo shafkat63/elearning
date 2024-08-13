@@ -65,82 +65,6 @@ class CourseTypeController extends Controller
         return view('CourseType.create');
     }
 
-    // public function store(Request $request)
-    // {
-
-    //     $req = $request->all();
-    //     $rules = [
-    //         'name' => 'required',
-    //         'status' => 'required',
-    //     ];
-    //     $customMessages = [
-    //         'name.required' => 'Subject Name is required.',
-    //         'status.required' => 'status is required.',
-    //     ];
-    //     $validator = Validator::make($req, $rules);
-    //     $validator->setCustomMessages($customMessages);
-    //     if ($validator->fails()) {
-    //         return response()->json([
-    //             'status' => 'error',
-    //             'data' => $validator->errors(),
-    //         ]);
-    //     }
-    //     $courseType = new CourseType();
-    //     $courseType->name = $request->name;
-    //     $courseType->thumbnail = 'thumbnail';
-    //     $courseType->status = 'A';
-    //     $courseType->create_by = Auth::user()->id;
-    //     $courseType->create_date = Carbon::now();
-    //     $courseType->save();
-    //     return response()->json([
-    //         'code' => '200',
-    //         'status' => 'Success',
-    //         'msg' => $request->name . ' Added Successfully',
-    //         'routeUrl' => url('CourseType'),
-    //     ]);
-    // }
-
-    // public function store(Request $request)
-    // {
-    //     $req = $request->all();
-
-    //     $rules = [
-    //         'name' => 'required|unique:course_type,name',
-    //         'status' => 'required',
-    //     ];
-
-    //     $customMessages = [
-    //         'name.required' => ' Name is required.',
-    //         'name.unique' => 'This name is already taken.',
-    //         'status.required' => 'Status is required.',
-    //     ];
-
-    //     $validator = Validator::make($req, $rules);
-    //     $validator->setCustomMessages($customMessages);
-
-    //     if ($validator->fails()) {
-    //         return response()->json([
-    //             'status' => 'error',
-    //             'data' => $validator->errors(),
-    //         ]);
-    //     }
-
-    //     $courseType = new CourseType();
-    //     $courseType->name = $request->name;
-    //     $courseType->thumbnail = 'thumbnail';
-    //     $courseType->status = 'A';
-    //     $courseType->create_by = Auth::user()->id;
-    //     $courseType->create_date = Carbon::now();
-    //     $courseType->save();
-
-    //     // Return a success response
-    //     return response()->json([
-    //         'code' => '200',
-    //         'status' => 'Success',
-    //         'msg' => $request->name . ' Added Successfully',
-    //         'routeUrl' => url('CourseType'),
-    //     ]);
-    // }
 
     public function store(Request $request)
     {
@@ -201,124 +125,7 @@ class CourseTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-  
-    //  public function update(Request $request, $id)
-    //  {
-    //      // Define validation rules
-    
-     
-    //      // Custom validation messages
-     
-     
-    //      // Validate request data
-   
-     
-    //      // Find the course type by ID
-    //      $course = CourseType::findOrFail($id);
-     
-    //      // Update fields
-    //      $course->name = $request->name;
-    //      $course->status = $request->status;
-    //      $course->update_by = Auth::user()->id;
-    //      $course->update_date = Carbon::now();
-     
-    //      // Handle file upload for thumbnail
-    //      if ($request->hasFile('thumbnail')) {
-    //          // Delete the old thumbnail if it exists
-    //          if ($course->thumbnail && Storage::exists('public/' . $course->thumbnail)) {
-    //              Storage::delete('public/' . $course->thumbnail);
-    //          }
 
-           
-     
-    //          // Store the new thumbnail and update the path
-    //          $file = $request->file('thumbnail');
-    //          $fileName = time() . '.' . $file->getClientOriginalExtension();
-    //          $filePath = $file->storeAs('courseTypethumbnails', $fileName, 'public');
-    //          $course->thumbnail = $filePath;
-    //      }
-     
-    //      // Save the updated course type
-    //      $course->save();
-     
-    //      // Return a success response
-    //      return response()->json([
-    //          'code' => '200',
-    //          'status' => 'Success',
-    //          'msg' => $request->name . ' Updated Successfully',
-    //          'routeUrl' => url('CourseType'),
-    //      ]);
-    //  }
-
-
-//     public function update(Request $request, $id)
-// {
-//     $req = $request->all();
-    
-//     $rules = [
-//         'name' => 'required|unique:course_type,name,' . $id,
-//         'status' => 'required',
-//         'thumbnail' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate the image
-//     ];
-    
-//     $customMessages = [
-//         'name.required' => 'Name is required.',
-//         'name.unique' => 'This name is already taken.',
-//         'status.required' => 'Status is required.',
-//         'thumbnail.image' => 'The file must be an image.',
-//         'thumbnail.mimes' => 'Only jpeg, png, jpg, and gif images are allowed.',
-//         'thumbnail.max' => 'The image size must be less than 2MB.',
-//     ];
-    
-//     $validator = Validator::make($req, $rules);
-//     $validator->setCustomMessages($customMessages);
-    
-//     if ($validator->fails()) {
-//         return response()->json([
-//             'status' => 'error',
-//             'data' => $validator->errors(),
-//         ]);
-//     }
-    
-//     // Fetch the existing course type
-//     $courseType = CourseType::find($id);
-
-//     if (!$courseType) {
-//         return response()->json([
-//             'status' => 'error',
-//             'data' => ['name' => 'Course type not found.'],
-//         ]);
-//     }
-
-//     // Handle file upload if present
-//     if ($request->hasFile('thumbnail')) {
-//         $file = $request->file('thumbnail');
-//         $fileName = time() . '.' . $file->getClientOriginalExtension();
-//         $filePath = $file->storeAs('courseTypethumbnails', $fileName, 'public');
-        
-//         // Optionally, delete the old thumbnail
-//         if ($courseType->thumbnail) {
-//             Storage::disk('public')->delete($courseType->thumbnail);
-//         }
-
-//         $courseType->thumbnail = $filePath; // Save the new file path
-//     }
-
-//     // Update the other fields
-//     $courseType->name = $request->name;
-//     $courseType->status = $request->status;
-//     $courseType->update_by = Auth::user()->id;
-//     $courseType->update_date = Carbon::now();
-//     $courseType->save();
-    
-//     // Return a success response
-//     return response()->json([
-//         'code' => '200',
-//         'status' => 'Success',
-//         'msg' => $request->name . ' Updated Successfully',
-//         'routeUrl' => url('CourseType'),
-//     ]);
-// }
 
 public function update(Request $request, $id)
 {
@@ -333,7 +140,7 @@ public function update(Request $request, $id)
             Rule::unique('course_type', 'name')->ignore($courseType->id),
         ],
         'status' => 'required',
-        'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate the image (nullable if no new image is provided)
+        'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validate the image (nullable if no new image is provided)
     ];
 
     $customMessages = [
@@ -387,31 +194,6 @@ public function update(Request $request, $id)
     ]);
 }
 
-     
-
-     // public function update(Request $request, $id)
-    // {
-    //     $validatedData = $request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'status' => 'required|in:active,inactive',
-    //     ]);
-
-    //     $course = CourseType::findOrFail($id);
-    //     $course->name = $validatedData['name'];
-    //     $course->thumbnail = 'thumbnail';
-    //     $course->status = $validatedData['status'];
-    //     $course->update_by = Auth::user()->id;
-    //     $course->update_date = Carbon::now();
-
-    //     $course->save();
-
-    //     return response()->json([
-    //         'code' => '200',
-    //         'status' => 'Success',
-    //         'msg' => $request->name . ' Updated Successfully',
-    //         'routeUrl' => url('CourseType'),
-    //     ]);
-    // }
 
 
     /**
@@ -440,6 +222,21 @@ public function update(Request $request, $id)
      */
     public function destroy(string $id)
     {
-        //
+
+        try {
+            $CourseType = CourseType::find($id);
+          
+            Storage::disk('public')->delete(str_replace('/storage/', '', $CourseType->thumbnail));
+            $CourseType->delete();
+            return json_encode(array(
+                "statusCode" => 200
+            ));
+        } catch (\Exception $e) {
+
+            return json_encode(array(
+                "statusCode" => 400,
+                "statusMsg" => $e->getMessage()
+            ));;
+        }
     }
 }
