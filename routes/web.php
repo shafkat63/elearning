@@ -59,6 +59,9 @@ Route::get('/', function () {
 Route::get('/sslget',function(){
     return view('SSL.paymentSuccess');
 });
+Route::get('/sslgett',function(){
+    return view('SSL.paymentFail');
+});
 
 Route::get('/login', function () {
     return view('login');

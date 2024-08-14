@@ -25,7 +25,7 @@
             >
                 <ul class="navbar-nav mr-lg-2">
                     <li class="nav-item nav-search d-none d-lg-block">
-                        <div class="input-group">
+                        {{-- <div class="input-group">
                             <div
                                 class="input-group-prepend hover-cursor"
                                 id="navbar-search-icon"
@@ -42,7 +42,7 @@
                                 aria-label="search"
                                 aria-describedby="search"
                             />
-                        </div>
+                        </div> --}}
                     </li>
                 </ul>
                 <ul class="navbar-nav navbar-nav-right">
@@ -57,7 +57,7 @@
                             <div class="nav-profile-img">
                                 <img
                                     src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('assets/images/faces/face12.jpg') }}"
-                                    alt="profile"
+                                    alt="{{auth()->user()->name}}"
                                     class=" img-fluid rounded-circle"
                                     style="object-fit: cover;"
                                 />
