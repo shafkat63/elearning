@@ -19,7 +19,7 @@ class StudentLearn extends Controller
     public function handleFormSubmission(Request $request)
     {
         // Process the form data...
-        $submittedData = $request->all(); // Assuming all form data is captured
+        $submittedData = $request->all(); 
 
         // Pass the data to the view
         return view('form_submission_response', compact('submittedData'));
@@ -95,7 +95,12 @@ class StudentLearn extends Controller
     {
 
         $chapter = Chapter::where('name', $name)->first();
+       
+        // dd(  $chapter);
         $paper = Papers::where('id', $chapter->paper_id)->first();
+        $chapters = Chapter::where('paper_id', $chapter->paper_id)->paginate(10);
+        // return json_encode($chapters);
+
         $subjectName = Subjects::where('id', $paper->subject_id)->select('name')->first()->name;
 
         $paperName = $paper->name;
@@ -104,10 +109,9 @@ class StudentLearn extends Controller
         } else {
             $id = 0;
         }
-
-        $contents = Content::where('chapter_id', $id)->get();
+        $contents = Content::where('chapter_id', $id)->paginate(1);
         // dd($content);
-        return view('student.content', ['contents' => $contents, 'name' => $name, 'paperName' => $paperName, 'subjectName' => $subjectName]);
+        return view('student.content', ['contents' => $contents, 'name' => $name, 'paperName' => $paperName, 'subjectName' => $subjectName,'chapters' => $chapters]);
         // return json_encode($contents);
     }
 

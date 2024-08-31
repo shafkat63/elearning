@@ -73,7 +73,7 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($id);
         $courseTypes = CourseType::all();
-        return view('courses.edit', ['course' => $course, 'courseTypes' => $courseTypes]);
+        return view('Courses.edit', ['course' => $course, 'courseTypes' => $courseTypes]);
     }
 
     public function update(Request $request, $id)
@@ -93,7 +93,7 @@ class CourseController extends Controller
             if ($course->thumbnail && Storage::disk('public')->exists($course->thumbnail)) {
                 Storage::disk('public')->delete($course->thumbnail);
             }
-    
+
             // Store the new thumbnail
             $file = $request->file('thumbnail');
             $fileName = time() . '.' . $file->getClientOriginalExtension();

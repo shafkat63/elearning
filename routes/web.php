@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExamMasterController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use function PHPUnit\Framework\returnSelf;
@@ -26,40 +27,19 @@ use function PHPUnit\Framework\returnSelf;
 //  });
 
 
-Route::get('/Files', [App\Http\Controllers\FileUploadController::class, 'index'])->name('Files.index');
-
-Route::get('/Files/create', [App\Http\Controllers\FileUploadController::class, 'create'])->name('Files.create');
-Route::post('/Files', [App\Http\Controllers\FileUploadController::class, 'store'])->name('Files.store');
-Route::get('/Files/show', [App\Http\Controllers\FileUploadController::class, 'show'])->name('Files.show');
-
-Route::delete('/Files/{file}', [App\Http\Controllers\FileUploadController::class, 'destroy'])->name('Files.destroy');
-Route::post('/Files/file', [App\Http\Controllers\FileUploadController::class, 'getAllFiles'])->name('Files.file');
-Route::get('/Files/{id}/edit', [App\Http\Controllers\FileUploadController::class, 'edit'])->name('Files.edit');
-Route::patch('/Files/{id}', [App\Http\Controllers\FileUploadController::class, 'update'])->name('Files.update');
-
-
-Route::resource('/CoursesS', App\Http\Controllers\student\StudentCourseController::class);
-Route::get('/getCoursesS/{name}', [App\Http\Controllers\student\StudentCourseController::class,'getCourses']);
-Route::get('/getCoursesTypeS', [App\Http\Controllers\student\StudentCourseController::class,'courseType'])->name('getCoursesTypeS');
-Route::get('/getCoursesByCourseType/{name}', [App\Http\Controllers\student\StudentCourseController::class,'getCoursesByCourseType']);
-
-
-Route::get('changePasswordSt', [App\Http\Controllers\student\StudentController::class, 'showChangePass'])->name('ChangePasswordST');
-Route::post('/reChangePasswordSt', [App\Http\Controllers\student\StudentController::class, 'ChangePass'])->name('reChangePasswordST');
-Route::get('editProfileSt/{id}/edit', [App\Http\Controllers\student\StudentController::class, 'edit'])->name('editProfileST');
-// Route::post('/updateProfileSt', [App\Http\Controllers\student\StudentController::class, 'update'])->name('updateProfileST ');
-Route::post('updateProfileSt', [App\Http\Controllers\student\StudentController::class, 'update'])->name('updateProfileSt');
-
-
 
 Route::get('/', function () {
+    // if (Auth::check()) {
+
+    //     return redirect('/Home'); // or '/dashboard'
+    // }
     return view('welcome');
 });
 
-Route::get('/sslget',function(){
+Route::get('/sslget', function () {
     return view('SSL.paymentSuccess');
 });
-Route::get('/sslgett',function(){
+Route::get('/sslgett', function () {
     return view('SSL.paymentFail');
 });
 
@@ -95,6 +75,20 @@ Route::group(['middleware' => ['role:Student Free|Student Silver|Student Platinu
     Route::get('getChapterSL/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getChapterByPaperSL']);
     Route::get('getQuestionS/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getQuestionByChapter']);
     Route::get('getcontentSL/{ID}', [App\Http\Controllers\student\StudentLearn::class, 'getContentSL']);
+
+
+
+
+    Route::resource('/CoursesS', App\Http\Controllers\student\StudentCourseController::class);
+    Route::get('/getCoursesS/{name}', [App\Http\Controllers\student\StudentCourseController::class, 'getCourses']);
+    Route::get('/getCoursesTypeS', [App\Http\Controllers\student\StudentCourseController::class, 'courseType'])->name('getCoursesTypeS');
+    Route::get('/getCoursesByCourseType/{name}', [App\Http\Controllers\student\StudentCourseController::class, 'getCoursesByCourseType']);
+
+    Route::get('changePasswordSt', [App\Http\Controllers\student\StudentController::class, 'showChangePass'])->name('ChangePasswordST');
+    Route::post('/reChangePasswordSt', [App\Http\Controllers\student\StudentController::class, 'ChangePass'])->name('reChangePasswordST');
+    Route::get('editProfileSt/{id}/edit', [App\Http\Controllers\student\StudentController::class, 'edit'])->name('editProfileST');
+    // Route::post('/updateProfileSt', [App\Http\Controllers\student\StudentController::class, 'update'])->name('updateProfileST ');
+    Route::post('updateProfileSt', [App\Http\Controllers\student\StudentController::class, 'update'])->name('updateProfileSt');
 });
 
 
@@ -138,6 +132,20 @@ Route::group(['middleware' => ['role:Super Admin|Admin|Editor|Question Editor']]
     Route::get('permission/{id}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
 
 
+
+    Route::get('/Files', [App\Http\Controllers\FileUploadController::class, 'index'])->name('Files.index');
+    Route::get('/Files/create', [App\Http\Controllers\FileUploadController::class, 'create'])->name('Files.create');
+    Route::post('/Files', [App\Http\Controllers\FileUploadController::class, 'store'])->name('Files.store');
+    Route::get('/Files/show', [App\Http\Controllers\FileUploadController::class, 'show'])->name('Files.show');
+    Route::delete('/Files/{file}', [App\Http\Controllers\FileUploadController::class, 'destroy'])->name('Files.destroy');
+    Route::post('/Files/file', [App\Http\Controllers\FileUploadController::class, 'getAllFiles'])->name('Files.file');
+    Route::get('/Files/{id}/edit', [App\Http\Controllers\FileUploadController::class, 'edit'])->name('Files.edit');
+    Route::patch('/Files/{id}', [App\Http\Controllers\FileUploadController::class, 'update'])->name('Files.update');
+
+
+
+
+
     Route::resource('roles', App\Http\Controllers\RoleConfroller::class);
     Route::get('roles/{id}/delete', [App\Http\Controllers\RoleConfroller::class, 'destroy']);
     Route::get('roles/{id}/give-permission', [App\Http\Controllers\RoleConfroller::class, 'givePermission']);
@@ -157,10 +165,7 @@ Route::group(['middleware' => ['role:Super Admin|Admin|Editor|Question Editor']]
     Route::post('/course/list', [App\Http\Controllers\CourseController::class, 'getAllCourses'])->name('course.list');
 
     Route::resource('CourseType', App\Http\Controllers\CourseTypeController::class);
-    Route::post('getCourseType',[ App\Http\Controllers\CourseTypeController::class,'getAllCourseType'])->name('courseType.list');
-
-
-
+    Route::post('getCourseType', [App\Http\Controllers\CourseTypeController::class, 'getAllCourseType'])->name('courseType.list');
 });
 
 

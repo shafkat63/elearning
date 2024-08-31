@@ -1,6 +1,11 @@
 @extends('layout.app') @section('title', 'File Info') @section('mainNav')
 @include('layout.nav') @endsection
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
+     body {
+        font-family: 'Roboto', 'Arial', sans-serif;
+    }
     .img-preview {
         border-radius: 5% !important;
         width: 300px !important;
