@@ -45,6 +45,7 @@
 <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.0.1/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="{{ asset('assets/js/tex-mml-chtml.js') }}"></script>
 
 <script>
   $("#btnSubmit").on("click", function () { SaveData("{{ url('Content') }}" , $("#dataFrom").serialize());});

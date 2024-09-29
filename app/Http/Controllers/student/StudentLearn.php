@@ -19,7 +19,7 @@ class StudentLearn extends Controller
     public function handleFormSubmission(Request $request)
     {
         // Process the form data...
-        $submittedData = $request->all(); 
+        $submittedData = $request->all();
 
         // Pass the data to the view
         return view('form_submission_response', compact('submittedData'));
@@ -95,7 +95,7 @@ class StudentLearn extends Controller
     {
 
         $chapter = Chapter::where('name', $name)->first();
-       
+
         // dd(  $chapter);
         $paper = Papers::where('id', $chapter->paper_id)->first();
         $chapters = Chapter::where('paper_id', $chapter->paper_id)->paginate(10);
@@ -111,7 +111,7 @@ class StudentLearn extends Controller
         }
         $contents = Content::where('chapter_id', $id)->paginate(1);
         // dd($content);
-        return view('student.content', ['contents' => $contents, 'name' => $name, 'paperName' => $paperName, 'subjectName' => $subjectName,'chapters' => $chapters]);
+        return view('student.content', ['contents' => $contents, 'name' => $name, 'paperName' => $paperName, 'subjectName' => $subjectName, 'chapters' => $chapters]);
         // return json_encode($contents);
     }
 
@@ -120,7 +120,7 @@ class StudentLearn extends Controller
     {
         // Get the first question for the given chapter
         $questions1 = Question::where('chapter_id', $id)->limit(1)->get();
-        
+
         // Check if any questions were found
         if ($questions1->isEmpty()) {
             return view('student.question', [
@@ -131,16 +131,16 @@ class StudentLearn extends Controller
                 'questionanswers' => collect()
             ]);
         }
-    
+
         // Extract the subject_id and paper_id from the first question
         $subject_id = $questions1[0]->subject_id;
         $paper_id = $questions1[0]->paper_id;
         $chapter_id =  $questions1[0]->chapter_id;
-    
+
         // Get up to 10 questions for the given chapter
         $questions = Question::where('chapter_id', $id)->limit(10)->get();
         $questionanswers = collect();
-    
+
         // Fetch the options for each question
         foreach ($questions as $question) {
             $questionanswersoption = QuestionOption::where('status', 'A')
@@ -149,7 +149,7 @@ class StudentLearn extends Controller
             $questionanswers = $questionanswers->concat($questionanswersoption);
         }
         // dd(  $questionanswers);
-    
+
         return view('student.question', [
             'subject_id' => $subject_id,
             'paper_id' => $paper_id,
@@ -158,7 +158,7 @@ class StudentLearn extends Controller
             'questionanswers' => $questionanswers
         ]);
     }
-    
+
 
     public function Paper($id)
     {
@@ -222,7 +222,5 @@ class StudentLearn extends Controller
         return view('student.subjects', ['papers' => $papers, 'chapter' => $chapter, 'questions' => $questions]);
     }
 
-    public function questionAnswerCheck(Request $request)
-    {
-    }
+    public function questionAnswerCheck(Request $request) {}
 }

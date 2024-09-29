@@ -25,7 +25,7 @@ class QuestionController extends Controller
         $subject = Subjects::all();
         $query = DB::table('questions as Q')
             ->select('Q.id', 'Q.question_name', 'Q.status', 'P.name as paper_name', 'S.name as subject_name', 'C.name as chapter_name')
-            ->join('Chapters as C', 'Q.chapter_id', '=', 'C.id')
+            ->join('chapters as C', 'Q.chapter_id', '=', 'C.id')
             ->join('papers as P', 'C.paper_id', '=', 'P.id')
             ->join('subjects as S', 'C.subject_id', '=', 'S.id')
             ->where('C.status', '=', 'A')
@@ -195,7 +195,7 @@ class QuestionController extends Controller
                 'S.name as subject_name',
                 'C.name as chapter_name'
             )
-            ->join('Chapters as C', 'Q.chapter_id', '=', 'C.id')
+            ->join('chapters as C', 'Q.chapter_id', '=', 'C.id')
             ->join('papers as P', 'Q.paper_id', '=', 'P.id')
             ->join('subjects as S', 'Q.subject_id', '=', 'S.id')
             ->where('C.status', '=', 'A');

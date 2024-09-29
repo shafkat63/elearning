@@ -40,7 +40,8 @@
                         <table class="table" id="dataTableItem">
                             <thead class="table-light">
                                 <tr>
-                                    <th class="col-md-9">Name</th>
+                                    <th class="col-md-2">ID</th>
+                                    <th class="col-md-7">Name</th>
                                     <th class="col-md-3">Action</th>
                                 </tr>
                             </thead>
@@ -73,6 +74,7 @@
                 type: "POST",
             },
             columns: [
+                { data: "id" },
                 { data: "content_name" },
                 {
                     data: null,
