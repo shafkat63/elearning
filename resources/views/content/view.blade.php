@@ -1,8 +1,11 @@
 @extends('layout.app')
 @section('title', 'Subject Edit')
+
 @section('mainNav')
 @include('layout.nav')
 @endsection
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
 
 @section('mainContent')
 <div class="content-wrapper m-0 p-0 pt-2 p-lg-3">
@@ -21,14 +24,14 @@
                 </div>
             </div>
           </h4>
-          <div class="table-responsive ">
-          <form class="cmxform" id="dataFrom" method="#" action="#">
+          <div class="table-responsive">
+          <form class="cmxform" id="dataFrom" method="POST" action="{{ url('content/update', $content->id) }}">
             @csrf
+            @method('PUT')
             <fieldset>
-              <div class="card-body" id="contaent-details">
+              <div class="card-body" id="content-details">
                 {!! $content->content_details !!}
               </div>
-
             </fieldset>
           </form>
         </div>
@@ -37,8 +40,6 @@
     </div>
   </div>
 </div>
-
-
 @endsection
 
 @section('script')
@@ -46,12 +47,11 @@
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.0.1/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="{{ asset('assets/js/tex-mml-chtml.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 
 <script>
-  $("#btnSubmit").on("click", function () { SaveData("{{ url('Content') }}" , $("#dataFrom").serialize());});
-
+  $("#btnSubmit").on("click", function () { 
+    SaveData("{{ url('Content') }}" , $("#dataFrom").serialize());
+  });
 </script>
 @endsection
-
-@section('script')
-<script src="{{ asset('assets/js/tex-mml-chtml.js') }}"></script> @endsection

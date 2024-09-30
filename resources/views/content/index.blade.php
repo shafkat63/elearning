@@ -69,6 +69,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
+            stateSave: true,
             ajax: {
                 url: url + "?" + $("#fromData").serialize(),
                 type: "POST",

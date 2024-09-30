@@ -156,16 +156,74 @@ function ShowChapter(paper_id){
   });
 }
 
+  // tinymce.init({
+  //     selector: 'textarea',
+  //     plugins: [
+  //       "advlist", "anchor", "autolink", "charmap", "code", "fullscreen",
+  //       "help", "image", "insertdatetime", "link", "lists", "media",
+  //       "preview", "searchreplace", "table", "visualblocks", "accordion"
+  //       ],
+  //     height: 1200,
+  //     toolbar: "undo redo |link image accordion | styles | bold italic underline strikethrough | align | bullist numlist",
+  // });
+
+
+
+  // tinymce.init({
+  //     selector: 'textarea',
+  //     plugins: [
+  //   "advlist", "anchor", "autolink", "charmap", "code", "fullscreen",
+  //   "help", "image", "insertdatetime", "link", "lists", "media",
+  //   "preview", "searchreplace", "table", "visualblocks", "accordion", 
+  //   "wordcount", "emoticons", "fullscreen"
+  // ],
+  // toolbar: [
+  //   "undo redo | formatselect | bold italic underline strikethrough | fontselect fontsizeselect",
+  //   "alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | blockquote",
+  //   "link image media accordion | forecolor backcolor | charmap emoticons | fullscreen preview code"
+  // ],
+  //     height: 1200,
+    
+  // });
+
   tinymce.init({
-      selector: 'textarea',
-      plugins: [
-        "advlist", "anchor", "autolink", "charmap", "code", "fullscreen",
-        "help", "image", "insertdatetime", "link", "lists", "media",
-        "preview", "searchreplace", "table", "visualblocks", "accordion"
-        ],
-      height: 1200,
-      toolbar: "undo redo |link image accordion | styles | bold italic underline strikethrough | align | bullist numlist",
-  });
+  selector: 'textarea',
+  plugins: [
+    "advlist", "anchor", "autolink", "charmap", "code", "fullscreen",
+    "help", "image", "insertdatetime", "link", "lists", "media",
+    "preview", "searchreplace", "table", "visualblocks", "accordion", 
+    "wordcount", "emoticons", "fullscreen", "codesample", "quickbars"
+  ],
+  toolbar: [
+    "undo redo | formatselect | bold italic underline strikethrough superscript subscript | fontselect fontsizeselect",
+    "alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | blockquote",
+    "link image media codesample accordion | forecolor backcolor | charmap emoticons | fullscreen preview code"
+  ].join(' | '),
+  branding: false,  
+  height: 600, 
+  content_style: `
+    body { 
+      font-family:Helvetica,Arial,sans-serif; 
+      font-size:14px;
+      margin: 0; 
+    }
+    .mce-content-body {
+      background-color: #f8f8f8;
+      padding: 10px;
+    }
+  `,  
+  quickbars_insert_toolbar: 'quickimage quicktable',  // Enable quick access to image and table insertion
+  quickbars_selection_toolbar: 'bold italic underline | quicklink h2 h3 blockquote',  // Modern context-sensitive toolbar
+  image_advtab: true,  // Advanced tab for image editing
+  media_live_embeds: true,  // Enable live embedding for media content
+  media_dimensions: false,  // Advanced tab for image editing
+  table_default_attributes: { border: '0' },  // Ensure tables are borderless by default
+  table_default_styles: {
+    'border-collapse': 'collapse',
+    'width': '100%',
+  }
+});
+
 </script>
 <script>
 $("#btnSubmit").on("click", function () {
