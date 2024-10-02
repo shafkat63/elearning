@@ -18,7 +18,9 @@
                 @endif @forelse($questions as $question)
                 <h4 class="card-title mx-3">
                     <span class="text-info">{{ $i++ }}.</span>
-                    {{ $question->question_name }}
+                    {!! $question->question_name!!}
+                     
+                   
                 </h4>
 
                 @foreach($questionanswers as $questionanswer)
@@ -40,7 +42,7 @@
                         />
                         <span
                             class="font-weight-thin"
-                            >{{$questionanswer->options}}</span
+                            >{!! $questionanswer->options !!}</span
                         >
                     </label>
                 </blockquote>

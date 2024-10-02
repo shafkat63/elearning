@@ -88,10 +88,13 @@
 
 @section('script')
 <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.0.1/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
 $('#btnSubmit').click(function() {
   var form = document.getElementById('dataFrom');
+  tinymce.triggerSave();
+
   var radioButtons = document.querySelectorAll('input[name="ckOption[]"]');
   var checkedValues = Array.from(radioButtons).map(button => button.checked ? 1 : 0);
   console.log(checkedValues);
@@ -212,5 +215,18 @@ function ShowChapter(paper_id){
 
   });
 }
+
+
+tinymce.init({
+    selector: 'textarea',
+    plugins: "advlist autolink link image lists charmap print preview fullscreen",
+    toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
+    height: 200
+  
+  
+  
+  });
+
+
 </script>
 @endsection

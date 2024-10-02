@@ -59,7 +59,7 @@
   <script src="{{ asset('assets/student/js/jquery.cookie.js') }}"></script>
   <!-- endinject -->
   <!-- Custom js for this page -->
-  <script src="{{ asset('assets/student/js/dashboard.js"></script>
+  <script src="{{ asset('assets/student/js/dashboard.js' )}}"></script>
   <!-- End custom js for this page -->
   <!-- endinject -->
   @yield('script')

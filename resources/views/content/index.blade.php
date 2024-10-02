@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     @endif
-                    <div class="table-responsive fst-italic">
+                    <div class="table-responsive ">
                         <form action="#" id="fromData" style="display: none">
                             @csrf
                         </form>
