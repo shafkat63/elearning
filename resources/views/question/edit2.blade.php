@@ -12,13 +12,13 @@
         <div class="card-body p-2 p-sm-2 p-md-2 p-lg-4">
           <h4 class="card-title">
             <div class="row">
-              <div class="col-md-11 mb-2">
-                Edit Question
-              </div>
-              <div class="col-md-1">
+                <div class="col-md-11 mb-2">
+                    Edit Question
+                </div>
+                <div class="col-md-1">
                 <a href="{{url('Question')}}" class="btn btn-gradient-success btn-sm btn-icon-text">
-                  <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Back </a>
-              </div>
+                    <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Back </a>
+                </div>
             </div>
           </h4>
           <form class="cmxform" id="dataFrom" method="#" action="#">
@@ -27,54 +27,51 @@
               <div class="form-group">
                 <div class="row">
                   <div class="col-md-4">
-                    <input type="hidden" value="{{$question->id}}" name="id" />
+                    <input type="hidden" value="{{$question->id}}" name="id"/>
                     <label for="subject_id">Subject</label>
                     <select class="form-control form-control-sm" name="subject_id" id="subject_id">
                       <option value="">Select Subject</option>
                       @foreach ($subject as $item)
-                      <option value="{{$item->id}}" {{ $item->id == $question->subject_id ? 'selected' : ''
-                        }}>{{$item->name}}</option>
+                        <option value="{{$item->id}}" {{ $item->id == $question->subject_id ? 'selected' : '' }}>{{$item->name}}</option>
                       @endforeach
                     </select>
-                    <label id="error-subject_id" for="name" class="validation-invalid-label text-danger mt-1"></label>
+                    <label id="error-subject_id" for="name" class="validation-invalid-label text-danger mt-1" ></label>
                   </div>
                   <div class="col-md-4">
                     <label for="paper_id">Paper</label>
                     <select class="form-control form-control-sm" name="paper_id" id="paper_id">
                       <option value="">Select Paper</option>
                     </select>
-                    <label id="error-paper_id" for="name" class="validation-invalid-label text-danger"></label>
+                    <label id="error-paper_id" for="name" class="validation-invalid-label text-danger" ></label>
                   </div>
                   <div class="col-md-4">
                     <label for="chapter_id">Chapter</label>
                     <select class="form-control form-control-sm" name="chapter_id" id="chapter_id">
                       <option value="">Select Chapter</option>
                     </select>
-                    <label id="error-chapter_id" for="name" class="validation-invalid-label text-danger"></label>
+                    <label id="error-chapter_id" for="name" class="validation-invalid-label text-danger" ></label>
                   </div>
                 </div>
               </div>
               <div class="form-group">
                 <label for="question_namess">Question Name </label>
-                <textarea class="form-control" name="question_name"
-                  id="question_name">{{$question->question_name}}</textarea>
-                <label id="error-question_name" for="name" class="validation-invalid-label text-danger"></label>
+                <textarea class="form-control" name="question_name" id="question_name">{{$question->question_name}}</textarea>
+                <label id="error-question_name" for="name" class="validation-invalid-label text-danger" ></label>
               </div>
-              @foreach ($questionOption as $key => $questionOption)
+              @foreach ($questionOption as $questionOption)
               <div class="form-group">
                 <div class="row">
-                  <div class="col-md-13 d-flex align-items-center justify-content-center"> 
+                  <div class="col-md-13 d-flex align-items-center justify-content-center"> <!-- Adjust width as needed -->
                     <input type="hidden" name="optionID[]" id="optionID" value="{{$questionOption->id}}">
                     <input type="radio" class="form-check-input" style="margin: 0 10px 0 25px" name="ckOption[]" id="optionanser" value="1" {{$questionOption->optionanser == 1 ? 'checked' : ''}}>
-                    <textarea class="form-control" name="option[]" id="option{{$key}}">{{$questionOption->options}}</textarea>
+                    <textarea class="form-control" name="option[]" id="option1">{{$questionOption->options}}</textarea>
                     <label id="error-question_name" for="name" class="validation-invalid-label text-danger"></label>
                   </div>
                 </div>
               </div>
               @endforeach
-              
               <div class="form-group">
-                <label id="error-save" class="validation-invalid-label text-danger mt-1"></label>
+                <label id="error-save"  class="validation-invalid-label text-danger mt-1" ></label>
               </div>
 
               <button class="btn btn-primary" id="btnSubmit" type="button" value="Update">Update</button>
@@ -91,13 +88,10 @@
 
 @section('script')
 <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.0.1/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
-  $('#btnSubmit').click(function() {
+$('#btnSubmit').click(function() {
   var form = document.getElementById('dataFrom');
-  tinymce.triggerSave();
-
   var radioButtons = document.querySelectorAll('input[name="ckOption[]"]');
   var checkedValues = Array.from(radioButtons).map(button => button.checked ? 1 : 0);
   console.log(checkedValues);
@@ -218,23 +212,5 @@ function ShowChapter(paper_id){
 
   });
 }
-
-
-tinymce.init({
-    selector: 'textarea',
-    plugins: "advlist autolink link image lists charmap print preview fullscreen",
-    toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
-    height: 200,
-    setup: function(editor) {
-            editor.on('change', function(e) {
-                tinymce.triggerSave(); // Ensures that the textarea content is updated with TinyMCE content
-            });
-        },
-  
-  
-  
-  });
-
-
 </script>
 @endsection

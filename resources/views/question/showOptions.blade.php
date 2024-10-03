@@ -27,7 +27,7 @@
             </h4> 
 
             <div class="card-body table-responsive">
-              <h4 class="card-title">{{$questionOptions[0]->question_name}}</h4>
+              <h4 class="card-title">{!!$questionOptions[0]->question_name!!}</h4>
               </p>
               @foreach ($questionOptions as $item)
               
@@ -40,7 +40,7 @@
                       blockquote-success
                       @endif
                       ">
-                      <p class="mb-0">{{ $item->options}}</p>
+                      <p class="mb-0">{!! $item->options!!}</p>
                   </blockquote>
                 </div>
               </div>
