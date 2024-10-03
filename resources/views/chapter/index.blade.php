@@ -138,26 +138,14 @@
     var TableData;
     var url = "{{ route('/chapter/list') }}";
 
-    // $(document).ready(function () {
-    //   LoadDataTable();
-
-    //   $('#filterButton').click(function(e) {
-    //         e.preventDefault(); // Prevent the default behavior of the anchor element
-    //         $('#fromData').toggle();
-    //         ReloadDataTable();
-    //     });
-
-    //   $("#subject_id").on("change", function () { ReloadDataTable(); });
-    //   $("#paper_id").on("change", function () { ReloadDataTable(); });
-    // });
 
     $(document).ready(function () {
         LoadDataTable();
 
         // Toggle filter form and reload DataTable
         $("#filterButton").click(function (e) {
-            e.preventDefault(); // Prevent default behavior
-            $("#fromData").toggle(); // Toggle filter form visibility
+            e.preventDefault(); 
+            $("#fromData").toggle(); 
         });
 
         // Reload DataTable when filter form elements change
@@ -171,6 +159,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
+            stateSave: true,
             ajax: {
                 url: url,
                 type: "POST",
@@ -204,9 +193,7 @@
         });
     }
 
-    // function ReloadDataTable() {
-    //   TableData.ajax.url(url +"?" +$("#fromData").serialize()).load();
-    // }
+  
 
     function ReloadDataTable() {
         TableData.ajax.reload(null, false); // Reload DataTable without resetting pagination
@@ -217,10 +204,6 @@
         ReloadDataTable();
     }
 
-    // function ResetSearch() {
-    //   $("#fromData").trigger("reset");
-    //   ReloadDataTable();
-    // }
 
     function showData(ID) {
         showSingleData("{{ url('Chapter') }}", ID);

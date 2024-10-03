@@ -72,6 +72,7 @@
         var fileTable = $("#fileTable").DataTable({
             processing: true,
             serverSide: true,
+            stateSave: true,
             ajax: {
                 url: url,
                 type: "POST",
